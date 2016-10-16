@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.sales.SalesManagementController">
+   <children>
+      <VBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+               <items>
+                  <AnchorPane maxWidth="221.0" minWidth="221.0" prefWidth="221.0">
+                     <children>
+                        <Label alignment="CENTER" layoutX="39.0" minHeight="44.0" minWidth="60.0" style="&#10;" text="销售管理" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                           <font>
+                              <Font size="36.0" fx:id="x1" />
+                           </font>
+                        </Label>
+                        <GridPane layoutX="11.0" layoutY="58.0" prefHeight="504.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="74.0">
+                           <children>
+                              <Button fx:id="HotSalesButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#HotSalesButtonPressed" prefHeight="88.0" prefWidth="88.0" text="查看热销商品" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="SalesReportsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#SalesReportsButtonPressed" prefHeight="88.0" prefWidth="88.0" text="查看销售报表" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="commodityPriceManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityPriceManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品价格管理" GridPane.rowIndex="3">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="cashManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cashManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="前台现金管理" GridPane.rowIndex="4">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="transactionRecordsButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#transactionRecordsButtonPressed" prefHeight="88.0" prefWidth="88.0" text="查看交易记录">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="detailView" />
+               </items>
+            </SplitPane>
+            <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
+               <children>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font size="11.0" fx:id="x31" />
+                     </font>
+                     <textFill>
+                        <Color blue="0.625" green="0.625" red="0.625" fx:id="x41" />
+                     </textFill>
+                  </Label>
+                  <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
+                  <Label font="$x31" maxWidth="-1.0" text="Right status" textFill="$x41" HBox.hgrow="NEVER" />
+               </children>
+               <padding>
+                  <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

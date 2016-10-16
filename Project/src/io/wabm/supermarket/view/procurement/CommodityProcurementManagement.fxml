@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.util.*?>
 <?import javafx.geometry.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.WarehouseManagementController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.ProcureManagementController">
    <children>
       <VBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
@@ -17,7 +16,7 @@
             <items>
               <AnchorPane maxWidth="221.0" minWidth="221.0" prefWidth="221.0">
                 <children>
-                  <Label alignment="CENTER" layoutX="39.0" minHeight="44.0" minWidth="60.0" style="&#10;" text="仓库管理" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
+                  <Label alignment="CENTER" layoutX="39.0" minHeight="44.0" minWidth="60.0" style="&#10;" text="采购管理" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                     <font>
                       <Font size="36.0" fx:id="x1" />
                     </font>
@@ -27,28 +26,22 @@
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
                           <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="commodityStockManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityStockManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品库存管理">
+                              <Button fx:id="commoditySupplyDemandButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commoditySupplyDemandButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品供货需求">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="commodityClassificationInfomationManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityClassificationInfomationManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品信息管理" GridPane.rowIndex="1">
+                              <Button fx:id="commodityOrderManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityOrderManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="订单管理" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="commodityClassificationBatchManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityClassificationBatchManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品批次管理" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="commodityInventoryManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityInventoryManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="盘点管理" GridPane.rowIndex="3">
+                              <Button fx:id="commoditySupplierManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commoditySupplierManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="供应商管理" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

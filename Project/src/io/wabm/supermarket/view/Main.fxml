@@ -12,24 +12,29 @@
    <children>
       <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
+          <Tab text="采购管理">
+               <content>
+                  <fx:include source="procurement/CommodityProcurementManagement.fxml" />
+               </content>
+          </Tab>
           <Tab text="仓库管理">
                <content>
                   <fx:include fx:id="warehouseTab" source="warehouse/WarehouseManagement.fxml" />
                </content>
           </Tab>
-          <Tab text="Untitled Tab 2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-            <Tab text="Untitled Tab 3">
+            <Tab text="销售管理">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <fx:include source="sales/SalesManagement.fxml" />
                </content>
             </Tab>
-            <Tab text="Untitled Tab 4">
+            <Tab text="管理员系统">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <fx:include source="management/ManagementSystem.fxml" />
+               </content>
+            </Tab>
+            <Tab text="收银（演示）">
+               <content>
+                  <fx:include source="cashier/Cashier.fxml" />
                </content>
             </Tab>
         </tabs>
