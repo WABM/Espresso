@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="87.0" layoutY="113.0" prefHeight="493.0" prefWidth="345.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <bottom>
+            <AnchorPane>
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="27.0" prefWidth="189.0" spacing="8.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="供货商:">
+                           <HBox.margin>
+                              <Insets left="8.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Label layoutX="423.0" layoutY="15.0" text="国家保密局" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Button layoutX="552.0" layoutY="10.0" mnemonicParsing="false" text="确认收货" />
+                        <Button mnemonicParsing="false" text="取消">
+                           <HBox.margin>
+                              <Insets right="14.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="14.0" top="14.0" />
+                     </BorderPane.margin>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </bottom>
+         <center>
+            <AnchorPane>
+               <children>
+                  <TableView prefHeight="438.0" prefWidth="345.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="商品编号" />
+                      <TableColumn prefWidth="75.0" text="条形码" />
+                        <TableColumn prefWidth="75.0" text="名称" />
+                        <TableColumn prefWidth="75.0" text="类别" />
+                        <TableColumn prefWidth="75.0" text="规格" />
+                        <TableColumn prefWidth="75.0" text="单位" />
+                        <TableColumn prefWidth="75.0" text="采购数量" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
