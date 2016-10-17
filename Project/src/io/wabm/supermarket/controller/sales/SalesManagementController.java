@@ -3,6 +3,7 @@ package io.wabm.supermarket.controller.sales;
 import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.controller.AbstractMasterDetailController;
 import io.wabm.supermarket.util.ConsoleLog;
+import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -23,7 +24,7 @@ public class SalesManagementController extends AbstractMasterDetailController {
         ConsoleLog.print("ProcureManagementController init");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/sales/TransactionRecordsView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("sales/TransactionRecordsView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -31,7 +32,7 @@ public class SalesManagementController extends AbstractMasterDetailController {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/sales/TransactionRecordsView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("sales/TransactionRecordsView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -39,7 +40,7 @@ public class SalesManagementController extends AbstractMasterDetailController {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/sales/HotSalesView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("sales/HotSalesView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -47,7 +48,7 @@ public class SalesManagementController extends AbstractMasterDetailController {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/sales/SalesReportsView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("sales/SalesReportsView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -55,7 +56,7 @@ public class SalesManagementController extends AbstractMasterDetailController {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/sales/CommodityPriceManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("sales/CommodityPriceManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -63,7 +64,7 @@ public class SalesManagementController extends AbstractMasterDetailController {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/sales/CashManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("sales/CashManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 

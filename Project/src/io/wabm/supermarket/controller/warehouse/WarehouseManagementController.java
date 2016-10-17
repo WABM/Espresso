@@ -3,6 +3,7 @@ package io.wabm.supermarket.controller.warehouse;
 import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.controller.AbstractMasterDetailController;
 import io.wabm.supermarket.util.ConsoleLog;
+import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         ConsoleLog.print("WarehouseManagementController init");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/warehouse/CommodityStockManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityStockManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -33,7 +34,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/warehouse/CommodityStockManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityStockManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -41,21 +42,21 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/warehouse/CommodityClassificationInfomationManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationInfomationManagementView.fxml"));
         setDetailViewFrom(loder);
     }
     @FXML private void commodityClassificationBatchManagementButtonPressed() {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/warehouse/CommodityClassificationBatchManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationBatchManagementView.fxml"));
         setDetailViewFrom(loder);
     }
     @FXML private void commodityInventoryManagementButtonPressed() {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/warehouse/CommodityInventoryManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityInventoryManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 }

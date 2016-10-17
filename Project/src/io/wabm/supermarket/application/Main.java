@@ -1,5 +1,6 @@
 package io.wabm.supermarket.application;
 
+import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,7 +30,7 @@ public class Main extends Application {
     private void initRootlayout() {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../view/Main.fxml"));
+            root = FXMLLoader.load(ViewPathHelper.class.getResource("Main.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

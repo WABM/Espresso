@@ -3,6 +3,7 @@ package io.wabm.supermarket.controller.procurement;
 import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.controller.AbstractMasterDetailController;
 import io.wabm.supermarket.util.ConsoleLog;
+import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -21,7 +22,7 @@ public class ProcureManagementController extends AbstractMasterDetailController 
         ConsoleLog.print("ProcureManagementController init");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/procurement/CommoditySupplyDemandView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("procurement/CommoditySupplyDemandView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -29,7 +30,7 @@ public class ProcureManagementController extends AbstractMasterDetailController 
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/procurement/CommoditySupplyDemandView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("procurement/CommoditySupplyDemandView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -37,7 +38,7 @@ public class ProcureManagementController extends AbstractMasterDetailController 
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/procurement/CommodityOrderManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("procurement/CommodityOrderManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 
@@ -45,7 +46,7 @@ public class ProcureManagementController extends AbstractMasterDetailController 
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(Main.class.getResource("../view/procurement/CommoditySupplierManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("procurement/CommoditySupplierManagementView.fxml"));
         setDetailViewFrom(loder);
     }
 
