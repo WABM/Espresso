@@ -4,8 +4,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.CommodityPurchaseFormController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="137.0" prefHeight="600.0" prefWidth="800.0" spacing="8.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="28.0">
          <children>
@@ -39,8 +38,8 @@
                   </VBox>
                   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" text="取消" />
-                        <Button mnemonicParsing="false" text="提交补货需求" />
+                        <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="取消" />
+                        <Button fx:id="comfirmButton" mnemonicParsing="false" onAction="#comfirmButtonPressed" text="提交补货需求" />
                      </children>
                   </HBox>
                </children>
