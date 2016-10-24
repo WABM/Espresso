@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.CommodityStockManagementController">
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columnResizePolicy>
@@ -30,7 +29,7 @@
             <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="查找" />
             <Pane HBox.hgrow="ALWAYS" />
             <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="待收货订单 (9)" />
-            <Button mnemonicParsing="false" text="需补货商品 (42)" />
+            <Button fx:id="purchaseFormButton" mnemonicParsing="false" onAction="#purchaseFormButtonPressed" text="需补货商品 (42)" />
          </items>
       </ToolBar>
    </top>
