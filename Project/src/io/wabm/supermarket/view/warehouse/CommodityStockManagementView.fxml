@@ -28,7 +28,7 @@
          <items>
             <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="查找" />
             <Pane HBox.hgrow="ALWAYS" />
-            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="待收货订单 (9)" />
+            <Button fx:id="orderReceiveButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#orderReceiveButtonPressed" text="待收货订单 (9)" />
             <Button fx:id="purchaseFormButton" mnemonicParsing="false" onAction="#purchaseFormButtonPressed" text="需补货商品 (42)" />
          </items>
       </ToolBar>
