@@ -8,7 +8,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.CommodityInventoryManagementController">
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columnResizePolicy>
@@ -29,7 +29,7 @@
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
             <Button mnemonicParsing="false" text="删除" />
-            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="新建" />
+            <Button fx:id="addButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#addButtonPressed" text="新建" />
             <Pane HBox.hgrow="ALWAYS" />
          </items>
       </ToolBar>

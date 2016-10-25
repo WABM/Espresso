@@ -7,9 +7,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 /**
- * Created by MainasuK on 2016-10-24.
+ * Created by MainasuK on 2016-10-25.
  */
-public class CommodityPurchaseFormController implements StageSetableContoller {
+public class AddCommodityClassificationController implements StageSetableContoller {
 
     @FXML Stage stage;
 
@@ -21,13 +21,13 @@ public class CommodityPurchaseFormController implements StageSetableContoller {
     }
 
     @FXML private void comfirmButtonPressed() {
-        ConsoleLog.print("Button Pressed");
+        ConsoleLog.print("Button pressed");
 
         stage.close();
     }
 
     @FXML private void cancelButtonPressed() {
-        ConsoleLog.print("Button Pressed");
+        ConsoleLog.print("Button pressed");
 
         stage.close();
     }
