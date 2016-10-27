@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.CommodityOrderManagementController">
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columnResizePolicy>
@@ -22,7 +22,7 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="新建订单" />
+            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="新建订单" fx:id="newButton" onAction="#newButtonPressed"/>
             <Pane HBox.hgrow="ALWAYS" />
             <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="已完成订单" />
             <Button layoutX="543.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="待收获订单" />
