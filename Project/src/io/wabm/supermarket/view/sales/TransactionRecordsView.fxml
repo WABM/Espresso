@@ -29,14 +29,7 @@
       <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
             <Label text="日期" />
-            <ChoiceBox />
-            <Label text="年" />
-            <ChoiceBox />
-            <Label text="月" />
-            <ChoiceBox />
-            <Label text="日" />
-            <Label text="账号单" />
-            <TextField prefHeight="32.0" prefWidth="150.0" />
+            <DatePicker />
             <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="查询" />
          </items>
       </ToolBar>
