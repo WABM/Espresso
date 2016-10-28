@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.EmployeeImformationManagementController">
    <center>
       <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columnResizePolicy>
@@ -24,10 +24,10 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="115.0" text="删除" />
-            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="102.0" text="添加" />
-            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="104.0" text="修改" />
-            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="117.0" text="查询" />
+            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="115.0" text="删除"  fx:id="deleteButton" onAction="#deleteButtonPressed"/>
+            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="102.0" text="添加"  fx:id="addButton" onAction="#addButtonPressed"/>
+            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="104.0" text="修改"  fx:id="modifyButton" onAction="#modifyButtonPressed"/>
+            <Button mnemonicParsing="false" prefHeight="36.0" prefWidth="117.0" text="查询"  fx:id="queryButton" onAction="#queryButtonPressed"/>
             <Pane HBox.hgrow="ALWAYS" />
          </items>
       </ToolBar>
