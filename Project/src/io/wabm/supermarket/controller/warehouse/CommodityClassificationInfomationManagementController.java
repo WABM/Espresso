@@ -6,12 +6,15 @@ import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by MainasuK on 2016-10-25.
@@ -19,6 +22,7 @@ import java.io.IOException;
 public class CommodityClassificationInfomationManagementController {
 
     @FXML Button addButton;
+    @FXML Button deleteButton;
 
     @FXML private void addButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -48,6 +52,20 @@ public class CommodityClassificationInfomationManagementController {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML private void deleteButtonPressed() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete");
+        alert.setHeaderText("确认删除");
+        alert.setContentText("删除 " + "ABC");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+//            personTableView.getItems().remove(index);
+        } else {
+            // Cancel
         }
     }
 }

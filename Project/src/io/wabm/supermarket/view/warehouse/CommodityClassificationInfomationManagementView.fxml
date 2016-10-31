@@ -24,7 +24,7 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button layoutX="621.0" layoutY="11.0" mnemonicParsing="false" text="删除" />
+            <Button fx:id="deleteButton" layoutX="621.0" layoutY="11.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="删除" />
             <Button fx:id="addButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#addButtonPressed" text="添加" />
          </items>
       </ToolBar>
