@@ -1,16 +1,17 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
 import io.wabm.supermarket.protocol.StageSetableContoller;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
-import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,7 +28,7 @@ public class CommodityClassificationInformationManagementController {
 
     @FXML private TableView<Classification> tableView;
     @FXML private TableColumn<Classification, String> nameColumn;
-    @FXML private TableColumn<Classification, Boolean> action;
+    @FXML private TableColumn<Classification, Hyperlink> actionColumn;
 
 
     @FXML Button addButton;
@@ -102,16 +103,29 @@ public class CommodityClassificationInformationManagementController {
     private void setupTableViewColumn() {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
 
-        // Just for test
-        action.setCellFactory(column -> new CheckBoxTableCell<>());
-        action.setCellValueFactory(cellData -> {
-            Classification classification = cellData.getValue();
-            BooleanProperty property = classification.choosedProperty();
+        actionColumn.setCellFactory(column -> new HyperlinkTableCell() {
+            @Override
+            protected void updateItem(Hyperlink item, boolean empty) {
+                super.updateItem(item, empty);
 
-            // Add listener for handler change
-            property.addListener((observable, oldValue, newValue) -> classification.setChoosed(newValue));
-
-            return property;
+                setAlignment(Pos.CENTER);
+            }
         });
+        actionColumn.setCellValueFactory(cellData -> {
+
+            return new SimpleObjectProperty<>(new Hyperlink("查看"));
+        });
+
+        // Just for test
+//        actionColumn.setCellFactory(column -> new CheckBoxTableCell<>());
+//        actionColumn.setCellValueFactory(cellData -> {
+//            Classification classification = cellData.getValue();
+//            BooleanProperty property = classification.choosedProperty();
+//
+//            // Add listener for handler change
+//            property.addListener((observable, oldValue, newValue) -> classification.setChoosed(newValue));
+//
+//            return property;
+//        });
     }
 }

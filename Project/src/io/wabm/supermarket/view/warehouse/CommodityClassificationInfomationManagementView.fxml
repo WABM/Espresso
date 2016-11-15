@@ -15,7 +15,7 @@
          <columns>
             <TableColumn fx:id="nameColumn" prefWidth="75.0" text="分类名称" />
             <TableColumn prefWidth="75.0" text="商品种类数量" />
-            <TableColumn fx:id="action" prefWidth="75.0" text="操作" />
+            <TableColumn fx:id="actionColumn" prefWidth="75.0" text="操作" />
          </columns>
       </TableView>
    </center>
