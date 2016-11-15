@@ -5,10 +5,12 @@ import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationMod
 import io.wabm.supermarket.protocol.StageSetableContoller;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.beans.property.BooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -21,10 +23,11 @@ import java.util.Optional;
  */
 public class CommodityClassificationInformationManagementController {
 
-    private CommodityClassificationInformationModel model;
+    private CommodityClassificationInformationModel<Classification> model;
 
     @FXML private TableView<Classification> tableView;
     @FXML private TableColumn<Classification, String> nameColumn;
+    @FXML private TableColumn<Classification, Boolean> action;
 
 
     @FXML Button addButton;
@@ -33,11 +36,13 @@ public class CommodityClassificationInformationManagementController {
     @FXML public void initialize() {
         ConsoleLog.print("CommodityClassificationInformationManagementController init");
 
-        model = new CommodityClassificationInformationModel(tableView);
+        setupModel();
+        setupTableView();
         setupTableViewColumn();
 
         // Stub for develop
         model.add(new Classification(0, "水果", 0.10, 0.17));
+        model.add(new Classification(1, "副食", 0.10, 0.17));
     }
 
 
@@ -87,10 +92,26 @@ public class CommodityClassificationInformationManagementController {
     }
 
     private void setupModel() {
-        model = new CommodityClassificationInformationModel(tableView);
+        model = new CommodityClassificationInformationModel<>(tableView);
+    }
+
+    private void setupTableView() {
+        tableView.setEditable(true);
     }
 
     private void setupTableViewColumn() {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+
+        // Just for test
+        action.setCellFactory(column -> new CheckBoxTableCell<>());
+        action.setCellValueFactory(cellData -> {
+            Classification classification = cellData.getValue();
+            BooleanProperty property = classification.choosedProperty();
+
+            // Add listener for handler change
+            property.addListener((observable, oldValue, newValue) -> classification.setChoosed(newValue));
+
+            return property;
+        });
     }
 }

@@ -1,9 +1,6 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 
 /**
  * Created by MainasuK on 2016-11-14.
@@ -14,11 +11,15 @@ public class Classification {
     private DoubleProperty profitRate;
     private DoubleProperty taxRate;
 
+    private BooleanProperty choosed;
+
     public Classification(int classificationID, String name, Double profitRate, Double taxRate) {
         this.classificationID = classificationID;
         this.name = new SimpleStringProperty(name);
         this.profitRate = new SimpleDoubleProperty(profitRate);
         this.taxRate = new SimpleDoubleProperty(taxRate);
+
+        this.choosed = new SimpleBooleanProperty(false);
     }
 
     // MARK: Getter & Setter
@@ -64,5 +65,17 @@ public class Classification {
 
     public void setTaxRate(double taxRate) {
         this.taxRate.set(taxRate);
+    }
+
+    public boolean isChoosed() {
+        return choosed.get();
+    }
+
+    public BooleanProperty choosedProperty() {
+        return choosed;
+    }
+
+    public void setChoosed(boolean choosed) {
+        this.choosed.set(choosed);
     }
 }
