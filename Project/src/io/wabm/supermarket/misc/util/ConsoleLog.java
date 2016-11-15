@@ -1,4 +1,4 @@
-package io.wabm.supermarket.util;
+package io.wabm.supermarket.misc.util;
 
 /**
  * Created by MainasuK on 2016-10-16.

@@ -12,8 +12,15 @@ import java.io.IOException;
  */
 public abstract class AbstractMasterDetailController {
 
+    /**
+     * The pane to contain view for present detail infomations.
+     */
     @FXML AnchorPane detailView;
 
+    /**
+     * Use pass-in FXMLLoader to load view and set it into {@link #detailView}
+     * @param loader A loader to load FXML view
+     */
     protected void setDetailViewFrom(FXMLLoader loader) {
         try {
             BorderPane view = loader.load();
@@ -28,4 +35,5 @@ public abstract class AbstractMasterDetailController {
             e.printStackTrace();
         }
     }
+
 }
