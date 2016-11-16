@@ -1,8 +1,10 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
+import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.protocol.StageSetableContoller;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
@@ -15,14 +17,16 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Created by MainasuK on 2016-10-25.
  */
-public class CommodityClassificationInformationManagementController {
+public class CommodityClassificationInformationManagementController extends SceneController {
 
     private CommodityClassificationInformationModel<Classification> model;
 
@@ -37,6 +41,7 @@ public class CommodityClassificationInformationManagementController {
     @FXML public void initialize() {
         ConsoleLog.print("CommodityClassificationInformationManagementController init");
 
+        setupControl();
         setupModel();
         setupTableView();
         setupTableViewColumn();
@@ -79,10 +84,12 @@ public class CommodityClassificationInformationManagementController {
     }
 
     @FXML private void deleteButtonPressed() {
+        final String name = tableView.getSelectionModel().getSelectedItem().getName();
+
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("删除分类");
         alert.setHeaderText("确认删除");
-        alert.setContentText("删除 " + "ABC");
+        alert.setContentText("删除 " + name);
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
@@ -92,25 +99,33 @@ public class CommodityClassificationInformationManagementController {
         }
     }
 
+    // MARK: Setup method
+
+    private void setupControl() {
+        deleteButton.setDisable(true);
+    }
+
     private void setupModel() {
         model = new CommodityClassificationInformationModel<>(tableView);
     }
 
     private void setupTableView() {
+        // Set editable on
         tableView.setEditable(true);
+
+        // Set tableView select event listener
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
+        );
     }
 
     private void setupTableViewColumn() {
+
+        // Setup cell factory
+        actionColumn.setCellFactory(actionColumnSetupCallback);
+
+        // Setup cell value factory
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-
-        actionColumn.setCellFactory(column -> new HyperlinkTableCell() {
-            @Override
-            protected void updateItem(Hyperlink item, boolean empty) {
-                super.updateItem(item, empty);
-
-                setAlignment(Pos.CENTER);
-            }
-        });
         actionColumn.setCellValueFactory(cellData -> {
 
             return new SimpleObjectProperty<>(new Hyperlink("查看"));
@@ -128,4 +143,26 @@ public class CommodityClassificationInformationManagementController {
 //            return property;
 //        });
     }
+
+    private CellFactorySetupCallbackProtocol<Classification, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
+        @Override
+        protected void updateItem(Hyperlink item, boolean empty) {
+            super.updateItem(item, empty);
+
+            setAlignment(Pos.CENTER);
+
+            // Check empty first
+            if (!empty) {
+                item.setOnAction(event -> {
+                    Classification classification = (Classification) getTableRow().getItem();
+                    ConsoleLog.print("" + classification.getName());
+
+                    FXMLLoader loder = new FXMLLoader();
+                    loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityInformationManagementView.fxml"));
+
+                    navigationTo(loder);
+                });
+            }
+        }
+    };
 }
