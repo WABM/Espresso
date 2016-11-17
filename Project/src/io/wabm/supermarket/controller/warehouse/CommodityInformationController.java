@@ -63,10 +63,12 @@ public class CommodityInformationController extends SceneController {
 
 
         // Stub for develop
-        model.add(new Commodity("0", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.00, 12, 10*30, 10, new Timestamp(System.currentTimeMillis())));
-        model.add(new Commodity("1", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.99, 12, 10*30, 10, new Timestamp(System.currentTimeMillis())));
-        model.add(new Commodity("2", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.999, 12, 10*30, 10, new Timestamp(System.currentTimeMillis())));
-        model.add(new Commodity("3", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.975, 12, 10*30, 10, new Timestamp(System.currentTimeMillis())));
+        for (int i = 0; i < 100; i += 4) {
+            model.add(new Commodity(i + 0 + "", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.00, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
+            model.add(new Commodity(i + 1 + "", 0, "6902538006262", "脉动 苹果味", "1L", "瓶", 8.99, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
+            model.add(new Commodity(i + 2 + "", 0, "6902538006263", "脉动 香蕉味", "1L", "瓶", 8.999, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
+            model.add(new Commodity(i + 3 + "", 0, "6902538006264", "脉动 草莓味", "1L", "瓶", 8.975, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
+        }
     }
 
 
