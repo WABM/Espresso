@@ -37,7 +37,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationInfomationManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationInformationManagementView.fxml"));
         setDetailViewFrom(loder);
     }
     @FXML private void commodityClassificationBatchManagementButtonPressed() {
