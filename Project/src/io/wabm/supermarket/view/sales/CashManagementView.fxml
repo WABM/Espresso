@@ -14,11 +14,15 @@
             <TableColumn prefWidth="75.0" text="机号" />
             <TableColumn prefWidth="75.0" text="收银员" />
             <TableColumn prefWidth="75.0" text="初始金额" />
+            <TableColumn prefWidth="75.0" text="实收金额" />
             <TableColumn prefWidth="75.0" text="营后金额" />
          </columns>
       </TableView>
    </center>
    <top>
-      <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <Button mnemonicParsing="false" text="核算" />
+         </items></ToolBar>
    </top>
 </BorderPane>
