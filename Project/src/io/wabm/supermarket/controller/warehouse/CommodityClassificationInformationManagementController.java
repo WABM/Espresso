@@ -3,10 +3,10 @@ package io.wabm.supermarket.controller.warehouse;
 import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Classification;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.protocol.StageSetableContoller;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -17,11 +17,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.Function;
 
 /**
  * Created by MainasuK on 2016-10-25.
