@@ -12,7 +12,7 @@ public class CommodityClassificationInformationModel<T> extends Model<T> {
 
     private TableView<T> tableView;
 
-    public CommodityClassificationInformationModel(TableView tableView) {
+    public CommodityClassificationInformationModel(TableView<T> tableView) {
         ConsoleLog.print("CommodityClassificationInformationModel init");
 
         this.tableView = tableView;
