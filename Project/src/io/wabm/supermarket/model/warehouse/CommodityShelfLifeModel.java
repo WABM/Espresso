@@ -9,12 +9,12 @@ import javafx.scene.control.TableView;
 /**
  * Created by MainasuK on 2016-11-20.
  */
-public class CommodityStorageModel<T> extends TableViewModel<T> {
+public class CommodityShelfLifeModel<T> extends TableViewModel<T> {
 
-    public CommodityStorageModel(TableView<T> tableView) {
+    public CommodityShelfLifeModel(TableView<T> tableView) {
         super(tableView);
 
-        ConsoleLog.print("CommodityStorageModel init");
+        ConsoleLog.print("CommodityShelfLifeModel init");
     }
 
 }

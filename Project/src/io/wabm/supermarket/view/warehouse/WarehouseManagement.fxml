@@ -43,7 +43,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="commodityClassificationBatchManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityClassificationBatchManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品批次管理" GridPane.rowIndex="2">
+                              <Button fx:id="commodityClassificationBatchManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityClassificationBatchManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品保质期管理" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
