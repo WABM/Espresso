@@ -16,23 +16,21 @@ public class StorageCommodity {
     private StringProperty name;
     private StringProperty specification;
     private StringProperty unit;
-    private StringProperty price;
     private IntegerProperty deliverySpecification;
 
     private IntegerProperty storage;
 
-    public StorageCommodity(String storageCommodityID, int classificationID, String barcode, String name, String specification, String unit, String price, int deliverySpecification, int storage) {
-        this(new SimpleStringProperty(storageCommodityID), new SimpleIntegerProperty(classificationID), new SimpleStringProperty(barcode), new SimpleStringProperty(name), new SimpleStringProperty( specification), new SimpleStringProperty(unit), new SimpleStringProperty(price), new SimpleIntegerProperty(deliverySpecification), new SimpleIntegerProperty(storage));
+    public StorageCommodity(String storageCommodityID, int classificationID, String barcode, String name, String specification, String unit, int deliverySpecification, int storage) {
+        this(new SimpleStringProperty(storageCommodityID), new SimpleIntegerProperty(classificationID), new SimpleStringProperty(barcode), new SimpleStringProperty(name), new SimpleStringProperty( specification), new SimpleStringProperty(unit), new SimpleIntegerProperty(deliverySpecification), new SimpleIntegerProperty(storage));
     }
 
-    public StorageCommodity(StringProperty storageCommodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, StringProperty price, IntegerProperty deliverySpecification, IntegerProperty storage) {
+    public StorageCommodity(StringProperty storageCommodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, IntegerProperty deliverySpecification, IntegerProperty storage) {
         this.storageCommodityID = storageCommodityID;
         this.classificationID = classificationID;
         this.barcode = barcode;
         this.name = name;
         this.specification = specification;
         this.unit = unit;
-        this.price = price;
         this.deliverySpecification = deliverySpecification;
         this.storage = storage;
     }
@@ -109,18 +107,6 @@ public class StorageCommodity {
 
     public void setUnit(String unit) {
         this.unit.set(unit);
-    }
-
-    public String getPrice() {
-        return price.get();
-    }
-
-    public StringProperty priceProperty() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price.set(price);
     }
 
     public int getDeliverySpecification() {
