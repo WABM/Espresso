@@ -1,5 +1,6 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.StorageCommodity;
 import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
 import io.wabm.supermarket.protocol.StageSetableContoller;
@@ -9,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -22,10 +24,11 @@ public class CommodityStockManagementController {
 
     private CommodityStorageModel<StorageCommodity> model;
 
+
+    @FXML TableView<StorageCommodity> tableView;
+
     @FXML Button purchaseFormButton;
     @FXML Button orderReceiveButton;
-
-
 
     @FXML private void purchaseFormButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -87,5 +90,18 @@ public class CommodityStockManagementController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML public void initialize() {
+        ConsoleLog.print("CommodityStockManagementController init");
+
+        setupModel();
+    }
+
+
+    // MARK: Setup method
+
+    private void setupModel() {
+        model = new CommodityStorageModel<>(tableView);
     }
 }
