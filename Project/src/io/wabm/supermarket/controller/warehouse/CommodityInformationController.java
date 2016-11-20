@@ -24,7 +24,7 @@ public class CommodityInformationController extends SceneController {
     @FXML TableColumn<Commodity, String> idColumn;
     @FXML TableColumn<Commodity, String> barCodeColumn;
     @FXML TableColumn<Commodity, String> nameColumn;
-    @FXML TableColumn<Commodity, Integer> classificationColumn;
+    @FXML TableColumn<Commodity, Integer> classificationColumn;     // FIXME: classification should be String type
     @FXML TableColumn<Commodity, String> specificationColumn;
     @FXML TableColumn<Commodity, String> unitColumn;
     @FXML TableColumn<Commodity, String> priceColumn;
