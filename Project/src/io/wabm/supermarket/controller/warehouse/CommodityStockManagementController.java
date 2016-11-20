@@ -1,5 +1,7 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.misc.pojo.StorageCommodity;
+import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
 import io.wabm.supermarket.protocol.StageSetableContoller;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
@@ -18,8 +20,12 @@ import java.io.IOException;
  */
 public class CommodityStockManagementController {
 
+    private CommodityStorageModel<StorageCommodity> model;
+
     @FXML Button purchaseFormButton;
     @FXML Button orderReceiveButton;
+
+
 
     @FXML private void purchaseFormButtonPressed() {
         ConsoleLog.print("Button pressed");
