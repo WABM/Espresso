@@ -1,7 +1,9 @@
 package io.wabm.supermarket.misc.config;
 
+import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -18,9 +20,8 @@ public class DBConfig {
     public BasicDataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
 
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/Espresso?serverTimezone=CST");    // Set timezone to China Standard Time
-//        dataSource.setUrl("jdbc:mysql://192.168.1.110:3306/Espresso?serverTimezone=CST");
+        dataSource.setUrl("jdbc:mysql://localhost/WABM?serverTimezone=CST");    // Set timezone to China Standard Time
+//        dataSource.setDefaultQueryTimeout(10);
         dataSource.setUsername("root");
         dataSource.setPassword("");
         dataSource.setInitialSize(5);
