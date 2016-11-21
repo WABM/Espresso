@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - wabm@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="2.6">
+    <schema id="1" name="wabm">
+      <visible>1</visible>
+    </schema>
+    <schema id="2" name="DemoDB"/>
+    <schema id="3" name="Espresso"/>
+    <schema id="4" name="information_schema"/>
+    <schema id="5" name="javaEEDB"/>
+    <schema id="6" name="mysql"/>
+    <schema id="7" name="performance_schema"/>
+    <schema id="8" name="sys"/>
+    <table id="9" parent="1" name="Account"/>
+    <table id="10" parent="1" name="cash_register"/>
+    <table id="11" parent="1" name="change_record"/>
+    <table id="12" parent="1" name="classification"/>
+    <table id="13" parent="1" name="commodity"/>
+    <table id="14" parent="1" name="employee"/>
+    <table id="15" parent="1" name="inventory"/>
+    <table id="16" parent="1" name="inventory_detail"/>
+    <table id="17" parent="1" name="order"/>
+    <table id="18" parent="1" name="order_detail"/>
+    <table id="19" parent="1" name="procurement_requirement"/>
+    <table id="20" parent="1" name="sales_Record"/>
+    <table id="21" parent="1" name="sales_record_detail"/>
+    <table id="22" parent="1" name="storage_change"/>
+    <table id="23" parent="1" name="supplier"/>
+    <table id="24" parent="1" name="supplyList"/>
+    <table id="25" parent="1" name="supply_detail"/>
+    <column id="26" parent="9" name="account_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="27" parent="9" name="employee_employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="28" parent="9" name="account">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="29" parent="9" name="password">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <index id="30" parent="9" name="fk_Account_employee1_idx">
+      <columns>employee_employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="31" parent="9" name="PRIMARY">
+      <columns>account_id
+employee_employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="32" parent="10" name="cash_register_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="33" parent="10" name="note">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <key id="34" parent="10" name="PRIMARY">
+      <columns>cash_register_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="35" parent="11" name="cash_register_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="36" parent="11" name="employee_employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="37" parent="11" name="money_in_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <column id="38" parent="11" name="money_out_db">
+      <data-type>double|0</data-type>
+    </column>
+    <column id="39" parent="11" name="money_should_out_db">
+      <data-type>double|0</data-type>
+    </column>
+    <column id="40" parent="11" name="date">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="41" parent="11" name="fk_cash_register_has_employee_cash_register1_idx">
+      <columns>cash_register_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="42" parent="11" name="fk_cash_register_has_employee_employee1_idx">
+      <columns>employee_employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="43" parent="11" name="PRIMARY">
+      <columns>cash_register_id
+employee_employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="44" parent="12" name="classification_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="45" parent="12" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="46" parent="12" name="profit_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <column id="47" parent="12" name="tax_rate_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <key id="48" parent="12" name="PRIMARY">
+      <columns>classification_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="49" parent="13" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>char(1)|0</data-type>
+    </column>
+    <column id="50" parent="13" name="classification_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="51" parent="13" name="bar_code">
+      <mandatory>1</mandatory>
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="52" parent="13" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="53" parent="13" name="shelf_life">
+      <mandatory>1</mandatory>
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="54" parent="13" name="specification">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="55" parent="13" name="unit">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="56" parent="13" name="price_db">
+      <data-type>decimal(8,2)|0</data-type>
+    </column>
+    <column id="57" parent="13" name="start_storage">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="58" parent="13" name="delivery_specification">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="59" parent="13" name="sales_avg">
+      <data-type>double|0</data-type>
+    </column>
+    <column id="60" parent="13" name="storage">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <default-expression>&apos;0&apos;</default-expression>
+    </column>
+    <index id="61" parent="13" name="fk_Commodity_Classification1_idx">
+      <columns>classification_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="62" parent="13" name="PRIMARY">
+      <columns>commodity_id
+classification_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="63" parent="14" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="64" parent="14" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="65" parent="14" name="birth_date">
+      <data-type>date|0</data-type>
+    </column>
+    <column id="66" parent="14" name="sex_status">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="67" parent="14" name="phone">
+      <data-type>varchar(20)|0</data-type>
+    </column>
+    <column id="68" parent="14" name="position_status">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <key id="69" parent="14" name="PRIMARY">
+      <columns>employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="70" parent="15" name="inventory_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="71" parent="15" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="72" parent="15" name="create_timestamp">
+      <mandatory>1</mandatory>
+      <data-type>timestamp|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <column id="73" parent="15" name="fill_timestamp">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="74" parent="15" name="fk_inventory_employee1_idx">
+      <columns>employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="75" parent="15" name="PRIMARY">
+      <columns>inventory_id
+employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="76" parent="16" name="inventory_detail_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="77" parent="16" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="78" parent="16" name="classification_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="79" parent="16" name="inventory_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="80" parent="16" name="quantity">
+      <data-type>int(11)|0</data-type>
+    </column>
+    <index id="81" parent="16" name="fk_inventory_detail_commodity1_idx">
+      <columns>commodity_id
+classification_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="82" parent="16" name="fk_inventory_detail_inventory1_idx">
+      <columns>inventory_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="83" parent="16" name="PRIMARY">
+      <columns>inventory_detail_id
+commodity_id
+classification_id
+inventory_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="84" parent="17" name="order_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="85" parent="17" name="suppiler_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="86" parent="17" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="87" parent="17" name="status">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="88" parent="17" name="create_timestamp">
+      <mandatory>1</mandatory>
+      <data-type>timestamp|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <column id="89" parent="17" name="bill_timestamp">
+      <data-type>timestamp|0</data-type>
+    </column>
+    <index id="90" parent="17" name="fk_Order_Employee1_idx">
+      <columns>employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="91" parent="17" name="fk_Supplier_has_Employee_Supplier_idx">
+      <columns>suppiler_id
+employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="92" parent="17" name="PRIMARY">
+      <columns>order_id
+suppiler_id
+employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="93" parent="18" name="order_detail_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="94" parent="18" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="95" parent="18" name="order_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="96" parent="18" name="suppiler_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="97" parent="18" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="98" parent="18" name="quantity">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="99" parent="18" name="price_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <column id="100" parent="18" name="production_date">
+      <data-type>date|0</data-type>
+    </column>
+    <index id="101" parent="18" name="fk_Order_Detail_Commodity1_idx">
+      <columns>commodity_id
+order_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="102" parent="18" name="fk_Order_Detail_Order2_idx">
+      <columns>order_id
+suppiler_id
+employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="103" parent="18" name="PRIMARY">
+      <columns>order_detail_id
+commodity_id
+order_id
+suppiler_id
+employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="104" parent="19" name="procurement_requirement">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="105" parent="19" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="106" parent="19" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="107" parent="19" name="classification_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="108" parent="19" name="quantity">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="109" parent="19" name="status">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <index id="110" parent="19" name="fk_employee_has_commodity_commodity1_idx">
+      <columns>commodity_id
+classification_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="111" parent="19" name="fk_employee_has_commodity_employee1_idx">
+      <columns>employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="112" parent="19" name="PRIMARY">
+      <columns>procurement_requirement
+employee_id
+commodity_id
+classification_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="113" parent="20" name="sales_order_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="114" parent="20" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="115" parent="20" name="timestamp">
+      <mandatory>1</mandatory>
+      <data-type>timestamp|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <column id="116" parent="20" name="all_price_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <index id="117" parent="20" name="fk_Employee_has_Commodity_Employee1_idx">
+      <columns>employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="118" parent="20" name="PRIMARY">
+      <columns>sales_order_id
+employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="119" parent="21" name="sales_record_detail_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="120" parent="21" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="121" parent="21" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="122" parent="21" name="quantity">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="123" parent="21" name="price_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <index id="124" parent="21" name="fk_Sales_Record_Detail_Commodity1_idx">
+      <columns>commodity_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="125" parent="21" name="fk_Sales_Record_Detail_Sales_Record1_idx">
+      <columns>employee_id
+commodity_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="126" parent="21" name="PRIMARY">
+      <columns>sales_record_detail_id
+employee_id
+commodity_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="127" parent="22" name="storage_change_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="128" parent="22" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="129" parent="22" name="classification_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="130" parent="22" name="employee_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="131" parent="22" name="quantity">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="132" parent="22" name="price_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <index id="133" parent="22" name="fk_change_record_employee1_idx">
+      <columns>employee_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="134" parent="22" name="fk_warehouse_has_commodity_commodity1_idx">
+      <columns>commodity_id
+classification_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="135" parent="22" name="PRIMARY">
+      <columns>storage_change_id
+commodity_id
+classification_id
+employee_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="136" parent="23" name="suppiler_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="137" parent="23" name="name">
+      <mandatory>1</mandatory>
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="138" parent="23" name="address">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <column id="139" parent="23" name="phone">
+      <mandatory>1</mandatory>
+      <data-type>varchar(20)|0</data-type>
+    </column>
+    <column id="140" parent="23" name="representative_name">
+      <data-type>varchar(45)|0</data-type>
+    </column>
+    <key id="141" parent="23" name="PRIMARY">
+      <columns>suppiler_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="142" parent="24" name="supply_list_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="143" parent="24" name="suppiler_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="144" parent="24" name="lastupdate_timestamp">
+      <mandatory>1</mandatory>
+      <data-type>timestamp|0</data-type>
+      <default-expression>CURRENT_TIMESTAMP</default-expression>
+    </column>
+    <index id="145" parent="24" name="fk_supplyList_supplier1_idx">
+      <columns>suppiler_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="146" parent="24" name="PRIMARY">
+      <columns>supply_list_id
+suppiler_id</columns>
+      <primary>1</primary>
+    </key>
+    <column id="147" parent="25" name="supply_detail_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+      <sequence-identity>1</sequence-identity>
+    </column>
+    <column id="148" parent="25" name="supply_list_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="149" parent="25" name="commodity_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="150" parent="25" name="classification_id">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="151" parent="25" name="price_db">
+      <mandatory>1</mandatory>
+      <data-type>double|0</data-type>
+    </column>
+    <column id="152" parent="25" name="quantity">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <column id="153" parent="25" name="delivery_time_cost">
+      <mandatory>1</mandatory>
+      <data-type>int(11)|0</data-type>
+    </column>
+    <index id="154" parent="25" name="fk_supply_detail_commodity1_idx">
+      <columns>commodity_id
+classification_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <index id="155" parent="25" name="fk_supply_detail_supplyList1_idx">
+      <columns>supply_list_id</columns>
+      <desc-columns></desc-columns>
+    </index>
+    <key id="156" parent="25" name="PRIMARY">
+      <columns>supply_detail_id
+supply_list_id
+commodity_id
+classification_id</columns>
+      <primary>1</primary>
+    </key>
+  </database-model>
+</dataSource>

@@ -43,10 +43,6 @@ public class CommodityClassificationInformationManagementController extends Scen
         setupModel();
         setupTableView();
         setupTableViewColumn();
-
-        // Stub for develop
-        model.add(new Classification(0, "水果", 0.10, 0.17));
-        model.add(new Classification(1, "副食", 0.10, 0.17));
     }
 
 
@@ -105,6 +101,12 @@ public class CommodityClassificationInformationManagementController extends Scen
 
     private void setupModel() {
         model = new CommodityClassificationInformationModel<>(tableView);
+
+        // TODO: loading info need add to view (Spinner or just Loading… (e.g. 加载中……)
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupTableView() {
