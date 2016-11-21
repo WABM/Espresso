@@ -11,10 +11,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.sql.Timestamp;
 
 /**
@@ -28,7 +24,7 @@ public class CommodityInformationController extends SceneController {
     @FXML TableColumn<Commodity, String> idColumn;
     @FXML TableColumn<Commodity, String> barCodeColumn;
     @FXML TableColumn<Commodity, String> nameColumn;
-    @FXML TableColumn<Commodity, Integer> classificationColumn;
+    @FXML TableColumn<Commodity, Integer> classificationColumn;     // FIXME: classification should be String type
     @FXML TableColumn<Commodity, String> specificationColumn;
     @FXML TableColumn<Commodity, String> unitColumn;
     @FXML TableColumn<Commodity, String> priceColumn;

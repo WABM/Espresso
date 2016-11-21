@@ -7,13 +7,14 @@ import javafx.collections.FXCollections;
 import javafx.scene.control.TableView;
 
 /**
- * Created by MainasuK on 2016-11-17.
+ * Created by MainasuK on 2016-11-20.
  */
-public class CommodityInformationModel<T> extends TableViewModel<T> {
+public class CommodityStorageModel<T> extends TableViewModel<T> {
 
-    public CommodityInformationModel(TableView<T> tableView) {
+    public CommodityStorageModel(TableView<T> tableView) {
         super(tableView);
 
-        ConsoleLog.print("CommodityInformationModel init");
+        ConsoleLog.print("CommodityStorageModel init");
     }
+
 }
