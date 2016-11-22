@@ -17,6 +17,8 @@ import java.io.IOException;
  */
 public class CommoditySupplierManagementViewController {
     @FXML Button newButton;
+    @FXML Button deleteButton;
+    @FXML Button modifyButton;
     @FXML private void newButtonPressed(){
         ConsoleLog.print("Button pressed");
         try{
@@ -26,6 +28,50 @@ public class CommoditySupplierManagementViewController {
 
             Stage stage = new Stage();
             stage.setTitle("添加供应商");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene=new Scene(pane);
+            stage.setScene(scene);
+
+            StageSetableContoller contoller=loader.getController();
+            contoller.setStage(stage);
+
+            stage.showAndWait();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    @FXML private void deleteButtonPressed(){
+        ConsoleLog.print("Button pressed");
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("procurement/DeleteSupplier.fxml"));
+            AnchorPane pane=loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("我不知道写什么好");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene=new Scene(pane);
+            stage.setScene(scene);
+
+            StageSetableContoller contoller=loader.getController();
+            contoller.setStage(stage);
+
+            stage.showAndWait();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    @FXML private void modifyButtonPressed(){
+        ConsoleLog.print("Button pressed");
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("procurement/ModifySupplier.fxml"));
+            AnchorPane pane=loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("我不知道写什么好");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene=new Scene(pane);
