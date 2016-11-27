@@ -1,6 +1,6 @@
 package io.wabm.supermarket.controller;
 
-import io.wabm.supermarket.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.controller.warehouse.WarehouseManagementController;
 import javafx.fxml.FXML;
 

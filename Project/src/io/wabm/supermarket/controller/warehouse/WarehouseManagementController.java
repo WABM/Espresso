@@ -1,16 +1,11 @@
 package io.wabm.supermarket.controller.warehouse;
 
-import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.controller.AbstractMasterDetailController;
-import io.wabm.supermarket.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-
-import java.io.IOException;
 
 /**
  * Created by MainasuK on 2016-10-16.
@@ -42,14 +37,14 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationInfomationManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationInformationManagementView.fxml"));
         setDetailViewFrom(loder);
     }
     @FXML private void commodityClassificationBatchManagementButtonPressed() {
         ConsoleLog.print("Button pressed");
 
         FXMLLoader loder = new FXMLLoader();
-        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationBatchManagementView.fxml"));
+        loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityShelfLifeManagementView.fxml"));
         setDetailViewFrom(loder);
     }
     @FXML private void commodityInventoryManagementButtonPressed() {
