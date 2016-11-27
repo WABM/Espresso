@@ -62,40 +62,4 @@ public class DBTest {
         }
     }
 
-    @Test
-    public void testCommodityModel() {
-        List<Commodity> list;
-
-        list = template.query("SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?",
-                (resultSet, i) -> new Commodity(
-                    resultSet.getString("commodity_id"),
-                    resultSet.getInt("classification_id"),
-                    resultSet.getString("bar_code"),
-                    resultSet.getString("name"),
-                    resultSet.getString("specification"),
-                    resultSet.getString("unit"),
-                    resultSet.getDouble("price_db"),
-                    resultSet.getInt("delivery_specification"),
-                    resultSet.getInt("shelf_life"),
-                    resultSet.getInt("start_storage")
-                ),
-                0
-        );
-
-
-        for (Commodity item : list) {
-            System.out.println(item.getName());
-        }
-
-//        TableView<Commodity> tableView = new TableView<>();
-//        CommodityInformationModel<Commodity> model = new CommodityInformationModel<>(tableView).k;
-//
-//        Assert.notNull(model);
-//
-//        model.fetchData(0, (isSuccess) -> {
-//            ConsoleLog.print("Fetch is: " + isSuccess);
-//            return null;
-//        });
-    }
-
 }
