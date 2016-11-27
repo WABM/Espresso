@@ -3,6 +3,7 @@ package io.wabm.supermarket.model.warehouse;
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 /**
@@ -23,8 +25,7 @@ import java.util.List;
 @ContextConfiguration(classes = DBConfig.class)
 public class CommodityClassificationInformationModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll = "SELECT f.* FROM wabm.classification f";
-    private Service<Void> backgroundThread;
+    private final String kSelectAll = "SELECT cl.*, COUNT(co.commodity_id) num FROM classification cl JOIN commodity co ON cl.classification_id = co.classification_id GROUP BY cl.classification_id;";
 
     public CommodityClassificationInformationModel(TableView<T> tableView) {
         super(tableView);
@@ -36,38 +37,30 @@ public class CommodityClassificationInformationModel<T> extends TableViewModel<T
         ConsoleLog.print("fetching data…");
         Assert.notNull(jdbcOperations);
 
-        backgroundThread = new Service<Void>() {
-            @Override
-            protected Task<Void> createTask() {
-                return new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
+        new WABMThread().run((_void) -> {
+                List<Classification> templist = jdbcOperations.query(kSelectAll,
+                        (ResultSet resultSet, int i) -> {
+                            Classification classification = new Classification(
+                                    resultSet.getInt("classification_id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getDouble("profit_db"),
+                                    resultSet.getDouble("tax_rate_db")
+                            );
 
-                        List<Classification> templist;
+                            classification.setHasNum(resultSet.getInt("num"));
 
-                        templist = jdbcOperations.query(kSelectAll,
-                                (resultSet, i) -> new Classification(
-                                        resultSet.getInt("classification_id"),
-                                        resultSet.getString("name"),
-                                        resultSet.getDouble("profit_db"),
-                                        resultSet.getDouble("tax_rate_db")
-                                )
-                        );
+                            return classification;
+                        }
+                );
 
-                        list.clear();
-                        list.addAll((T[]) templist.toArray());
+            list.clear();
+            list.addAll((T[]) templist.toArray());
 
-                        // Return callback with isfetchSuccess flag;
-                        // TODO:
-                        callback.call(true);
-                        return null;
-                    }
-                };
-            }
-        };
-
-        backgroundThread.start();
-
+            // Return callback with isfetchSuccess flag;
+            // TODO:
+            callback.call(true);
+            return null;
+        });
 
     };  // end of fetchData
 

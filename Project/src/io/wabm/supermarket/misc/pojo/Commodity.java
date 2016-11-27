@@ -25,7 +25,8 @@ public class Commodity {
     private IntegerProperty shelfLife;
     private IntegerProperty startStorage;
 
-    private ObjectProperty<Timestamp> createTimestamp;
+    // Not a database stored value
+    private StringProperty classificationName = new SimpleStringProperty();
 
     public Commodity(String commodityID,
                      int classificationID,
@@ -36,8 +37,7 @@ public class Commodity {
                      double price,
                      Integer deliverySpecification,
                      Integer shelfLife,
-                     Integer startStorage,
-                     Timestamp createTimestamp) {
+                     Integer startStorage) {
         this.commodityID = new SimpleStringProperty(commodityID);
         this.classificationID = new SimpleIntegerProperty(classificationID);
         this.barcode = new SimpleStringProperty(barcode);
@@ -47,10 +47,9 @@ public class Commodity {
         this.deliverySpecification = new SimpleIntegerProperty(deliverySpecification);
         this.shelfLife = new SimpleIntegerProperty(shelfLife);
         this.startStorage = new SimpleIntegerProperty(startStorage);
-        this.createTimestamp = new SimpleObjectProperty<>(createTimestamp);
 
         BigDecimal decimal = new BigDecimal(price);
-        DecimalFormat formater = new DecimalFormat("#.00");
+        DecimalFormat formater = new DecimalFormat("#0.00");
         decimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
         this.price = new SimpleStringProperty(formater.format(decimal.doubleValue()));
@@ -65,8 +64,7 @@ public class Commodity {
                      StringProperty price,
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife,
-                     IntegerProperty startStorage,
-                     ObjectProperty<Timestamp> createTimestamp) {
+                     IntegerProperty startStorage) {
         this.commodityID = commodityID;
         this.classificationID = classificationID;
         this.barcode = barcode;
@@ -77,7 +75,6 @@ public class Commodity {
         this.deliverySpecification = deliverySpecification;
         this.shelfLife = shelfLife;
         this.startStorage = startStorage;
-        this.createTimestamp = createTimestamp;
     }
 
 
@@ -203,15 +200,15 @@ public class Commodity {
         this.startStorage.set(startStorage);
     }
 
-    public Timestamp getCreateTimestamp() {
-        return createTimestamp.get();
+    public String getClassificationName() {
+        return classificationName.get();
     }
 
-    public ObjectProperty<Timestamp> createTimestampProperty() {
-        return createTimestamp;
+    public StringProperty classificationNameProperty() {
+        return classificationName;
     }
 
-    public void setCreateTimestamp(Timestamp createTimestamp) {
-        this.createTimestamp.set(createTimestamp);
+    public void setClassificationName(String classificationName) {
+        this.classificationName.set(classificationName);
     }
 }

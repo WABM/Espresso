@@ -11,15 +11,13 @@ public class Classification {
     private DoubleProperty profitRate;
     private DoubleProperty taxRate;
 
-    private BooleanProperty choosed;
+    private IntegerProperty hasNum = new SimpleIntegerProperty();
 
     public Classification(int classificationID, String name, Double profitRate, Double taxRate) {
         this.classificationID = classificationID;
         this.name = new SimpleStringProperty(name);
         this.profitRate = new SimpleDoubleProperty(profitRate);
         this.taxRate = new SimpleDoubleProperty(taxRate);
-
-        this.choosed = new SimpleBooleanProperty(false);
     }
 
     // MARK: Getter & Setter
@@ -67,15 +65,15 @@ public class Classification {
         this.taxRate.set(taxRate);
     }
 
-    public boolean isChoosed() {
-        return choosed.get();
+    public int getHasNum() {
+        return hasNum.get();
     }
 
-    public BooleanProperty choosedProperty() {
-        return choosed;
+    public IntegerProperty hasNumProperty() {
+        return hasNum;
     }
 
-    public void setChoosed(boolean choosed) {
-        this.choosed.set(choosed);
+    public void setHasNum(int hasNum) {
+        this.hasNum.set(hasNum);
     }
 }

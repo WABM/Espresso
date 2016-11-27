@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import javafx.util.Callback;
 
 import java.io.Console;
 import java.util.HashMap;
@@ -35,12 +36,18 @@ public class ScenesController extends StackPane {
     }
 
     public boolean loadScene(String name, FXMLLoader loader) {
+        return loadScene(name, loader, (object) -> null);
+    }
+
+
+    public <T> boolean loadScene(String name, FXMLLoader loader, Callback<T, Void> config) {
         try {
             Parent parent = loader.load();
             Object controller = loader.getController();
 
             if (controller != null && controller instanceof SceneController) {
                 ((SceneController) controller).setScenesController(this);
+                config.call((T) controller);
             } else {
                 ConsoleLog.warning("Controller should be extends SceneController to support scenes navigation");
             }
@@ -86,6 +93,10 @@ public class ScenesController extends StackPane {
             return true;
         }
 
+    }
+
+    public Node getScene(final String name) {
+        return scenes.get(name);
     }
 
     private void addScene(String name, Node node) {

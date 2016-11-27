@@ -58,7 +58,7 @@ public class CommodityShelfLifeController {
         Calendar experationDate = ((Calendar) today.clone());
         experationDate.add(Calendar.DATE, 10 * 30);
 
-        model.add(new ShelfLifeCommodity(100 + "", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.00, 12, shelfLife, 10, new Timestamp(System.currentTimeMillis()), today, experationDate));
+        model.add(new ShelfLifeCommodity(100 + "", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.00, 12, shelfLife, 10, today, experationDate));
     }
 
     private void setupModel() {

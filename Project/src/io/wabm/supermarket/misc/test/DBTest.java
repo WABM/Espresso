@@ -4,13 +4,17 @@ import static org.junit.Assert.*;
 
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.Classification;
+import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.model.warehouse.CommodityInformationModel;
+import javafx.scene.control.TableView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.util.List;
