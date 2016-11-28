@@ -24,7 +24,7 @@ public class CommodityInformationController extends SceneController {
     @FXML TableColumn<Commodity, String> idColumn;
     @FXML TableColumn<Commodity, String> barCodeColumn;
     @FXML TableColumn<Commodity, String> nameColumn;
-    @FXML TableColumn<Commodity, Integer> classificationColumn;     // FIXME: classification should be String type
+    @FXML TableColumn<Commodity, String> classificationColumn;     // FIXME: classification should be String type
     @FXML TableColumn<Commodity, String> specificationColumn;
     @FXML TableColumn<Commodity, String> unitColumn;
     @FXML TableColumn<Commodity, String> priceColumn;
@@ -55,16 +55,19 @@ public class CommodityInformationController extends SceneController {
         setupModel();
         setupTableView();
         setupTableViewColumn();
+    }
 
+    // MARK: Config method
 
+    public void fetchWith(int classificationID) {
 
-        // Stub for develop
-        for (int i = 0; i < 100; i += 4) {
-            model.add(new Commodity(i + 0 + "", 0, "6902538006261", "脉动 青柠味", "1L", "瓶", 8.00, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
-            model.add(new Commodity(i + 1 + "", 0, "6902538006262", "脉动 苹果味", "1L", "瓶", 8.99, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
-            model.add(new Commodity(i + 2 + "", 0, "6902538006263", "脉动 香蕉味", "1L", "瓶", 8.999, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
-            model.add(new Commodity(i + 3 + "", 0, "6902538006264", "脉动 草莓味", "1L", "瓶", 8.975, 12, 10 * 30, 10, new Timestamp(System.currentTimeMillis())));
-        }
+        this.model.fetchData(classificationID,
+                (isSuccess) -> {
+                    ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+                    return null;
+                }
+        );
+
     }
 
 
@@ -82,13 +85,12 @@ public class CommodityInformationController extends SceneController {
     private void setupTableViewColumn() {
         // Setup cell value factory
         idColumn.setCellValueFactory(cellData -> cellData.getValue().commodityIDProperty());
-        classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationIDProperty().asObject());
+        classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationNameProperty());
         barCodeColumn.setCellValueFactory(cellData -> cellData.getValue().barcodeProperty());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         specificationColumn.setCellValueFactory(cellData -> cellData.getValue().specificationProperty());
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
-        createTimestampColumn.setCellValueFactory(cellData -> cellData.getValue().createTimestampProperty());
     }
 
 }

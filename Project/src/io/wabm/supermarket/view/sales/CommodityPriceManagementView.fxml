@@ -22,6 +22,7 @@
                                     <TableColumn prefWidth="75.0" text="分类" />
                                     <TableColumn prefWidth="75.0" text="利润率" />
                                     <TableColumn prefWidth="75.0" text="税率" />
+                                    <TableColumn prefWidth="75.0" text="操作" />
                                  </columns>
                               </TableView>
                            </center>
@@ -30,7 +31,7 @@
                                  <items>
                                     <Label text="类别" />
                                     <ChoiceBox prefWidth="150.0" />
-                                    <Button mnemonicParsing="false" onAction="#modifyButtonPressed" text="修改" />
+                                    <Button mnemonicParsing="false" onAction="#modifyButtonPressed" text="查询" />
                                  </items>
                               </ToolBar>
                            </top>
@@ -56,6 +57,7 @@
                                     <TableColumn prefWidth="75.0" text="规格" />
                                     <TableColumn prefWidth="75.0" text="单位" />
                                     <TableColumn prefWidth="75.0" text="销售价" />
+                                    <TableColumn prefWidth="75.0" text="操作" />
                                  </columns>
                               </TableView>
                            </center>

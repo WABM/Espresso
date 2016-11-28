@@ -30,6 +30,7 @@ public class CommodityClassificationInformationManagementController extends Scen
 
     @FXML private TableView<Classification> tableView;
     @FXML private TableColumn<Classification, String> nameColumn;
+    @FXML private TableColumn<Classification, Integer> hasNumColumn;
     @FXML private TableColumn<Classification, Hyperlink> actionColumn;
 
 
@@ -43,10 +44,6 @@ public class CommodityClassificationInformationManagementController extends Scen
         setupModel();
         setupTableView();
         setupTableViewColumn();
-
-        // Stub for develop
-        model.add(new Classification(0, "水果", 0.10, 0.17));
-        model.add(new Classification(1, "副食", 0.10, 0.17));
     }
 
 
@@ -105,6 +102,12 @@ public class CommodityClassificationInformationManagementController extends Scen
 
     private void setupModel() {
         model = new CommodityClassificationInformationModel<>(tableView);
+
+        // TODO: loading info need add to view (Spinner or just Loading… (e.g. 加载中……)
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupTableView() {
@@ -124,6 +127,7 @@ public class CommodityClassificationInformationManagementController extends Scen
 
         // Setup cell value factory
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
+        hasNumColumn.setCellValueFactory(cellData -> cellData.getValue().hasNumProperty().asObject());
         actionColumn.setCellValueFactory(cellData -> {
 
             return new SimpleObjectProperty<>(new Hyperlink("查看"));
@@ -142,6 +146,8 @@ public class CommodityClassificationInformationManagementController extends Scen
 //        });
     }
 
+    private CommodityInformationController commodityInformationController;
+
     private CellFactorySetupCallbackProtocol<Classification, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
         @Override
         protected void updateItem(Hyperlink item, boolean empty) {
@@ -158,7 +164,19 @@ public class CommodityClassificationInformationManagementController extends Scen
                     FXMLLoader loder = new FXMLLoader();
                     loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityInformationManagementView.fxml"));
 
-                    navigationTo(loder);
+                    // Bind controller when you first call it.
+                    navigationTo(loder, controller -> {
+
+                        if (commodityInformationController == null) {
+                            ConsoleLog.print("Bind controller success");
+                            commodityInformationController = ((CommodityInformationController) controller);
+                        }
+
+                        return null;
+                    });
+
+                    // Then dispatch the task to controller you hold.
+                    commodityInformationController.fetchWith(classification.getClassificationID());
                 });
             }
         }

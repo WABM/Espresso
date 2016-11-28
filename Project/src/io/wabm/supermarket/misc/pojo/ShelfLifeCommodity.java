@@ -15,15 +15,15 @@ public class ShelfLifeCommodity extends Commodity {
     private ObjectProperty<Calendar> productionData;
     private ObjectProperty<Calendar> expirationDate;
 
-    public ShelfLifeCommodity(String commodityID, int classificationID, String barcode, String name, String specification, String unit, double price, Integer deliverySpecification, Integer shelfLife, Integer startStorage, Timestamp createTimestamp, Calendar productionData, Calendar expirationDate) {
-        super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage, createTimestamp);
+    public ShelfLifeCommodity(String commodityID, int classificationID, String barcode, String name, String specification, String unit, double price, Integer deliverySpecification, Integer shelfLife, Integer startStorage, Calendar productionData, Calendar expirationDate) {
+        super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage);
 
         this.productionData = new SimpleObjectProperty<>(productionData);
         this.expirationDate = new SimpleObjectProperty<>(expirationDate);
     }
 
-    public ShelfLifeCommodity(StringProperty commodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, StringProperty price, IntegerProperty deliverySpecification, IntegerProperty shelfLife, IntegerProperty startStorage, ObjectProperty<Timestamp> createTimestamp, ObjectProperty<Calendar> productionData, ObjectProperty<Calendar> expirationDate) {
-        super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage, createTimestamp);
+    public ShelfLifeCommodity(StringProperty commodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, StringProperty price, IntegerProperty deliverySpecification, IntegerProperty shelfLife, IntegerProperty startStorage, ObjectProperty<Calendar> productionData, ObjectProperty<Calendar> expirationDate) {
+        super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage);
 
         this.productionData = productionData;
         this.expirationDate = expirationDate;
