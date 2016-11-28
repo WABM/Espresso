@@ -24,10 +24,12 @@ import java.io.IOException;
  * Created by liu on 2016-10-25 .
  */
 public class EmployeeImformationManagementController extends SceneController{
+
+
     private EmployeeInformationModel<Employee> model;
 
     @FXML TableView<Employee> tableView;
-    @FXML TableColumn<Employee, String> idColumn;
+    @FXML TableColumn<Employee, Integer> idColumn;
     @FXML TableColumn<Employee, String> nameColumn;
     @FXML TableColumn<Employee, String> ageColumn;
     @FXML TableColumn<Employee, String> sexColumn;
@@ -49,14 +51,13 @@ public class EmployeeImformationManagementController extends SceneController{
         setupTableView();
         setupTableViewColumn();
 
-        model.add(new Employee("1","2","3","4","5","6","7"));
     }
 
 
     private void setupTableViewColumn() {
-        idColumn.setCellValueFactory(cellData -> cellData.getValue().employeeIDProperty());
+        idColumn.setCellValueFactory(cellData -> cellData.getValue().employeeIDProperty().asObject());
 
-        ageColumn.setCellValueFactory(cellData -> cellData.getValue().ageProperty());
+        ageColumn.setCellValueFactory(cellData -> cellData.getValue().birthdateProperty());
 
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
         sexColumn.setCellValueFactory(cellData -> cellData.getValue().sexProperty());
@@ -65,7 +66,12 @@ public class EmployeeImformationManagementController extends SceneController{
         entrydateColumn.setCellValueFactory(cellData -> cellData.getValue().entrydateProperty());
     }
 
-    private void setupModel() {model = new EmployeeInformationModel<>(tableView);
+    private void setupModel() {
+        model = new EmployeeInformationModel<>(tableView);
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupTableView() {
@@ -95,6 +101,7 @@ public class EmployeeImformationManagementController extends SceneController{
             contoller.setStage(stage);
 
             stage.showAndWait();
+
         }catch(IOException e){
             e.printStackTrace();
         }
