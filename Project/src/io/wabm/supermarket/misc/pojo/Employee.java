@@ -32,7 +32,7 @@ public class Employee {
         this.entrydate = new SimpleStringProperty(entrydate);
     }
 
-    public Employee(IntegerProperty employeeID, StringProperty name, StringProperty birthdate, StringProperty sex, StringProperty phone, StringProperty department,StringProperty entrydate) {
+    public Employee(IntegerProperty employeeID, StringProperty name, StringProperty birthdate, StringProperty sex, StringProperty phone, StringProperty department, StringProperty entrydate) {
         this.employeeID = employeeID;
         this.name = name;
         this.birthdate = birthdate;
