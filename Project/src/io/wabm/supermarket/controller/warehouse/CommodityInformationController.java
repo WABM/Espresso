@@ -48,6 +48,14 @@ public class CommodityInformationController extends SceneController {
         navigationTo(loader);
     }
 
+    @FXML private void addButtonPressed() {
+        ConsoleLog.print("button pressed");
+    }
+
+    @FXML private void deleteButtonPressed() {
+        ConsoleLog.print("button pressed");
+    }
+
     @FXML public void initialize() {
         ConsoleLog.print("CommodityInformationController init");
 

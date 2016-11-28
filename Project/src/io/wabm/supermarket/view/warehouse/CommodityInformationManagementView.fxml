@@ -32,8 +32,8 @@
          <items>
             <Button fx:id="searchButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="查询" />
             <Button fx:id="modifyButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="修改" />
-            <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" text="删除" />
-            <Button fx:id="addButton" layoutX="106.0" layoutY="11.0" mnemonicParsing="false" text="添加" />
+            <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="删除" />
+            <Button fx:id="addButton" layoutX="106.0" layoutY="11.0" mnemonicParsing="false" onAction="#addButtonPressed" text="添加" />
             <Pane HBox.hgrow="ALWAYS" />
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonPressed" text="返回" />
          </items>
