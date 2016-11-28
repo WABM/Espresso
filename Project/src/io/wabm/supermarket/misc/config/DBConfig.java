@@ -23,7 +23,7 @@ public class DBConfig {
         dataSource.setUrl("jdbc:mysql://localhost/WABM?serverTimezone=CST");    // Set timezone to China Standard Time
 //        dataSource.setDefaultQueryTimeout(10);
         dataSource.setUsername("root");
-        dataSource.setPassword("");
+        dataSource.setPassword("123456789");
         dataSource.setInitialSize(5);
         dataSource.setMaxTotal(10);
 

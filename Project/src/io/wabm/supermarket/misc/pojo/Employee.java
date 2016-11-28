@@ -12,9 +12,6 @@ import java.util.Calendar;
 public class Employee {
     private IntegerProperty employeeID;
     private StringProperty name;
-
-
-
     private StringProperty birthdate;
     private StringProperty sex;
     private StringProperty phone;
@@ -29,10 +26,11 @@ public class Employee {
         this.sex = new SimpleStringProperty(sex);
         this.phone = new SimpleStringProperty(phone);
         this.department = new SimpleStringProperty(department);
+
         this.entrydate = new SimpleStringProperty(entrydate);
     }
 
-    public Employee(IntegerProperty employeeID, StringProperty name, IntegerProperty age, StringProperty sex, StringProperty phone, StringProperty department) {
+    public Employee(IntegerProperty employeeID, StringProperty name, StringProperty birthdate, StringProperty sex, StringProperty phone, StringProperty department, StringProperty entrydate) {
         this.employeeID = employeeID;
         this.name = name;
         this.birthdate = birthdate;
@@ -114,10 +112,13 @@ public class Employee {
 
     public void setBirthdate(String birthdate) {this.birthdate.set(birthdate);}
 
-    public String getEntrydate() {return entrydate.get();}
 
-    public StringProperty entrydateProperty() {return entrydate;}
+   public String getEntrydate() { return entrydate.get(); }
 
-    public void setEntrydate(String entrydate) {this.entrydate.set(entrydate);}
+    public StringProperty entrydateProperty() { return entrydate;}
+
+    public void setEntrydate(String entrydate) { this.entrydate.set(entrydate);}
+
+
 
 }

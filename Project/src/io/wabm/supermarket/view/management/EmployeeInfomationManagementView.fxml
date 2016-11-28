@@ -14,7 +14,7 @@
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="75.0" text="员工编号" />
             <TableColumn fx:id="nameColumn" prefWidth="75.0" text="姓名" />
-            <TableColumn fx:id="ageColumn" prefWidth="75.0" text="年龄" />
+            <TableColumn fx:id="ageColumn" prefWidth="75.0" text="出生日期" />
             <TableColumn fx:id="sexColumn" prefWidth="75.0" text="性别" />
             <TableColumn fx:id="departmentColumn" prefWidth="75.0" text="所属部门" />
             <TableColumn fx:id="phoneColumn" prefWidth="75.0" text="电话号码" />
