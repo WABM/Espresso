@@ -1,6 +1,6 @@
 package io.wabm.supermarket.controller.sales;
 
-import io.wabm.supermarket.protocol.StageSetableContoller;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
@@ -34,7 +34,7 @@ public class CommodityPriceManagementController{
             Scene scene = new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableContoller controller = loader.getController();
+            StageSetableController controller = loader.getController();
             controller.setStage(stage);
 
             stage.showAndWait();

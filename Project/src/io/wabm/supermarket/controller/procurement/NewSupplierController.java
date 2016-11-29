@@ -1,6 +1,6 @@
 package io.wabm.supermarket.controller.procurement;
 
-import io.wabm.supermarket.protocol.StageSetableContoller;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 /**
  * Created by 14580 on 2016/11/19 0019.
  */
-public class NewSupplierController implements StageSetableContoller {
+public class NewSupplierController implements StageSetableController {
     @FXML Stage stage;
     @FXML Button comfirmButton;
     @FXML Button cancelButton;

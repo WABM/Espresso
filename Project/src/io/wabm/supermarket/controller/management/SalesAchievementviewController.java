@@ -1,6 +1,6 @@
 package io.wabm.supermarket.controller.management;
 
-import io.wabm.supermarket.protocol.StageSetableContoller;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
@@ -33,7 +33,7 @@ public class SalesAchievementviewController {
             Scene scene = new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableContoller contoller = loader.getController();
+            StageSetableController contoller = loader.getController();
             contoller.setStage(stage);
 
             stage.showAndWait();

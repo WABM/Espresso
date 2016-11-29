@@ -1,6 +1,6 @@
 package io.wabm.supermarket.controller.warehouse;
 
-import io.wabm.supermarket.protocol.StageSetableContoller;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 /**
  * Created by MainasuK on 2016-10-24.
  */
-public class CommodityPurchaseFormController implements StageSetableContoller {
+public class CommodityPurchaseFormController implements StageSetableController {
 
     @FXML Stage stage;
 

@@ -76,4 +76,10 @@ public class Classification {
     public void setHasNum(int hasNum) {
         this.hasNum.set(hasNum);
     }
+
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

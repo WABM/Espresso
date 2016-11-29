@@ -11,6 +11,8 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.util.Assert;
 
 import java.sql.ResultSet;
@@ -21,7 +23,12 @@ import java.util.List;
  */
 public class CommodityInformationModel<T> extends TableViewModel<T> {
 
-    private String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
+    private final String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
+    private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, start_storage, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, start_storage, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+    private int classificationID;
+
 
     public CommodityInformationModel(TableView<T> tableView) {
         super(tableView);
@@ -29,8 +36,14 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         ConsoleLog.print("CommodityInformationModel init");
     }
 
-    public void fetchData(int classificationID, Callback<Boolean, Void> callback) {
+    public int getClassificationID() {
+        return classificationID;
+    }
+
+    public void fetchData(int classificationID, Callback<Boolean, Void> callback) {     // FIXME: USE Exception not Boolean
         ConsoleLog.print("fetching data with id: " + classificationID +"…");
+
+        this.classificationID = classificationID;
         Assert.notNull(jdbcOperations);
 
         new WABMThread().run((_void) -> {
@@ -65,4 +78,48 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         });
 
     }  // end of fetchData
+
+    public void add(Commodity commodity, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("Add commodity: " + commodity.getName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+
+            if (commodity.getCommodityID() == null || commodity.getCommodityID() == "") {
+                jdbcOperations.update(kInsertSQLAutoIncrease,
+                        commodity.getClassificationID(),
+                        commodity.getBarcode(),
+                        commodity.getName(),
+                        commodity.getShelfLife(),
+                        commodity.getSpecification(),
+                        commodity.getUnit(),
+                        commodity.getPrice(),
+                        commodity.getStartStorage(),
+                        commodity.getDeliverySpecification(),
+                        0); // New commodity has 0 sales avg
+            } else {
+                jdbcOperations.update(kInsertSQL,
+                        commodity.getCommodityID(),
+                        commodity.getClassificationID(),
+                        commodity.getBarcode(),
+                        commodity.getName(),
+                        commodity.getShelfLife(),
+                        commodity.getSpecification(),
+                        commodity.getUnit(),
+                        commodity.getPrice(),
+                        commodity.getStartStorage(),
+                        commodity.getDeliverySpecification(),
+                        0); // New commodity has 0 sales avg
+            }
+
+            // No error
+            callback.call(null);
+
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+
+    }   // end add(…) { … }
 }
