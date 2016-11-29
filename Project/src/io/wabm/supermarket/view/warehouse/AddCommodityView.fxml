@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.AddCommodityController">
+   <children>
+      <VBox layoutX="121.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane>
+              <columnConstraints>
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <padding>
+                  <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
+               </padding>
+               <children>
+                  <Label text="编码：" />
+                  <Label text="条形码：" GridPane.rowIndex="1" />
+                  <Label text="名称：" GridPane.rowIndex="2" />
+                  <Label text="分类：" GridPane.rowIndex="3" />
+                  <Label text="规格：" GridPane.rowIndex="4" />
+                  <Label text="单位：" GridPane.rowIndex="5" />
+                  <Label text="配送规格：" GridPane.rowIndex="6" />
+                  <Label text="保质期：" GridPane.rowIndex="7" />
+                  <Label text="期初库存：" GridPane.rowIndex="8" />
+
+                  <TextField fx:id="idTextField" promptText="选填" GridPane.columnIndex="1" />
+                  <TextField fx:id="barCodeTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="specificationTextField" promptText="100g／1L／250ml" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="unitTextField" promptText="瓶／盒／袋" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <children>
+                        <TextField fx:id="deliverySpecificationTextField" HBox.hgrow="ALWAYS" />
+                        <Label text="-" />
+                        <Label text="每件" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                      <children>
+                          <TextField fx:id="shelfLifeTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" HBox.hgrow="ALWAYS" />
+                          <Label text="-" />
+                          <Label text="每件" />
+                      </children>
+                  </HBox>
+                  <TextField fx:id="startStorageTextField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <ComboBox fx:id="classificationComboBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="14.0">
+               <children>
+                  <Button fx:id="confirmButton" defaultButton="true" mnemonicParsing="false" onAction="#confirmButtonPressed" text="添加" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonPressed" text="取消" />
+               </children>
+               <padding>
+                  <Insets bottom="14.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

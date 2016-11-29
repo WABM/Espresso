@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -77,6 +78,31 @@ public class WarehouseTest {
         for (Commodity item : list) {
             System.out.println(item.getName());
         }
+    }
+
+    @Test
+    public void testAddCommodity() throws DataAccessException, Exception {
+        TableView<Commodity> tableView = new TableView<>();
+        CommodityInformationModel<Commodity> model = new CommodityInformationModel<>(tableView);
+
+        CompletableFuture future = new CompletableFuture<>();
+
+        Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", 14.50, 20, 21, 10);
+        model.add(commodity, (exception) -> {
+
+            future.complete(exception);
+            return null;
+        });
+
+        Assert.assertEquals(null, (DataAccessException) future.get());
+
+        List<Commodity> list = tableView.getItems();
+        System.out.println(list.size());
+
+        for (Commodity item : list) {
+            System.out.println(item.getName());
+        }
+
     }
 
 }
