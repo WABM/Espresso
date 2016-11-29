@@ -122,7 +122,12 @@ public class AddCommodityController implements StageSetableController, CallbackA
             ConsoleLog.print("Fetch classification is: " + isSuccess);
 
             if (isSuccess) {
-                classificationComboBox.getSelectionModel().select(classificationID);
+                classificationComboBox.getItems().stream().filter(classification ->
+                        classification.getClassificationID() == classificationID
+                ).findFirst().ifPresent(classification -> {
+                    int index = classificationComboBox.getItems().indexOf(classification);
+                    classificationComboBox.getSelectionModel().select(index);
+                });
             }
             return null;
         });
