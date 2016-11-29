@@ -8,4 +8,6 @@ public interface DataSource<T> {
     // TODO:
     void add(T item);
 
+//    boolean delete(T item);
+
 }

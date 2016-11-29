@@ -57,7 +57,7 @@ public class WarehouseTest {
     }
 
     @Test
-    public void testWithoutFXThread() throws Exception {
+    public void testAddCommodity() throws Exception {
         TableView<Commodity> tableView = new TableView<>();
         CommodityInformationModel<Commodity> model = new CommodityInformationModel<>(tableView);
 
@@ -81,14 +81,14 @@ public class WarehouseTest {
     }
 
     @Test
-    public void testAddCommodity() throws DataAccessException, Exception {
+    public void testDeleteCommodity() throws DataAccessException, Exception {
         TableView<Commodity> tableView = new TableView<>();
         CommodityInformationModel<Commodity> model = new CommodityInformationModel<>(tableView);
 
         CompletableFuture future = new CompletableFuture<>();
 
         Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", 14.50, 20, 21, 10);
-        model.add(commodity, (exception) -> {
+        model.delete(commodity, (exception) -> {
 
             future.complete(exception);
             return null;

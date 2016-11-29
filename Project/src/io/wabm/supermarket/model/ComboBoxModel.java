@@ -27,4 +27,8 @@ public class ComboBoxModel<T> extends Model<T> {
         list.add(item);
     }
 
+//    @Override
+    public boolean delete(T item) {
+        return list.remove(item);
+    }
 }

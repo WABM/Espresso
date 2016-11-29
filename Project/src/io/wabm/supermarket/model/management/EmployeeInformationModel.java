@@ -24,8 +24,6 @@ import java.util.List;
 /**
  * Created by liu on 2016-11-19 .
  */
-@Repository
-@ContextConfiguration(classes = DBConfig.class)
     public class  EmployeeInformationModel<T> extends TableViewModel<T> {
 
     private final String kSelectAll = "SELECT f.* FROM wabm.Employee f";

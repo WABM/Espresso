@@ -26,6 +26,7 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
     private final String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
     private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, start_storage, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, start_storage, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kDeleteSQLWithID = "DELETE FROM wabm.commodity WHERE wabm.commodity.commodity_id = ?;";
 
     private int classificationID;
 
@@ -113,6 +114,7 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
             }
 
             // No error
+            add((T) commodity);
             callback.call(null);
 
         } catch (QueryTimeoutException timeoutException) {
@@ -122,4 +124,25 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         }
 
     }   // end add(…) { … }
+
+    public void delete(Commodity commodity, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("Delete commodity: " + commodity.getName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+
+            jdbcOperations.update(kDeleteSQLWithID, commodity.getCommodityID());
+
+            // No error
+            delete((T) commodity);
+            callback.call(null);
+
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+
+    }   // end delete(…) { … }
+
 }
