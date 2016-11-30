@@ -57,11 +57,6 @@ public class HotsaleController extends SceneController {
         setupTableView();
         setupTableViewColumn();
         test();
-
-        for (int i = 0; i < 10; i += 2) {
-            model.add(new Hotsale(1+i+"","0","0000","可口可乐",0,"500ml","瓶",150,"2.00","300.00"));
-            model.add(new Hotsale(2+i+"","1","0001","百事可乐",0,"500ml","瓶",130,"2.00","260.00"));
-        }
     }
 
     @FXML public void queryButtonPressed() {
@@ -74,6 +69,10 @@ public class HotsaleController extends SceneController {
 
     private void setupModel() {
         model = new HotsaleModel<>(tableView);
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupTableView() {

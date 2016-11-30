@@ -2,6 +2,7 @@ package io.wabm.supermarket.model.sales;
 
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.Classification;
+import io.wabm.supermarket.misc.pojo.Hotsale;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.Model;
 import io.wabm.supermarket.model.TableViewModel;
@@ -10,6 +11,7 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.util.Callback;
 import javafx.scene.control.TableView;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
@@ -21,7 +23,7 @@ import java.util.List;
  */
 public class HotsaleModel<T> extends TableViewModel<T>{
 
-    private final String kSelectAll = "SELECT * FROM wabm. ";
+    private final String kSelectAll = "select c.*,sa.all_price_db,sum(quantity) from commodity c,sales_record sa,sales_record_detail sad where sa.timestamp>'2016-11-01' and sa.timestamp<'2016-11-06' and sa.sales_record_id=sad.sales_record_id and sad.commodity_id=c.commodity_id group by c.commodity_id LIMIT 10";
     private Service<Void> backgroundThread;
 
     public HotsaleModel(TableView<T> tableView){
@@ -29,7 +31,7 @@ public class HotsaleModel<T> extends TableViewModel<T>{
         ConsoleLog.print("HotsaleModel init");
     }
 
-    /*public void fetchData(Callback<Boolean, Void> callback){
+    public void fetchData(Callback<Boolean, Void> callback){
         ConsoleLog.print("fetching data…");
         Assert.notNull(jdbcOperations);
 
@@ -39,12 +41,22 @@ public class HotsaleModel<T> extends TableViewModel<T>{
                 return new Task<Void>() {
                     @Override
                     protected Void call() throws Exception {
+                    try {
 
-                        List<Classification> templist;
+                        List<Hotsale> templist;
 
                         templist = jdbcOperations.query(kSelectAll,
                                 (resultSet, i) -> new Hotsale(
-                                        resultSet.getString()
+                                        String.valueOf(i+1),
+                                        resultSet.getString("commodity_id"),
+                                        resultSet.getString("bar_code"),
+                                        resultSet.getString("name"),
+                                        resultSet.getInt("classification_id"),
+                                        resultSet.getString("specification"),
+                                        resultSet.getString("unit"),
+                                        resultSet.getInt("sum(quantity)"),
+                                        resultSet.getString("price_db"),
+                                        resultSet.getString("all_price_db")
                                 )
                         );
 
@@ -53,7 +65,11 @@ public class HotsaleModel<T> extends TableViewModel<T>{
 
                         // Return callback with isfetchSuccess flag;
                         // TODO:
+
+                    }catch (DataAccessException exception){
                         callback.call(true);
+                        exception.printStackTrace();
+                    }
                         return null;
                     }
                 };
@@ -63,5 +79,4 @@ public class HotsaleModel<T> extends TableViewModel<T>{
         backgroundThread.start();
 
     };  // end of fetchData
-    */
 }

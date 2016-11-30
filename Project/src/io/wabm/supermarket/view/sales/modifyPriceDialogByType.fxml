@@ -26,9 +26,9 @@
                   <Label text="类别" />
                   <Label text="利润率" GridPane.rowIndex="1" />
                   <Label text="税率" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField prefHeight="27.0" prefWidth="188.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="classificationText" editable="false" GridPane.columnIndex="1" />
+                  <TextField fx:id="profitRateText" prefHeight="27.0" prefWidth="188.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="taxRateText" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="14.0">
