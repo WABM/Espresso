@@ -22,11 +22,11 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button layoutX="10.0" layoutY="11.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="新建订单" fx:id="newButton" onAction="#newButtonPressed"/>
+            <Button fx:id="newButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#newButtonPressed" text="新建订单" />
             <Pane HBox.hgrow="ALWAYS" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="已完成订单" />
-            <Button layoutX="543.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="待收获订单" />
-            <Button layoutX="543.0" layoutY="10.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="未付款订单" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="已完成订单" />
+            <Button layoutX="543.0" layoutY="10.0" mnemonicParsing="false" text="待收货订单" />
+            <Button layoutX="543.0" layoutY="10.0" mnemonicParsing="false" text="未付款订单" />
          </items>
       </ToolBar>
    </top>
