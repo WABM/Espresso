@@ -24,6 +24,7 @@ public class Commodity {
 
     private IntegerProperty shelfLife;
     private IntegerProperty startStorage;
+    private IntegerProperty storage;
 
     // Not a database stored value
     private StringProperty classificationName = new SimpleStringProperty();
@@ -37,7 +38,8 @@ public class Commodity {
                      double price,
                      Integer deliverySpecification,
                      Integer shelfLife,
-                     Integer startStorage) {
+                     Integer startStorage,
+                     Integer storage) {
         this.commodityID = new SimpleStringProperty(commodityID);
         this.classificationID = new SimpleIntegerProperty(classificationID);
         this.barcode = new SimpleStringProperty(barcode);
@@ -47,12 +49,50 @@ public class Commodity {
         this.deliverySpecification = new SimpleIntegerProperty(deliverySpecification);
         this.shelfLife = new SimpleIntegerProperty(shelfLife);
         this.startStorage = new SimpleIntegerProperty(startStorage);
+        this.storage = new SimpleIntegerProperty(storage);
 
         BigDecimal decimal = new BigDecimal(price);
         DecimalFormat formater = new DecimalFormat("#0.00");
         decimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
 
         this.price = new SimpleStringProperty(formater.format(decimal.doubleValue()));
+    }
+
+    public Commodity(String commodityID,
+                     int classificationID,
+                     String barcode,
+                     String name,
+                     String specification,
+                     String unit,
+                     double price,
+                     Integer deliverySpecification,
+                     Integer shelfLife,
+                     Integer startStorage) {
+        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage, 0);
+    }
+
+    public Commodity(StringProperty commodityID,
+                     IntegerProperty classificationID,
+                     StringProperty barcode,
+                     StringProperty name,
+                     StringProperty specification,
+                     StringProperty unit,
+                     StringProperty price,
+                     IntegerProperty deliverySpecification,
+                     IntegerProperty shelfLife,
+                     IntegerProperty startStorage,
+                     IntegerProperty storage) {
+        this.commodityID = commodityID;
+        this.classificationID = classificationID;
+        this.barcode = barcode;
+        this.name = name;
+        this.specification = specification;
+        this.unit = unit;
+        this.price = price;
+        this.deliverySpecification = deliverySpecification;
+        this.shelfLife = shelfLife;
+        this.startStorage = startStorage;
+        this.storage = storage;
     }
 
     public Commodity(StringProperty commodityID,
@@ -65,16 +105,7 @@ public class Commodity {
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife,
                      IntegerProperty startStorage) {
-        this.commodityID = commodityID;
-        this.classificationID = classificationID;
-        this.barcode = barcode;
-        this.name = name;
-        this.specification = specification;
-        this.unit = unit;
-        this.price = price;
-        this.deliverySpecification = deliverySpecification;
-        this.shelfLife = shelfLife;
-        this.startStorage = startStorage;
+        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage, new SimpleIntegerProperty(0));
     }
 
 
@@ -210,5 +241,17 @@ public class Commodity {
 
     public void setClassificationName(String classificationName) {
         this.classificationName.set(classificationName);
+    }
+
+    public int getStorage() {
+        return storage.get();
+    }
+
+    public IntegerProperty storageProperty() {
+        return storage;
+    }
+
+    public void setStorage(int storage) {
+        this.storage.set(storage);
     }
 }
