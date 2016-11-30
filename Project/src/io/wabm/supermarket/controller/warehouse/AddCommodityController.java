@@ -79,7 +79,7 @@ public class AddCommodityController implements StageSetableController, CallbackA
                     new SimpleErrorAlert("数据库更新出现错误", "请检查输入商品编码", "该商品编码在数据库中已存在").show();
                 }   // end if message.contains(…)
             } else {
-                new SimpleErrorAlert("数据库更新出现错误", "请检查输入字段并重试","");
+                new SimpleErrorAlert("数据库更新出现错误", "请检查输入字段并重试","").show();
             }   // end if (exception instanceof …)
 
         } else {
