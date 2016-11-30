@@ -5,9 +5,11 @@ package io.wabm.supermarket.controller.management;
 import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.model.management.EmployeeInformationModel;
+import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +19,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
 
@@ -60,8 +63,8 @@ public class EmployeeImformationManagementController extends SceneController{
         ageColumn.setCellValueFactory(cellData -> cellData.getValue().birthdateProperty());
 
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        sexColumn.setCellValueFactory(cellData -> cellData.getValue().sexProperty());
-        departmentColumn.setCellValueFactory(cellData -> cellData.getValue().departmentProperty());
+        sexColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getSexString()));
+        departmentColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getDepartmentString()));
         phoneColumn.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
         entrydateColumn.setCellValueFactory(cellData -> cellData.getValue().entrydateProperty());
     }
@@ -81,10 +84,9 @@ public class EmployeeImformationManagementController extends SceneController{
     }
 
 
-
-
     @FXML private void deleteButtonPressed(){
         ConsoleLog.print("Button pressed");
+       // Employee employee = tableView.getSelectionModel().getSelectedItem();
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ViewPathHelper.class.getResource("management/Delete employee.fxml"));
@@ -114,16 +116,33 @@ public class EmployeeImformationManagementController extends SceneController{
             AnchorPane pane=loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("我不知道写什么好1");
+            stage.setTitle("添加员工");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene=new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
+            StageSetableController controller=loader.getController();
+            controller.setStage(stage);
+            
+            ((CallbackAcceptableProtocol<Employee, DataAccessException>) controller).set((employee) -> {
+                ConsoleLog.print("Add employee callback called");
+                final DataAccessException[] e = {null};
 
+                model.add(employee, (exception) -> {
+                    e[0] = exception;
+                    if (null != exception) {
+                        exception.printStackTrace();
+                    } else {
+                        ConsoleLog.print("Insert employee success");
+                    }
+
+                    return null;
+                });
+                return e[0];
+            });
             stage.showAndWait();
+
         }catch(IOException e){
             e.printStackTrace();
         }
