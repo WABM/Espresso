@@ -67,6 +67,7 @@ public class AddCommodityController implements StageSetableController, CallbackA
                 Integer.parseInt(shelfLifeTextField.getText()),
                 Integer.parseInt(startStorageTextField.getText())
         );
+        commodity.setClassificationName(classificationComboBox.getValue().getName());
 
         DataAccessException exception = null;
         if (null != (exception = callback.call(commodity))) {
