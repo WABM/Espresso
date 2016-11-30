@@ -1,22 +1,26 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
+import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplierModel;
+import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
+import java.util.Optional;
+
 /**
  * Created by 14580 on 2016/11/20 0020.
  */
@@ -25,7 +29,6 @@ public class CommoditySupplierManagementViewController extends SceneController {
     private CommoditySupplierModel<Supplier> model;
 
     @FXML TableView<Supplier> tableView;
-
     @FXML TableColumn<Supplier, Integer> idColumn;
     @FXML TableColumn<Supplier, String> nameColumn;
     @FXML TableColumn<Supplier, String> representativeColumn;
@@ -84,9 +87,25 @@ public class CommoditySupplierManagementViewController extends SceneController {
             Scene scene=new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
+            StageSetableController controller=loader.getController();
+            controller.setStage(stage);
 
+            ((CallbackAcceptableProtocol<Supplier, DataAccessException>) controller).set((supplier) -> {
+                ConsoleLog.print("Add supplier callback called");
+                final DataAccessException[] e = {null};
+
+                model.add(supplier, (exception) -> {
+                    e[0] = exception;
+                    if (null != exception) {
+                        exception.printStackTrace();
+                    } else {
+                        ConsoleLog.print("Insert supplier success");
+                    }
+
+                    return null;
+                });
+                return e[0];
+            });
             stage.showAndWait();
         }catch(IOException e){
             e.printStackTrace();
@@ -94,24 +113,26 @@ public class CommoditySupplierManagementViewController extends SceneController {
     }
     @FXML private void deleteButtonPressed(){
         ConsoleLog.print("Button pressed");
-        try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ViewPathHelper.class.getResource("procurement/DeleteSupplier.fxml"));
-            AnchorPane pane=loader.load();
+        Supplier supplier = tableView.getSelectionModel().getSelectedItem();
 
-            Stage stage = new Stage();
-            stage.setTitle("我不知道写什么好");
-            stage.initModality(Modality.APPLICATION_MODAL);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("删除供应商");
+        alert.setHeaderText("确认删除");
+        alert.setContentText("删除 " + supplier.getName());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            ConsoleLog.print("Delete " + supplier.getName() + " …");
 
-            Scene scene=new Scene(pane);
-            stage.setScene(scene);
-
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
-
-            stage.showAndWait();
-        }catch(IOException e){
-            e.printStackTrace();
+            model.delete(supplier, exception -> {
+                if (null == exception) {
+                    new SimpleSuccessAlert("删除成功", "", supplier.getName() + " 删除成功").show();
+                } else {
+                    new SimpleErrorAlert("删除失败", "删除数据遇到了错误", "请重试").show();
+                }
+                return null;
+            });
+        } else {
+            ConsoleLog.print("Delete process cancel");
         }
     }
     @FXML private void modifyButtonPressed(){

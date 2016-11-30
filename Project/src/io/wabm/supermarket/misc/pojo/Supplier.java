@@ -80,4 +80,7 @@ public class Supplier {
     public void setAddress(String address) {
         this.address.set(address);
     }
+
+    public String getName() {return supplierName.get();
+    }
 }

@@ -2,22 +2,28 @@ package io.wabm.supermarket.model.procurement;
 
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.Classification;
+import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
+import io.wabm.supermarket.model.Model;
 import io.wabm.supermarket.model.TableViewModel;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.sql.ResultSet;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -25,7 +31,12 @@ import java.util.List;
  */
 public class  CommoditySupplierModel<T> extends TableViewModel<T> {
     private final String kSelectAll = "SELECT f.* FROM wabm.supplier f";
-    private Service<Void> backgroundThread;
+    private final String kInsertSQL = "INSERT INTO wabm.supplier (supplier_id, name,address,phone,representative_name) VALUES (?, ?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.supplier (name, address,phone,representative_name) VALUES (?, ?, ?, ?);";
+    private final String kDeleteSQLWithID = "DELETE FROM wabm.supplier WHERE wabm.supplier.supplier_id = ?;";
+
+
+    //private Service<Void> backgroundThread;
     public CommoditySupplierModel(TableView<T> tableView) {
 
         super(tableView);
@@ -37,10 +48,10 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
         Assert.notNull(jdbcOperations);
 
         new WABMThread().run((_void) -> {
+            ConsoleLog.print("Start background task…");
 
             try{
-            List<Supplier> templist = jdbcOperations.query(kSelectAll,
-                    (ResultSet resultSet, int i) -> {
+            List<Supplier> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                         Supplier supplier = new Supplier(
                                 resultSet.getInt("supplier_id"),
                                 resultSet.getString("name"),
@@ -69,6 +80,54 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
 
     }  // end of fetchData
 
+    public void add(Supplier supplier, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("Add supplier: " + supplier.getSupplierName());
+        Assert.notNull(jdbcOperations);
+        try {
+            if (String.valueOf(supplier.getSupplierID()) == null || String.valueOf(supplier.getSupplierID()) == "") {
+                jdbcOperations.update(kInsertSQLAutoIncrease,
+                        supplier.getSupplierName(),
+                        supplier.getAddress(),
+                        supplier.getPhone(),
+                        supplier.getLinkman()
+
+                );
+            } else {
+                jdbcOperations.update(kInsertSQL,
+                        supplier.getSupplierID(),
+                        supplier.getSupplierName(),
+                        supplier.getAddress(),
+                        supplier.getPhone(),
+                        supplier.getLinkman()
+                );
+            }
+            add((T) supplier);
+            callback.call(null);
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+
+    }   // end add(…) { … }
+    public void delete(Supplier supplier, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("Delete supplier: " + supplier.getSupplierName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+
+            jdbcOperations.update(kDeleteSQLWithID, supplier.getSupplierID());
+
+            // No error
+            delete((T) supplier);
+            callback.call(null);
+
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+    }//end of delete
 }
 
 

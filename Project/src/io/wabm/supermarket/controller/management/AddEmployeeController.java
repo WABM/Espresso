@@ -118,14 +118,14 @@ public class AddEmployeeController implements StageSetableController,CallbackAcc
     }*/
 
     @FXML
-    public void initialize() {
-        ConsoleLog.print("AddEmployeeController init");
+public void initialize() {
+    ConsoleLog.print("AddEmployeeController init");
 
-        setupModel();
+    setupModel();
 
-        departmentComboBox.setItems(FXCollections.observableArrayList("总管理员","仓库管理员","收银员","采购管理员","销售管理员"));
-        sexComboBox.setItems(FXCollections.observableArrayList(new GenderWrapper(0),new GenderWrapper(1)));
-    }
+    departmentComboBox.setItems(FXCollections.observableArrayList("总管理员","仓库管理员","收银员","采购管理员","销售管理员"));
+    sexComboBox.setItems(FXCollections.observableArrayList(new GenderWrapper(0),new GenderWrapper(1)));
+}
 
     private void setupModel() {
         Assert.notNull(departmentComboBox);
