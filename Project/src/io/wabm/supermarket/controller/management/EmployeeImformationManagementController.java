@@ -3,6 +3,8 @@ package io.wabm.supermarket.controller.management;
 
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
+import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.model.management.EmployeeInformationModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
@@ -13,15 +15,14 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by liu on 2016-10-25 .
@@ -86,8 +87,30 @@ public class EmployeeImformationManagementController extends SceneController{
 
     @FXML private void deleteButtonPressed(){
         ConsoleLog.print("Button pressed");
-       // Employee employee = tableView.getSelectionModel().getSelectedItem();
-        try{
+        Employee employee = tableView.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("删除员工");
+        alert.setHeaderText("确认删除");
+        alert.setContentText("删除 " + employee.getName());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            ConsoleLog.print("Delete " + employee.getName() + " …");
+
+            model.delete(employee, exception -> {
+                if (null == exception) {
+                    new SimpleSuccessAlert("删除成功", "", employee.getName() + " 删除成功").show();
+                } else {
+                    new SimpleErrorAlert("删除失败", "删除数据遇到了错误", "请重试").show();
+                }
+                return null;
+            });
+        } else {
+            ConsoleLog.print("Delete process cancel");
+        }
+    }
+
+        /*try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ViewPathHelper.class.getResource("management/Delete employee.fxml"));
             AnchorPane pane=loader.load();
@@ -107,7 +130,7 @@ public class EmployeeImformationManagementController extends SceneController{
         }catch(IOException e){
             e.printStackTrace();
         }
-    }
+    }*/
     @FXML private void addButtonPressed(){
         ConsoleLog.print("Button pressed");
         try{

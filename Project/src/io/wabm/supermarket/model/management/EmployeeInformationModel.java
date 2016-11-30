@@ -33,6 +33,7 @@ import java.util.List;
     private final String kSelectAll = "SELECT f.* FROM wabm.Employee f";
     private final String kInsertSQL = "INSERT INTO wabm.employee (employee_id, name, birth_date,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.employee (name, birth_date,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kDeleteSQLWithID = "DELETE FROM wabm.employee WHERE wabm.employee.employee_id = ?;";
 
    // private int employeeID;
 
@@ -122,6 +123,25 @@ import java.util.List;
 
     }   // end add(…) { … }
 
-}//end of fetchData
+    public void delete(Employee employee, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("Delete employee: " + employee.getName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+
+            jdbcOperations.update(kDeleteSQLWithID, employee.getEmployeeID());
+
+            // No error
+            delete((T) employee);
+            callback.call(null);
+
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+    }//end of delete
+
+}
 
 
