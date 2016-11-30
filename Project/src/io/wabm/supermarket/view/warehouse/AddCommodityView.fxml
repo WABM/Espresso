@@ -54,8 +54,8 @@
                   <HBox alignment="CENTER_LEFT" spacing="4.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
                       <children>
                           <TextField fx:id="shelfLifeTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" HBox.hgrow="ALWAYS" />
-                          <Label text="-" />
-                          <Label text="每件" />
+                          <Label />
+                          <Label text="天" />
                       </children>
                   </HBox>
                   <TextField fx:id="startStorageTextField" text="0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
