@@ -32,9 +32,6 @@ public class CashManagementController extends SceneController {
         setupModel();
         setupTableView();
         setupTableViewColumn();
-
-        for (int i=1;i<6;i++)
-            model.add(new CashInformation(i+"",i+"",1000.0,2600.0,1600.0));
     }
     @FXML public void accountingPressed(){
         ConsoleLog.print("accountingButton pressed");
@@ -44,6 +41,11 @@ public class CashManagementController extends SceneController {
 
     private void setupModel() {
         model = new CashInformationModel<>(tableView);
+
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupTableView() {
@@ -54,7 +56,7 @@ public class CashManagementController extends SceneController {
         CashRegisterID.setCellValueFactory(new PropertyValueFactory<CashInformation, String>("cashRegisterID"));
         EmployeeID.setCellValueFactory(new PropertyValueFactory<CashInformation, String>("employeeID"));
         MoneyIN.setCellValueFactory(new PropertyValueFactory<CashInformation, Double>("moneyIN"));
-        MoneyOUT.setCellValueFactory(new PropertyValueFactory<CashInformation, Double>("moneyOUT"));
-        MoneyShould.setCellValueFactory(new PropertyValueFactory<CashInformation, Double>("moneyShould"));
+        MoneyShould.setCellValueFactory(new PropertyValueFactory<CashInformation, Double>("moneyOUT"));
+        MoneyOUT.setCellValueFactory(new PropertyValueFactory<CashInformation, Double>("moneyShould"));
     }
 }

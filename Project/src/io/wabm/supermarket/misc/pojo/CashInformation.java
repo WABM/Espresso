@@ -1,9 +1,7 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import java.time.LocalDate;
 
 /**
  * Created by Administrator on 2016/11/20 0020.
@@ -15,6 +13,7 @@ public class CashInformation {
     private DoubleProperty moneyIN;
     private DoubleProperty moneyOUT;
     private DoubleProperty moneyShould;
+    private ObjectProperty<LocalDate> date;
 
     public CashInformation(String CashRegisterID,String EmployeeID,
                            Double MoneyIN,Double MoneyOUT,
@@ -24,6 +23,7 @@ public class CashInformation {
         this.moneyIN = new SimpleDoubleProperty(MoneyIN);
         this.moneyOUT = new SimpleDoubleProperty(MoneyOUT);
         this.moneyShould = new SimpleDoubleProperty(MoneyShould);
+        //this.date = new SimpleObjectProperty<LocalDate>(date);
     }
 
     public String getCashRegisterID() {
@@ -84,5 +84,17 @@ public class CashInformation {
 
     public void setMoneyShould(double moneyShould) {
         this.moneyShould.set(moneyShould);
+    }
+
+    public LocalDate getDate() {
+        return date.get();
+    }
+
+    public ObjectProperty<LocalDate> dateProperty() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date.set(date);
     }
 }

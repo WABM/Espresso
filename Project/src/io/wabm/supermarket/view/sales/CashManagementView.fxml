@@ -15,7 +15,8 @@
             <TableColumn fx:id="EmployeeID" prefWidth="75.0" text="收银员" />
             <TableColumn fx:id="MoneyIN" prefWidth="75.0" text="初始金额" />
             <TableColumn fx:id="MoneyOUT" prefWidth="75.0" text="实收金额" />
-            <TableColumn fx:id="MoneyShould" prefWidth="75.0" text="营后金额" />
+            <TableColumn fx:id="MoneyShould" prefWidth="75.0" text="应收金额" />
+            <TableColumn fx:id="MoneyShould1" prefWidth="75.0" text="日期" />
          </columns>
       </TableView>
    </center>
