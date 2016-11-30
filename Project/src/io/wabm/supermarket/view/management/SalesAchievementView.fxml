@@ -13,10 +13,10 @@
             <Label text="年" />
             <ChoiceBox />
             <Label text="月" />
-            <Button layoutX="10.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="112.0" text="查询热销排行" fx:id="hotgoodsButton" onAction="#hotgoodsButtonPressed"/>
-            <Button layoutX="212.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="104.0" text="查看盈亏报表" />
-            <Button layoutX="278.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="95.0" text="查看同比增长" />
-            <Button layoutX="344.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="查看销售额度" />
+            <Button fx:id="hotgoodsButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#hotgoodsButtonPressed" text="查询热销排行" />
+            <Button layoutX="212.0" layoutY="10.0" mnemonicParsing="false" text="查看盈亏报表" />
+            <Button layoutX="278.0" layoutY="10.0" mnemonicParsing="false" text="查看同比增长" />
+            <Button layoutX="344.0" layoutY="10.0" mnemonicParsing="false" text="查看销售额度" />
          </items>
       </ToolBar>
    </top>
