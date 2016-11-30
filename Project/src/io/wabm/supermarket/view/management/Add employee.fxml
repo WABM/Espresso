@@ -5,25 +5,25 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="528.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.AddEmployeeController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.AddEmployeeController">
    <children>
-      <VBox layoutX="121.0" layoutY="14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox layoutX="121.0" layoutY="14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <GridPane prefHeight="408.0" prefWidth="497.0">
+            <GridPane vgap="7.0">
               <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" maxWidth="117.0" minWidth="95.0" prefWidth="115.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="237.0" minWidth="215.0" prefWidth="217.0" />
+                <ColumnConstraints hgrow="NEVER" />
+                <ColumnConstraints hgrow="SOMETIMES" />
               </columnConstraints>
               <rowConstraints>
-                  <RowConstraints maxHeight="78.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="85.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="84.0" minHeight="10.0" prefHeight="42.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="48.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="82.0" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="81.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="64.0" minHeight="0.0" prefHeight="41.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="70.0" minHeight="10.0" prefHeight="41.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <padding>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
@@ -34,25 +34,25 @@
                   <Label text="入职日期：" GridPane.rowIndex="4" />
                   <Label text="性别：" GridPane.rowIndex="2" />
                   <Label text="出生日期：" GridPane.rowIndex="3" />
-                  <Label text="所属部门" GridPane.rowIndex="5" />
-                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="departmentComboBox" prefHeight="36.0" prefWidth="236.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label text="所属部门：" GridPane.rowIndex="5" />
+                  <Label text="电话号码：" GridPane.rowIndex="6" />
                   <Label text="账号：" GridPane.rowIndex="7" />
-                  <TextField fx:id="phoneTextField" prefHeight="34.0" prefWidth="237.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <Label text="密码：" GridPane.rowIndex="8" />
-                  <TextField fx:id="userTextField" prefHeight="30.0" prefWidth="231.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <TextField fx:id="idTextField" GridPane.columnIndex="1" />
+                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ComboBox fx:id="sexComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="birthTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="entryTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="idTextField" GridPane.columnIndex="1" />
-                  <TextField fx:id="passwordTextField" prefHeight="30.0" prefWidth="231.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <Label text="电话号码：" GridPane.rowIndex="6" />
-                  <ComboBox fx:id="sexComboBox" prefHeight="36.0" prefWidth="236.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="departmentComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="userTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <TextField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                </children>
             </GridPane>
-            <HBox alignment="CENTER" prefHeight="108.0" prefWidth="641.0" spacing="14.0">
+            <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="14.0">
                <children>
+                  <Button fx:id="comfirmButton" defaultButton="true" mnemonicParsing="false" onAction="#comfirmButtonPressed" text="添加" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#setCancelButtonpressed" text="取消" />
-                  <Button fx:id="comfirmButton" mnemonicParsing="false" onAction="#comfirmButtonPressed" text="添加" />
                </children>
             </HBox>
          </children>
