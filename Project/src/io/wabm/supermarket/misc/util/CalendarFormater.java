@@ -9,7 +9,11 @@ import java.util.Calendar;
 public class CalendarFormater {
 
     public static String toString(Calendar calendar) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        return toString(calendar, "yyyy年MM月dd日");
+    }
+
+    public static String toString(Calendar calendar, String pattern) {
+        SimpleDateFormat format = new SimpleDateFormat(pattern);
         format.setTimeZone(calendar.getTimeZone());
 
         return format.format(calendar.getTime());

@@ -35,7 +35,7 @@ public class TableViewModel<T> extends Model<T> {
         list.add(item);
     }
 
-//    @Override
+    @Override
     public boolean delete(T item) {
         return list.remove(item);
     }

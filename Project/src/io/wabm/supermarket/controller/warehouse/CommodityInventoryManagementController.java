@@ -1,25 +1,41 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.misc.pojo.Inventory;
+import io.wabm.supermarket.misc.util.CalendarFormater;
+import io.wabm.supermarket.model.warehouse.CommodityInventoryModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Optional;
+import java.util.TimeZone;
 
 /**
  * Created by MainasuK on 2016-10-25.
  */
 public class CommodityInventoryManagementController {
+
+    private CommodityInventoryModel model;
+
+    @FXML TableView<Inventory> tableView;
+    @FXML TableColumn<Inventory, String> nameColumn;
+    @FXML TableColumn<Inventory, String> classificationColumn;
+    @FXML TableColumn<Inventory, Integer> commodityNumColumn;
+    @FXML TableColumn<Inventory, String> createDateColumn;
+    @FXML TableColumn<Inventory, String> statusColumn;
+    @FXML TableColumn<Inventory, String> actionColumn;
 
     @FXML Button addButton;
     @FXML Button deleteButton;
@@ -67,5 +83,39 @@ public class CommodityInventoryManagementController {
         } else {
             // Cancel
         }
+    }
+
+    @FXML private void initialize() {
+        ConsoleLog.print("CommodityInventoryManagementController init");
+
+        setupModel();
+        setupTableColumn();
+    }
+
+    private void setupModel() {
+        model = new CommodityInventoryModel(tableView);
+        model.fetch(exception -> {
+            ConsoleLog.print("fetch finish");
+
+            return null;
+        });
+    }
+
+    private void setupTableColumn() {
+        nameColumn.setCellValueFactory(cellData -> {
+            Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CST"));
+            calendar.setTimeInMillis(cellData.getValue().getCreateTimestamp().getTime());
+
+            return new SimpleStringProperty(CalendarFormater.toString(calendar, "MM月 月结清单"));
+        });
+        classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationNameProperty());
+        createDateColumn.setCellValueFactory(cellData -> {
+            Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CST"));
+            calendar.setTimeInMillis(cellData.getValue().getCreateTimestamp().getTime());
+
+            return new SimpleStringProperty(CalendarFormater.toString(calendar, "yyyy年MM月dd日"));
+        });
+        commodityNumColumn.setCellValueFactory(cellData -> cellData.getValue().hasNumProperty().asObject());
+
     }
 }
