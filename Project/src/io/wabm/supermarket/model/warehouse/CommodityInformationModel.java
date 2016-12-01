@@ -24,8 +24,8 @@ import java.util.List;
 public class CommodityInformationModel<T> extends TableViewModel<T> {
 
     private final String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
-    private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, start_storage, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, start_storage, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kDeleteSQLWithID = "DELETE FROM wabm.commodity WHERE wabm.commodity.commodity_id = ?;";
 
     private int classificationID;
@@ -41,7 +41,7 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         return classificationID;
     }
 
-    public void fetchData(int classificationID, Callback<Boolean, Void> callback) {     // FIXME: USE Exception not Boolean
+    public void fetchData(int classificationID, Callback<DataAccessException, Void> callback) {     // FIXME: USE Exception not Boolean
         ConsoleLog.print("fetching data with id: " + classificationID +"…");
 
         this.classificationID = classificationID;
@@ -50,31 +50,36 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         new WABMThread().run((_void) -> {
             ConsoleLog.print("Start background task…");
 
-            List<Commodity> templist = jdbcOperations.query(kSelectSQL, (ResultSet resultSet, int i) -> {
-                Commodity commodity;
-                commodity = new Commodity(
-                        resultSet.getString("commodity_id"),
-                        resultSet.getInt("classification_id"),
-                        resultSet.getString("bar_code"),
-                        resultSet.getString("name"),
-                        resultSet.getString("specification"),
-                        resultSet.getString("unit"),
-                        resultSet.getDouble("price_db"),
-                        resultSet.getInt("delivery_specification"),
-                        resultSet.getInt("shelf_life"),
-                        resultSet.getInt("start_storage")
-                );
-                commodity.setClassificationName(resultSet.getString("classification_name"));
+            try {
+                List<Commodity> templist = jdbcOperations.query(kSelectSQL, (ResultSet resultSet, int i) -> {
+                    Commodity commodity;
+                    commodity = new Commodity(
+                            resultSet.getString("commodity_id"),
+                            resultSet.getInt("classification_id"),
+                            resultSet.getString("bar_code"),
+                            resultSet.getString("name"),
+                            resultSet.getString("specification"),
+                            resultSet.getString("unit"),
+                            resultSet.getDouble("price_db"),
+                            resultSet.getInt("delivery_specification"),
+                            resultSet.getInt("shelf_life")
+                    );
+                    commodity.setClassificationName(resultSet.getString("classification_name"));
 
-                return commodity;
-            }, classificationID);
+                    return commodity;
+                }, classificationID);
 
-            list.clear();
-            list.addAll((T[]) templist.toArray());
+                list.clear();
+                list.addAll((T[]) templist.toArray());
 
-            // Return callback with isfetchSuccess flag;
-            // TODO:
-            callback.call(true);
+                // Return callback with isfetchSuccess flag;
+                // TODO:
+                callback.call(null);
+            } catch (DataAccessException exception) {
+                callback.call(exception);
+                exception.printStackTrace();
+            }
+
             return null;
         });
 
@@ -95,7 +100,6 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
                         commodity.getSpecification(),
                         commodity.getUnit(),
                         commodity.getPrice(),
-                        commodity.getStartStorage(),
                         commodity.getDeliverySpecification(),
                         0); // New commodity has 0 sales avg
             } else {
@@ -108,7 +112,6 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
                         commodity.getSpecification(),
                         commodity.getUnit(),
                         commodity.getPrice(),
-                        commodity.getStartStorage(),
                         commodity.getDeliverySpecification(),
                         0); // New commodity has 0 sales avg
             }

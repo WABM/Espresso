@@ -145,8 +145,9 @@ public class CommodityInformationController extends SceneController {
     public void fetchWith(int classificationID) {
 
         this.model.fetchData(classificationID,
-                (isSuccess) -> {
-            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+                (exception) -> {
+
+            // TODO: handle exception
             return null;
         }
         );

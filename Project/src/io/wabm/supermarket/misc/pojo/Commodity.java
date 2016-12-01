@@ -23,7 +23,6 @@ public class Commodity {
     private IntegerProperty deliverySpecification;
 
     private IntegerProperty shelfLife;
-    private IntegerProperty startStorage;
     private IntegerProperty storage;
 
     // Not a database stored value
@@ -38,7 +37,6 @@ public class Commodity {
                      double price,
                      Integer deliverySpecification,
                      Integer shelfLife,
-                     Integer startStorage,
                      Integer storage) {
         this.commodityID = new SimpleStringProperty(commodityID);
         this.classificationID = new SimpleIntegerProperty(classificationID);
@@ -48,7 +46,6 @@ public class Commodity {
         this.unit = new SimpleStringProperty(unit);
         this.deliverySpecification = new SimpleIntegerProperty(deliverySpecification);
         this.shelfLife = new SimpleIntegerProperty(shelfLife);
-        this.startStorage = new SimpleIntegerProperty(startStorage);
         this.storage = new SimpleIntegerProperty(storage);
 
         BigDecimal decimal = new BigDecimal(price);
@@ -66,9 +63,8 @@ public class Commodity {
                      String unit,
                      double price,
                      Integer deliverySpecification,
-                     Integer shelfLife,
-                     Integer startStorage) {
-        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage, 0);
+                     Integer shelfLife) {
+        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, 0);
     }
 
     public Commodity(StringProperty commodityID,
@@ -80,7 +76,6 @@ public class Commodity {
                      StringProperty price,
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife,
-                     IntegerProperty startStorage,
                      IntegerProperty storage) {
         this.commodityID = commodityID;
         this.classificationID = classificationID;
@@ -91,7 +86,6 @@ public class Commodity {
         this.price = price;
         this.deliverySpecification = deliverySpecification;
         this.shelfLife = shelfLife;
-        this.startStorage = startStorage;
         this.storage = storage;
     }
 
@@ -103,9 +97,8 @@ public class Commodity {
                      StringProperty unit,
                      StringProperty price,
                      IntegerProperty deliverySpecification,
-                     IntegerProperty shelfLife,
-                     IntegerProperty startStorage) {
-        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage, new SimpleIntegerProperty(0));
+                     IntegerProperty shelfLife) {
+        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, new SimpleIntegerProperty(0));
     }
 
 
@@ -217,18 +210,6 @@ public class Commodity {
 
     public void setShelfLife(int shelfLife) {
         this.shelfLife.set(shelfLife);
-    }
-
-    public int getStartStorage() {
-        return startStorage.get();
-    }
-
-    public IntegerProperty startStorageProperty() {
-        return startStorage;
-    }
-
-    public void setStartStorage(int startStorage) {
-        this.startStorage.set(startStorage);
     }
 
     public String getClassificationName() {
