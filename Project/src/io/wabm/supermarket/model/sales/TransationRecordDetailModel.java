@@ -84,7 +84,7 @@ public class TransationRecordDetailModel<T> extends TableViewModel<T> {
             List<TransactionRecordDetail> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                 TransactionRecordDetail transactionRecordDetail;
                 transactionRecordDetail = new TransactionRecordDetail(
-                        resultSet.getString("sales_record_id"),
+                        resultSet.getInt("sales_record_id"),
                         resultSet.getString("commodity_id"),
                         resultSet.getString("bar_code"),
                         resultSet.getString("name"),

@@ -7,7 +7,7 @@ import javafx.beans.property.*;
  */
 public class TransactionRecordDetail {
 
-    private StringProperty recordID;
+    private IntegerProperty recordID;
     private StringProperty commodityID;
     private StringProperty barcode;
     private StringProperty name;
@@ -17,12 +17,12 @@ public class TransactionRecordDetail {
     private IntegerProperty quantity;
     private DoubleProperty price;
 
-    public TransactionRecordDetail(String recordID, String commodityID,
+    public TransactionRecordDetail(int recordID, String commodityID,
                                    String barcode,String name,
                                    int classificationID, String specification,
                                    String unit, int quantity,
                                    Double price){
-        this.recordID = new SimpleStringProperty(recordID);
+        this.recordID = new SimpleIntegerProperty(recordID);
         this.commodityID = new SimpleStringProperty(commodityID);
         this.barcode = new SimpleStringProperty(barcode);
         this.name = new SimpleStringProperty(name);
@@ -32,15 +32,16 @@ public class TransactionRecordDetail {
         this.quantity = new SimpleIntegerProperty(quantity);
         this.price = new SimpleDoubleProperty(price);
     }
-    public String getRecordID() {
+
+    public int getRecordID() {
         return recordID.get();
     }
 
-    public StringProperty recordIDProperty() {
+    public IntegerProperty recordIDProperty() {
         return recordID;
     }
 
-    public void setRecordID(String recordID) {
+    public void setRecordID(int recordID) {
         this.recordID.set(recordID);
     }
 

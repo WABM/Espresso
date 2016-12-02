@@ -21,7 +21,7 @@ public class TransactionRecordDetailController extends SceneController {
     @FXML Button backButton;
 
     @FXML private TableView<TransactionRecordDetail> tableView;
-    @FXML private TableColumn<TransactionRecordDetail,String> recordID;
+    @FXML private TableColumn<TransactionRecordDetail,Integer> recordID;
     @FXML private TableColumn<TransactionRecordDetail,String> commodityID;
     @FXML private TableColumn<TransactionRecordDetail,String> barcode;
     @FXML private TableColumn<TransactionRecordDetail,String> name;
@@ -55,7 +55,7 @@ public class TransactionRecordDetailController extends SceneController {
     }
     private void setupTableView(){}
     private void setupTableViewColumn(){
-        recordID.setCellValueFactory(new PropertyValueFactory<TransactionRecordDetail, String>("recordID"));
+        recordID.setCellValueFactory(new PropertyValueFactory<TransactionRecordDetail, Integer>("recordID"));
         commodityID.setCellValueFactory(new PropertyValueFactory<TransactionRecordDetail, String>("commodityID"));
         barcode.setCellValueFactory(new PropertyValueFactory<TransactionRecordDetail, String>("barcode"));
         name.setCellValueFactory(new PropertyValueFactory<TransactionRecordDetail, String>("name"));
