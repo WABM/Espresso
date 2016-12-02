@@ -1,7 +1,6 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.pojo.Commodity;
-import io.wabm.supermarket.misc.pojo.StorageCommodity;
 import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
