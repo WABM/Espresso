@@ -3,6 +3,7 @@ package io.wabm.supermarket.model.warehouse;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.Inventory;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
@@ -26,32 +27,36 @@ public class CommodityInventoryModel<T> extends TableViewModel<T> {
     public void fetch(Callback<DataAccessException, Void> callback) {
         ConsoleLog.print("fetching data…");
 
-        try {
-            List<Inventory> templist = jdbcOperations.query(kSelectSQL, (resultSet, i) -> {
-                Inventory inventory;
+        new WABMThread().run(_void -> {
+            try {
+                List<Inventory> templist = jdbcOperations.query(kSelectSQL, (resultSet, i) -> {
+                    Inventory inventory;
 
-                inventory = new Inventory(
-                        resultSet.getInt("inventory_id"),
-                        resultSet.getInt("classification_id"),
-                        resultSet.getInt("employee_id"),
-                        resultSet.getTimestamp("create_timestamp"),
-                        resultSet.getTimestamp("fill_timestamp")
-                );
-                inventory.setClassificationName(resultSet.getString("classificationName"));
-                inventory.setHasNum(resultSet.getInt("hasNum"));
+                    inventory = new Inventory(
+                            resultSet.getInt("inventory_id"),
+                            resultSet.getInt("classification_id"),
+                            resultSet.getInt("employee_id"),
+                            resultSet.getTimestamp("create_timestamp"),
+                            resultSet.getTimestamp("fill_timestamp")
+                    );
+                    inventory.setClassificationName(resultSet.getString("classificationName"));
+                    inventory.setHasNum(resultSet.getInt("hasNum"));
 
-                return inventory;
-            });
+                    return inventory;
+                });
 
-            list.clear();
-            list.addAll((T[]) templist.toArray());
+                list.clear();
+                list.addAll((T[]) templist.toArray());
 
-            callback.call(null);
+                callback.call(null);
 
-        } catch (DataAccessException exception) {
-            callback.call(exception);
-            exception.printStackTrace();
-        }
+            } catch (DataAccessException exception) {
+                callback.call(exception);
+                exception.printStackTrace();
+            }
+
+            return null;
+        }); // end WABMThread.run(…)
     }
 
 }

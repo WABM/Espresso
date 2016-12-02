@@ -2,6 +2,7 @@ package io.wabm.supermarket.model.warehouse;
 
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.ComboBoxModel;
 import javafx.scene.control.ComboBox;
 import javafx.util.Callback;
@@ -30,33 +31,38 @@ public class AddCommodityModel<T> extends ComboBoxModel<T> {
     public void fetchClassification(Callback<Boolean, Void> callback) {
         ConsoleLog.print("fetching…");
 
-        try {
-            List<Classification> templist = jdbcOperations.query(
-                    kSelectSQL,
-                    (resultSet, i) -> {
-                        Classification classification;
-                        classification = new Classification(
-                            resultSet.getInt("classification_id"),
-                            resultSet.getString("name"),
-                            0.0,
-                            0.0
-                        );
+        new WABMThread().run((_void) -> {
+            ConsoleLog.print("Start background task…");
+            try {
+                List<Classification> templist = jdbcOperations.query(
+                        kSelectSQL,
+                        (resultSet, i) -> {
+                            Classification classification;
+                            classification = new Classification(
+                                    resultSet.getInt("classification_id"),
+                                    resultSet.getString("name"),
+                                    0.0,
+                                    0.0
+                            );
 
-                        return classification;
-                    }
-            );
+                            return classification;
+                        }
+                );
 
-            list.clear();
-            list.addAll((T[]) templist.toArray());
+                list.clear();
+                list.addAll((T[]) templist.toArray());
 
-            ConsoleLog.print("… Get " + list.size() + " item(s)");
+                ConsoleLog.print("… Get " + list.size() + " item(s)");
 
-            callback.call(true);
+                callback.call(true);
 
-        } catch (DataAccessException e) {
-            callback.call(false);
-            e.printStackTrace();
-        }
+            } catch (DataAccessException e) {
+                callback.call(false);
+                e.printStackTrace();
+            }
+
+            return null;
+        }); // end WABMThread.run(…)
 
     }
 
