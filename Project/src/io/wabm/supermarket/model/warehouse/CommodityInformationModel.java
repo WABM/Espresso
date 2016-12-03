@@ -60,7 +60,7 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
                             resultSet.getString("name"),
                             resultSet.getString("specification"),
                             resultSet.getString("unit"),
-                            resultSet.getDouble("price_db"),
+                            resultSet.getBigDecimal("price_db"),
                             resultSet.getInt("delivery_specification"),
                             resultSet.getInt("shelf_life")
                     );

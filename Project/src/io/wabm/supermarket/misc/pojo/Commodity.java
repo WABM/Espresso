@@ -5,6 +5,8 @@ import javafx.beans.property.*;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 
@@ -19,7 +21,7 @@ public class Commodity {
     private StringProperty name;
     private StringProperty specification;
     private StringProperty unit;
-    private StringProperty price;
+    private ObjectProperty<BigDecimal> price;
     private IntegerProperty deliverySpecification;
 
     private IntegerProperty shelfLife;
@@ -34,7 +36,7 @@ public class Commodity {
                      String name,
                      String specification,
                      String unit,
-                     double price,
+                     BigDecimal price,
                      Integer deliverySpecification,
                      Integer shelfLife,
                      Integer storage) {
@@ -44,15 +46,18 @@ public class Commodity {
         this.name = new SimpleStringProperty(name);
         this.specification = new SimpleStringProperty(specification);
         this.unit = new SimpleStringProperty(unit);
+        this.price = new SimpleObjectProperty<>(price);
         this.deliverySpecification = new SimpleIntegerProperty(deliverySpecification);
         this.shelfLife = new SimpleIntegerProperty(shelfLife);
         this.storage = new SimpleIntegerProperty(storage);
 
-        BigDecimal decimal = new BigDecimal(price);
-        DecimalFormat formater = new DecimalFormat("#0.00");
-        decimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        price.setScale(2);
 
-        this.price = new SimpleStringProperty(formater.format(decimal.doubleValue()));
+//        BigDecimal decimal = new BigDecimal(price);
+//        DecimalFormat formater = new DecimalFormat("#0.00");
+//        decimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+
+//        this.price = new SimpleStringProperty(formater.format(decimal.doubleValue()));
     }
 
     public Commodity(String commodityID,
@@ -61,7 +66,7 @@ public class Commodity {
                      String name,
                      String specification,
                      String unit,
-                     double price,
+                     BigDecimal price,
                      Integer deliverySpecification,
                      Integer shelfLife) {
         this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, 0);
@@ -73,7 +78,7 @@ public class Commodity {
                      StringProperty name,
                      StringProperty specification,
                      StringProperty unit,
-                     StringProperty price,
+                     ObjectProperty<BigDecimal> price,
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife,
                      IntegerProperty storage) {
@@ -95,10 +100,24 @@ public class Commodity {
                      StringProperty name,
                      StringProperty specification,
                      StringProperty unit,
-                     StringProperty price,
+                     ObjectProperty<BigDecimal> price,
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife) {
         this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, new SimpleIntegerProperty(0));
+    }
+
+    public Commodity(ResultSet resultSet) throws SQLException {
+        this(
+                resultSet.getString("commodity_id"),
+                resultSet.getInt("classification_id"),
+                resultSet.getString("bar_code"),
+                resultSet.getString("name"),
+                resultSet.getString("specification"),
+                resultSet.getString("unit"),
+                resultSet.getBigDecimal("price_db"),
+                resultSet.getInt("delivery_specification"),
+                resultSet.getInt("shelf_life")
+        );
     }
 
 
@@ -176,15 +195,15 @@ public class Commodity {
         this.unit.set(unit);
     }
 
-    public String getPrice() {
+    public BigDecimal getPrice() {
         return price.get();
     }
 
-    public StringProperty priceProperty() {
+    public ObjectProperty<BigDecimal> priceProperty() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(BigDecimal price) {
         this.price.set(price);
     }
 

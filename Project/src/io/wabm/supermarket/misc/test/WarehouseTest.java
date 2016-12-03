@@ -18,6 +18,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -87,7 +88,10 @@ public class WarehouseTest {
 
         CompletableFuture future = new CompletableFuture<>();
 
-        Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", 14.50, 20, 21, 10);
+        BigDecimal price = new BigDecimal(14.50);
+        price.setScale(2);
+
+        Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", price, 20, 21, 10);
         model.delete(commodity, (exception) -> {
 
             future.complete(exception);

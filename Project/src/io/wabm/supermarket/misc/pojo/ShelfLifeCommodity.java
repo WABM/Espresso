@@ -4,6 +4,8 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
+
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -15,14 +17,14 @@ public class ShelfLifeCommodity extends Commodity {
     private ObjectProperty<Calendar> productionData;
     private ObjectProperty<Calendar> expirationDate;
 
-    public ShelfLifeCommodity(String commodityID, int classificationID, String barcode, String name, String specification, String unit, double price, Integer deliverySpecification, Integer shelfLife, Integer startStorage, Calendar productionData, Calendar expirationDate) {
+    public ShelfLifeCommodity(String commodityID, int classificationID, String barcode, String name, String specification, String unit, BigDecimal price, Integer deliverySpecification, Integer shelfLife, Integer startStorage, Calendar productionData, Calendar expirationDate) {
         super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage);
 
         this.productionData = new SimpleObjectProperty<>(productionData);
         this.expirationDate = new SimpleObjectProperty<>(expirationDate);
     }
 
-    public ShelfLifeCommodity(StringProperty commodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, StringProperty price, IntegerProperty deliverySpecification, IntegerProperty shelfLife, IntegerProperty startStorage, ObjectProperty<Calendar> productionData, ObjectProperty<Calendar> expirationDate) {
+    public ShelfLifeCommodity(StringProperty commodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, ObjectProperty<BigDecimal> price, IntegerProperty deliverySpecification, IntegerProperty shelfLife, IntegerProperty startStorage, ObjectProperty<Calendar> productionData, ObjectProperty<Calendar> expirationDate) {
         super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage);
 
         this.productionData = productionData;

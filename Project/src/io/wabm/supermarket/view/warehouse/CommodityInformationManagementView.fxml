@@ -12,7 +12,7 @@
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
          <columns>
-            <TableColumn fx:id="idColumn" minWidth="70.0" prefWidth="-1.0" text="商品编号" />
+            <TableColumn fx:id="idColumn" minWidth="70.0" prefWidth="-1.0" text="商品编码" />
             <TableColumn fx:id="barCodeColumn" minWidth="80.0" prefWidth="-1.0" text="条形码" />
             <TableColumn fx:id="nameColumn" minWidth="100.0" prefWidth="-1.0" text="名称" />
             <TableColumn fx:id="classificationColumn" minWidth="50.0" prefWidth="-1.0" text="分类" />

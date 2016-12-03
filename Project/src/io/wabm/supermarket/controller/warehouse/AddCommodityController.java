@@ -19,6 +19,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.Assert;
 
+import java.math.BigDecimal;
+
 /**
  * Created by MainasuK on 2016-11-28.
  */
@@ -62,7 +64,7 @@ public class AddCommodityController implements StageSetableController, CallbackA
                 nameTextField.getText(),
                 specificationTextField.getText(),
                 unitTextField.getText(),
-                0.0,
+                new BigDecimal(0.0),
                 Integer.parseInt(deliverySpecificationTextField.getText()),
                 Integer.parseInt(shelfLifeTextField.getText()),
                 Integer.parseInt(startStorageTextField.getText())

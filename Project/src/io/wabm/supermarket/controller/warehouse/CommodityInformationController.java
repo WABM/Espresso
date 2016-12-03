@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Optional;
 
@@ -38,7 +39,7 @@ public class CommodityInformationController extends SceneController {
     @FXML TableColumn<Commodity, String> classificationColumn;     // FIXME: classification should be String type
     @FXML TableColumn<Commodity, String> specificationColumn;
     @FXML TableColumn<Commodity, String> unitColumn;
-    @FXML TableColumn<Commodity, String> priceColumn;
+    @FXML TableColumn<Commodity, BigDecimal> priceColumn;
     @FXML TableColumn<Commodity, Integer> deliverySpecificationColumn;
 
     @FXML Button backButton;
