@@ -1,15 +1,18 @@
 package io.wabm.supermarket.application;
 
+import io.wabm.supermarket.controller.LoginController;
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Control;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
@@ -26,21 +29,37 @@ public class Main extends Application {
         primaryStage.setTitle("超市管理系统");
 
         // Set min windows size
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
-
-        initRootlayout();
+        //initRootlayout();
+        initRootlayoutWithoutLogin();
     }
 
     private void initRootlayout() {
         Parent root = null;
+        FXMLLoader loader = new FXMLLoader();
         try {
-            root = FXMLLoader.load(ViewPathHelper.class.getResource("Main.fxml"));
+            loader.setLocation(ViewPathHelper.class.getResource("Login.fxml"));
+            root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        primaryStage.setScene(new Scene(root));
+        LoginController controller = loader.getController();
+        controller.setLoginstage(primaryStage);
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(ViewPathHelper.class.getResource("Login.css").toExternalForm());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    private void initRootlayoutWithoutLogin(){
+        Parent root = null;
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(ViewPathHelper.class.getResource("Main.fxml"));
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
