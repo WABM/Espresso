@@ -1,59 +1,50 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.StringProperty;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Calendar;
+import java.time.LocalDate;
 
 /**
  * Created by MainasuK on 2016-11-20.
  */
-public class ShelfLifeCommodity extends Commodity {
+public class ShelfLifeCommodity {
 
-    private ObjectProperty<Calendar> productionData;
-    private ObjectProperty<Calendar> expirationDate;
+    private Commodity commodity;
 
-    public ShelfLifeCommodity(String commodityID, int classificationID, String barcode, String name, String specification, String unit, BigDecimal price, Integer deliverySpecification, Integer shelfLife, Integer startStorage, Calendar productionData, Calendar expirationDate) {
-        super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage);
+    private ObjectProperty<LocalDate> productionDate;
 
-        this.productionData = new SimpleObjectProperty<>(productionData);
-        this.expirationDate = new SimpleObjectProperty<>(expirationDate);
+
+    public ShelfLifeCommodity(Commodity commodity, LocalDate productionDate) {
+        this(commodity, new SimpleObjectProperty<>(productionDate));
     }
 
-    public ShelfLifeCommodity(StringProperty commodityID, IntegerProperty classificationID, StringProperty barcode, StringProperty name, StringProperty specification, StringProperty unit, ObjectProperty<BigDecimal> price, IntegerProperty deliverySpecification, IntegerProperty shelfLife, IntegerProperty startStorage, ObjectProperty<Calendar> productionData, ObjectProperty<Calendar> expirationDate) {
-        super(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, startStorage);
-
-        this.productionData = productionData;
-        this.expirationDate = expirationDate;
+    public ShelfLifeCommodity(Commodity commodity, ObjectProperty<LocalDate> productionDate) {
+        this.commodity = commodity;
+        this.productionDate = productionDate;
     }
 
-    public Calendar getProductionData() {
-        return productionData.get();
+    public Commodity getCommodity() {
+        return commodity;
     }
 
-    // MARK: Getter and Setter
-
-    public ObjectProperty<Calendar> productionDataProperty() {
-        return productionData;
+    public void setCommodity(Commodity commodity) {
+        this.commodity = commodity;
     }
 
-    public void setProductionData(Calendar productionData) {
-        this.productionData.set(productionData);
+    public LocalDate getProductionDate() {
+        return productionDate.get();
     }
 
-    public Calendar getExpirationDate() {
-        return expirationDate.get();
+    public ObjectProperty<LocalDate> productionDateProperty() {
+        return productionDate;
     }
 
-    public ObjectProperty<Calendar> expirationDateProperty() {
-        return expirationDate;
+    public void setProductionDate(LocalDate productionDate) {
+        this.productionDate.set(productionDate);
     }
 
-    public void setExpirationDate(Calendar expirationDate) {
-        this.expirationDate.set(expirationDate);
+    public LocalDate getExpirationDate() {
+        return productionDate.get().plusDays(getCommodity().getShelfLife());
     }
 }
