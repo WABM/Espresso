@@ -7,12 +7,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Control;
 import javafx.stage.Stage;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
@@ -28,8 +25,7 @@ public class Main extends Application {
         // Set title
         primaryStage.setTitle("超市管理系统");
 
-        // Set min windows size
-        //initRootlayout();
+//        initRootlayout();
         initRootlayoutWithoutLogin();
     }
 
@@ -43,7 +39,7 @@ public class Main extends Application {
             e.printStackTrace();
         }
         LoginController controller = loader.getController();
-        controller.setLoginstage(primaryStage);
+        controller.setStage(primaryStage);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ViewPathHelper.class.getResource("Login.css").toExternalForm());
         primaryStage.setScene(scene);

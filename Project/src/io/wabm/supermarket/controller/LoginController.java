@@ -7,29 +7,23 @@ import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import java.io.IOException;
-import java.sql.ResultSet;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/12/1 0001.
  */
 public class LoginController {
-    private Stage Loginstage;
+    private Stage stage;
     private JdbcOperations jdbcOperations;
     private final String kSelectUser = "SELECT f.* FROM wabm.Employee f WHERE username = ? AND password = ? LIMIT 1;";
     private List<Employee> templist;
@@ -49,8 +43,8 @@ public class LoginController {
         check();
     }
 
-    public void setLoginstage(Stage Loginstage) {
-        this.Loginstage = Loginstage;
+    public void setStage(Stage Loginstage) {
+        this.stage = Loginstage;
     }
 
     /*private void check(){
@@ -140,7 +134,11 @@ public class LoginController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Loginstage.setScene(new Scene(root));
+
+                    // Set min windows size
+                    stage.setMinWidth(1000);
+                    stage.setMinHeight(625);
+                    stage.setScene(new Scene(root));
                 });
             }
 
@@ -190,7 +188,7 @@ public class LoginController {
 //                                    } catch (IOException e) {
 //                                        e.printStackTrace();
 //                                    }
-//                                    Loginstage.setScene(new Scene(root));
+//                                    stage.setScene(new Scene(root));
 //                                });
 //                                f = true;
 //                            }
