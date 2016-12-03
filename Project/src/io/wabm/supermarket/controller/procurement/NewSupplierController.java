@@ -23,8 +23,7 @@ public class NewSupplierController implements StageSetableController,CallbackAcc
     @FXML
     Stage stage;
 
-    @FXML
-    TextField idTextField;
+
     @FXML
     TextField nameTextField;
     @FXML
@@ -53,7 +52,7 @@ public class NewSupplierController implements StageSetableController,CallbackAcc
             return;
         }
         Supplier supplier = new Supplier(
-                Integer.parseInt(idTextField.getText()),
+                -1,
                 nameTextField.getText(),
                 representative_nameTextField.getText(),
                 phoneTextField.getText(),

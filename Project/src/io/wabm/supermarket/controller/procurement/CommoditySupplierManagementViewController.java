@@ -1,16 +1,22 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.controller.procurement.CommoditySupplierManagementViewController;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
+import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
+import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplierModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
+import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +40,7 @@ public class CommoditySupplierManagementViewController extends SceneController {
     @FXML TableColumn<Supplier, String> representativeColumn;
     @FXML TableColumn<Supplier, String> phoneColumn;
     @FXML TableColumn<Supplier, String> addressColumn;
+    @FXML private TableColumn<Supplier, Hyperlink> actionColumn;
 
 
     @FXML Button newButton;
@@ -56,8 +63,44 @@ public class CommoditySupplierManagementViewController extends SceneController {
 
         phoneColumn.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
         addressColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
-    }
+        actionColumn.setCellValueFactory(cellData -> {
 
+            return new SimpleObjectProperty<>(new Hyperlink("查看"));
+        });
+    }
+    private CellFactorySetupCallbackProtocol<Supplier, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
+        @Override
+        protected void updateItem(Hyperlink item, boolean empty) {
+            super.updateItem(item, empty);
+
+            setAlignment(Pos.CENTER);
+
+            // Check empty first
+            if (!empty) {
+                item.setOnAction(event -> {
+                    Supplier supplier = (Supplier) getTableRow().getItem();
+                    ConsoleLog.print("" + supplier.getName());
+
+                    FXMLLoader loder = new FXMLLoader();
+                    loder.setLocation(ViewPathHelper.class.getResource("procurement/SupplyGoodsView.fxml"));
+
+                    // Bind controller when you first call it.
+                    navigationTo(loder, controller -> {
+
+                       /* if (Supplier == null) {
+                            ConsoleLog.print("Bind controller success");
+                            Supplier = ((SupplyGoodsController) controller);
+                        }*/
+
+                        return null;
+                    });
+
+                    // Then dispatch the task to controller you hold.
+                    //SupplyGoodsController.fetchWith(classification.getClassificationID());
+                });
+            }
+        }
+    };
     private void setupModel() {
         model = new CommoditySupplierModel<>(tableView);
         model.fetchData(isSuccess -> {
@@ -157,4 +200,5 @@ public class CommoditySupplierManagementViewController extends SceneController {
             e.printStackTrace();
         }
     }
+    
 }

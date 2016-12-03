@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.QueryTimeoutException;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
@@ -30,11 +31,11 @@ import java.util.List;
  * Created by liu on 2016-11-21 .
  */
 public class  CommoditySupplierModel<T> extends TableViewModel<T> {
-    private final String kSelectAll = "SELECT f.* FROM wabm.supplier f";
+    private final String kSelectAll = "SELECT * FROM wabm.supplier WHERE wabm.supplier.valid=1";
     private final String kInsertSQL = "INSERT INTO wabm.supplier (supplier_id, name,address,phone,representative_name) VALUES (?, ?, ?, ?, ?);";
-    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.supplier (name, address,phone,representative_name) VALUES (?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.supplier (name, address,phone,representative_name,valid) VALUES (?, ?, ?, ?,1);";
     private final String kDeleteSQLWithID = "DELETE FROM wabm.supplier WHERE wabm.supplier.supplier_id = ?;";
-
+    private final String kRmoveSQLWithID = "UPDATE wabm.supplier SET valid=0 WHERE wabm.supplier.supplier_id = ?;";
 
     //private Service<Void> backgroundThread;
     public CommoditySupplierModel(TableView<T> tableView) {
@@ -84,7 +85,7 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
         ConsoleLog.print("Add supplier: " + supplier.getSupplierName());
         Assert.notNull(jdbcOperations);
         try {
-            if (String.valueOf(supplier.getSupplierID()) == null || String.valueOf(supplier.getSupplierID()) == "") {
+            if (supplier.getSupplierID() < 0) {
                 jdbcOperations.update(kInsertSQLAutoIncrease,
                         supplier.getSupplierName(),
                         supplier.getAddress(),
@@ -92,9 +93,14 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
                         supplier.getLinkman()
 
                 );
+
+                SqlRowSet rowSet = jdbcOperations.queryForRowSet("select LAST_INSERT_ID() AS id;");
+                if (rowSet.next()) {
+                    supplier.setSupplierID(rowSet.getInt("id"));
+                }
             } else {
-                jdbcOperations.update(kInsertSQL,
-                        supplier.getSupplierID(),
+                jdbcOperations.update(kInsertSQLAutoIncrease,
+                        //supplier.getSupplierID(),
                         supplier.getSupplierName(),
                         supplier.getAddress(),
                         supplier.getPhone(),
@@ -110,13 +116,14 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
         }
 
     }   // end add(…) { … }
+    //the the
     public void delete(Supplier supplier, Callback<DataAccessException, Void> callback) {
-        ConsoleLog.print("Delete supplier: " + supplier.getSupplierName());
+        ConsoleLog.print("remove supplier: " + supplier.getSupplierName());
         Assert.notNull(jdbcOperations);
 
         try {
 
-            jdbcOperations.update(kDeleteSQLWithID, supplier.getSupplierID());
+            jdbcOperations.update(kRmoveSQLWithID, supplier.getSupplierID());
 
             // No error
             delete((T) supplier);
