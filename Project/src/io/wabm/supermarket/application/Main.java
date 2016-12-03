@@ -55,6 +55,10 @@ public class Main extends Application {
             e.printStackTrace();
         }
         Scene scene = new Scene(root);
+
+        // Set min windows size
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(625);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
