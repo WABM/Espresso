@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class HotsaleModel<T> extends TableViewModel<T>{
 
-    private final String kSelectAll = "select c.*,sa.all_price_db,sum(quantity) from commodity c,sales_record sa,sales_record_detail sad where sa.timestamp>'2016-11-01' and sa.timestamp<'2016-11-06' and sa.sales_record_id=sad.sales_record_id and sad.commodity_id=c.commodity_id group by c.commodity_id LIMIT 10";
+    private final String kSelectAll = "select c.*,sa.all_price_db,sum(quantity) from commodity c,sales_record sa,sales_record_detail sad where sa.timestamp>'2016-11-01' and sa.timestamp<'2016-11-06' and sa.sales_record_id=sad.sales_record_id and sad.commodity_id=c.commodity_id group by c.commodity_id, sa.all_price_db LIMIT 10";
     private Service<Void> backgroundThread;
 
     public HotsaleModel(TableView<T> tableView){
