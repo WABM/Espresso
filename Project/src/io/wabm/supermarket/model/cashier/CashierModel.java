@@ -1,19 +1,23 @@
 package io.wabm.supermarket.model.cashier;
 
+import io.wabm.supermarket.application.CashierMain;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import javax.swing.*;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Optional;
+
 
 /**
  * Created by MainasuK on 2016-12-2.
@@ -22,6 +26,8 @@ public class CashierModel<T> extends TableViewModel<T> {
 
     private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.valid = 1 AND (co.bar_code = ? OR co.commodity_id = ?) LIMIT 1;";
 
+    private StringProperty status;
+
     private Commodity currentCommodity = null;
     private int commodityCount = 0;
     private BigDecimal totalPrice = null;
@@ -29,11 +35,43 @@ public class CashierModel<T> extends TableViewModel<T> {
     public CashierModel(TableView<T> tableView) {
         super(tableView);
 
+        setupControl();
+
+        // init JDBC
+        try { jdbcOperations.execute("SELECT  1"); }
+        catch (Exception e) { ConsoleLog.print("init JDBC failed"); }
+
+        // Check connection every 10s
+        Timer timer = new Timer(10000, arg0 -> {
+            Platform.runLater(() -> {
+            boolean isConnected;
+            try {
+                jdbcOperations.execute("SELECT 1");
+                isConnected = true;
+            } catch (Exception e) {
+                isConnected = false;
+            }
+
+            // Change property in JavaFX thread
+            setStatus(isConnected ? "正常收银" : "断开连接");
+            });
+
+        });
+        timer.setRepeats(true);
+        timer.start();
+    }
+
+    private void setupControl() {
+        status = new SimpleStringProperty("检查中…");
+
         totalPrice = new BigDecimal(0.00);
         totalPrice.setScale(2);
 
-        // Init JDBC
-        jdbcOperations.queryForObject("SELECT co.* FROM commodity co LIMIT 1", (resultSet, i) -> new Commodity(resultSet));
+    }
+
+    @Override
+    protected void setupJdbcOperations() {
+        jdbcOperations = CashierMain.getJdbcOperations();
     }
 
     public void addCommoditytWith(String text, Callback<DataAccessException, Void> callback) {
@@ -78,6 +116,18 @@ public class CashierModel<T> extends TableViewModel<T> {
 
             return null;
         });
+    }
+
+    public String getStatus() {
+        return status.get();
+    }
+
+    public StringProperty statusProperty() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
     }
 
     public Commodity getCurrentCommodity() {

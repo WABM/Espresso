@@ -17,6 +17,8 @@ public class CashierController {
 
     private CashierModel<SalesRecordDetail> model;
 
+    @FXML Label statusLabel;
+
     @FXML TableView<SalesRecordDetail> tableView;
     @FXML TableColumn<SalesRecordDetail, Integer> noColumn;
     @FXML TableColumn<SalesRecordDetail, String> barCodeColumn;
@@ -70,6 +72,8 @@ public class CashierController {
     }
 
     private void setupControl() {
+
+        statusLabel.textProperty().bind(model.statusProperty());
 
         // Set bar code input control focused
         barCodeTextField.setText("");

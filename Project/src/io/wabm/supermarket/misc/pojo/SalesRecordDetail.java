@@ -1,11 +1,11 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
 
 /**
  * Created by MainasuK on 2016-12-2.

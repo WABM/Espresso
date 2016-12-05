@@ -136,7 +136,7 @@
                               <Label text="状态" />
                               <Label text="时间" GridPane.rowIndex="1" />
                               <Label text="收银员" GridPane.rowIndex="2" />
-                              <Label text="正常收银" GridPane.columnIndex="1" />
+                              <Label fx:id="statusLabel" text="正常收银" GridPane.columnIndex="1" />
                               <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="姓名" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="2016-12-31" GridPane.columnIndex="1" GridPane.rowIndex="1" />

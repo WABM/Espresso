@@ -1,11 +1,8 @@
 package io.wabm.supermarket.model;
 
 import io.wabm.supermarket.application.Main;
-import io.wabm.supermarket.misc.config.DBConfig;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.collections.FXCollections;
 import javafx.scene.control.TableView;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcOperations;
 
 /**
@@ -23,6 +20,10 @@ public class TableViewModel<T> extends Model<T> {
         list = FXCollections.observableArrayList();
         tableView.setItems(list);
 
+        setupJdbcOperations();
+    }
+
+    protected void setupJdbcOperations() {
         jdbcOperations = Main.getJdbcOperations();
     }
 
