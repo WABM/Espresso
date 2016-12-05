@@ -11,6 +11,8 @@ import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Optional;
 
 /**
@@ -18,10 +20,20 @@ import java.util.Optional;
  */
 public class CashierModel<T> extends TableViewModel<T> {
 
-    private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.bar_code = ? OR co.commodity_id = ? LIMIT 1;";
+    private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.valid = 1 AND (co.bar_code = ? OR co.commodity_id = ?) LIMIT 1;";
+
+    private Commodity currentCommodity = null;
+    private int commodityCount = 0;
+    private BigDecimal totalPrice = null;
 
     public CashierModel(TableView<T> tableView) {
         super(tableView);
+
+        totalPrice = new BigDecimal(0.00);
+        totalPrice.setScale(2);
+
+        // Init JDBC
+        jdbcOperations.queryForObject("SELECT co.* FROM commodity co LIMIT 1", (resultSet, i) -> new Commodity(resultSet));
     }
 
     public void addCommoditytWith(String text, Callback<DataAccessException, Void> callback) {
@@ -45,6 +57,12 @@ public class CashierModel<T> extends TableViewModel<T> {
                     list.add((T) saleRecoredDetail);
                 }
 
+
+                // Deal with model change
+                currentCommodity = saleRecoredDetail.getCommodity();
+                commodityCount += 1;
+                totalPrice = totalPrice.add(saleRecoredDetail.getSalesPrice());
+
                 callback.call(null);
 
             } catch (EmptyResultDataAccessException emptyException) {
@@ -60,5 +78,17 @@ public class CashierModel<T> extends TableViewModel<T> {
 
             return null;
         });
+    }
+
+    public Commodity getCurrentCommodity() {
+        return currentCommodity;
+    }
+
+    public int getCommodityCount() {
+        return commodityCount;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
     }
 }

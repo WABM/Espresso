@@ -1,9 +1,6 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -22,11 +19,17 @@ public class SalesRecordDetail {
     private IntegerProperty quantity;
     private ObjectProperty<BigDecimal> salesPrice;
 
+    // Not database stored field
+    private ObjectProperty<BigDecimal> totalPrice;
+
     public SalesRecordDetail(Commodity commodity) {
         this.commodity = commodity;
 
         this.salesPrice = new SimpleObjectProperty<>(commodity.getPrice());
         this.quantity = new SimpleIntegerProperty(1);
+        this.totalPrice = new SimpleObjectProperty<>();
+
+        resetTotalPrice();
     }
 
     public SalesRecordDetail(Commodity commodity, int salesRecordDetailID, int salesRecordID, int quantity) {
@@ -93,15 +96,30 @@ public class SalesRecordDetail {
         this.salesPrice.set(salesPrice);
     }
 
-    public String getTotalPrice() {
-        DecimalFormat formater = new DecimalFormat("#0.00");
-        BigDecimal price = getSalesPrice();
-        BigDecimal total = new BigDecimal(getQuantity()).multiply(price);
+    public BigDecimal getTotalPrice() {
+        return totalPrice.get();
+    }
 
-        return formater.format(total.doubleValue());
+    public ObjectProperty<BigDecimal> totalPriceProperty() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice.set(totalPrice);
     }
 
     public void addQuantity(int n) {
         quantity.set(quantity.get() + n);
+
+        resetTotalPrice();
+    }
+
+    private void resetTotalPrice() {
+//        DecimalFormat formater = new DecimalFormat("#0.00");
+        BigDecimal price = getSalesPrice();
+        BigDecimal total = new BigDecimal(getQuantity()).multiply(price);
+
+
+        setTotalPrice(total);
     }
 }

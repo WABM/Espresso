@@ -23,60 +23,63 @@
                               <GridPane layoutX="95.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                                  <children>
                                     <Label text="基本信息" />
-                                    <Label text="收银员" GridPane.rowIndex="1">
+                                    <Label fx:id="commodityNameLabel" style="-fx-font-family: Verdana; -fx-font-size: 28;" text="—" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="28.0" />
                                        </font>
                                     </Label>
-                                    <Label text="Mary" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Label text="实收" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <Label style="-fx-font-family: Verdana; -fx-font-size: 28;" text="实收" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="28.0" />
                                        </font>
                                     </Label>
-                                    <Label text="收款信息" GridPane.columnIndex="2" />
-                                    <Label text="找零" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                    <Label text="收款信息" GridPane.columnIndex="1" />
+                                    <Label style="-fx-font-family: Verdana; -fx-font-size: 28;" text="找零" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="28.0" />
                                        </font>
                                     </Label>
-                                    <Label text="0.00" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                    <Label fx:id="actualPayLabel" style="-fx-font-family: Verdana; -fx-font-size: 28;" text="¥0.00" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <Label text="0.00" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                    <Label style="-fx-font-family: Verdana; -fx-font-size: 28;" text="¥0.00" GridPane.columnIndex="2" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="24.0" />
                                        </font>
                                     </Label>
-                                    <Label text="合计信息" GridPane.columnIndex="4" />
-                                    <Label text="数量" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                    <Label text="合计信息" GridPane.columnIndex="3" />
+                                    <Label style="-fx-font-family: Verdana; -fx-font-size: 28;" text="数量" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                        <font>
                                           <Font size="28.0" />
                                        </font>
                                     </Label>
-                                    <Label text="金额" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                    <Label style="-fx-font-family: Verdana; -fx-font-size: 28;" text="金额" GridPane.columnIndex="3" GridPane.rowIndex="2">
                                        <font>
                                           <Font size="28.0" />
                                        </font>
                                     </Label>
-                                    <Label text="0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                    <Label fx:id="commodityCountLabel" style="-fx-font-family: Verdana; -fx-font-size: 28;" text="0" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                        <font>
-                                          <Font size="24.0" />
+                                          <Font name="System Font" size="28.0" />
                                        </font>
                                     </Label>
-                                    <Label text="0.00" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                    <Label fx:id="totalPriceLabel" style="-fx-font-family: Verdana; -fx-font-size: 28;" text="¥0.00" GridPane.columnIndex="4" GridPane.rowIndex="2">
                                        <font>
-                                          <Font size="24.0" />
+                                          <Font name="System Font" size="28.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="commodityPriceLabel" style="-fx-font-family: Verdana; -fx-font-size: 28;" text="¥0.00" GridPane.rowIndex="2">
+                                       <font>
+                                          <Font size="28.0" />
                                        </font>
                                     </Label>
                                  </children>
                                  <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.0" minWidth="162.0" prefWidth="264.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" />
                                     <ColumnConstraints hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" />
                                     <ColumnConstraints hgrow="SOMETIMES" />
                                  </columnConstraints>
@@ -132,10 +135,10 @@
                            <children>
                               <Label text="状态" />
                               <Label text="时间" GridPane.rowIndex="1" />
-                              <Label text="账单号" GridPane.rowIndex="2" />
+                              <Label text="收银员" GridPane.rowIndex="2" />
                               <Label text="正常收银" GridPane.columnIndex="1" />
                               <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="0000001" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="姓名" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="2016-12-31" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <columnConstraints>

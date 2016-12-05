@@ -1,19 +1,13 @@
 package io.wabm.supermarket.controller.cashier;
 
-import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
-import io.wabm.supermarket.misc.pojo.TransactionRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.cashier.CashierModel;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.text.Font;
 
-import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
 
 /**
@@ -31,7 +25,13 @@ public class CashierController {
     @FXML TableColumn<SalesRecordDetail, String> specificationColumn;
     @FXML TableColumn<SalesRecordDetail, String> unitColumn;
     @FXML TableColumn<SalesRecordDetail, BigDecimal> salesPriceColumn;
-    @FXML TableColumn<SalesRecordDetail, String> priceSumColumn;
+    @FXML TableColumn<SalesRecordDetail, BigDecimal> priceSumColumn;
+
+    @FXML Label commodityNameLabel;
+    @FXML Label commodityPriceLabel;
+
+    @FXML Label commodityCountLabel;
+    @FXML Label totalPriceLabel;
 
 
     @FXML TextField barCodeTextField;
@@ -66,27 +66,56 @@ public class CashierController {
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().getCommodity().unitProperty());
         quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
         salesPriceColumn.setCellValueFactory(cellData -> cellData.getValue().salesPriceProperty());
-        priceSumColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTotalPrice()));
+        priceSumColumn.setCellValueFactory(cellData -> cellData.getValue().totalPriceProperty());
     }
 
     private void setupControl() {
+
+        // Set bar code input control focused
+        barCodeTextField.setText("");
+
         // Handle text changes.
+        setupBarCodeListener();
+    }
+
+    private void setupBarCodeListener() {
         barCodeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
 
             newValue = newValue.trim();
+
             if (newValue == null || newValue.equals("")) {
                 return ;
             }
 
+            if (newValue.length() < 8) {
+                return ;
+            }
+
             // Try to fetch & add commodity in POS model
+            String finalNewValue = newValue;
             model.addCommoditytWith(newValue, exception -> {
-                ConsoleLog.print("finish add with exception:" + exception);
+                ConsoleLog.print("finish add '" + finalNewValue + "' with exception:" + exception);
 
                 if (exception == null) {
+                    ConsoleLog.print("add success…");
+
                     String barCode = barCodeTextField.getText();
                     Platform.runLater(() -> {
+                        // Handle barCode input control
                         barCodeTextField.setPromptText(barCode.trim());
                         barCodeTextField.setText("");
+
+                        // Handle commodity name label
+                        commodityNameLabel.setText(model.getCurrentCommodity().getName());
+
+                        // Handle commodity price label
+                        commodityPriceLabel.setText("¥" + model.getCurrentCommodity().getPrice().toPlainString());
+
+                        // Handle commodity count label
+                        commodityCountLabel.setText(model.getCommodityCount() + "");
+
+                        // Handle total price label
+                        totalPriceLabel.setText("¥" + model.getTotalPrice());
                     });
 
                 }
@@ -94,6 +123,6 @@ public class CashierController {
                 return null;
             });
         });
-    }
+    }   // end setupBarCodeListener() { … }
 
 }
