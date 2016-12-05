@@ -25,9 +25,11 @@ public class Main extends Application {
         // Set title
         primaryStage.setTitle("超市管理系统");
 
-//        initRootlayout();
-        initRootlayoutWithoutLogin();
+        // Set min windows size
+        initRootlayout();
+        //initRootlayoutWithoutLogin();
     }
+
 
     private void initRootlayout() {
         Parent root = null;
@@ -39,7 +41,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
         LoginController controller = loader.getController();
-        controller.setStage(primaryStage);
+
+        controller.setStage(primaryStage, "Main.fxml");
+
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ViewPathHelper.class.getResource("Login.css").toExternalForm());
         primaryStage.setScene(scene);

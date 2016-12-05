@@ -1,5 +1,8 @@
 package io.wabm.supermarket.controller;
 
+import io.wabm.supermarket.misc.pojo.Employee;
+import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.SingleLogin;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
@@ -43,5 +46,4 @@ public abstract class AbstractMasterDetailController {
         AnchorPane.setLeftAnchor(scenesController, 0.0);
         AnchorPane.setRightAnchor(scenesController, 0.0);
     }
-
 }

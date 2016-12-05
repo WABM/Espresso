@@ -1,8 +1,10 @@
 package io.wabm.supermarket.controller;
 
 import io.wabm.supermarket.application.Main;
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
@@ -11,9 +13,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 
 import java.io.IOException;
@@ -28,7 +33,7 @@ public class LoginController {
     private final String kSelectUser = "SELECT f.* FROM wabm.Employee f WHERE username = ? AND password = ? LIMIT 1;";
     private List<Employee> templist;
     private Parent root = null;
-    private Service<Void> backgroundThread;
+    private String fxml;
     private Boolean b = false;
 
     @FXML
@@ -43,10 +48,15 @@ public class LoginController {
         check();
     }
 
-    public void setStage(Stage Loginstage) {
-        this.stage = Loginstage;
+    public void setStage(Stage stage, String fxml) {
+        this.stage = stage;
+        this.fxml = fxml;
     }
 
+    private void setEmployee(Employee employee)
+    {
+        SingleLogin.getInstance().initEmployee(employee);
+    }
     /*private void check(){
         String username = usernameText.getText();
         String password = passwordText.getText();
@@ -111,35 +121,53 @@ public class LoginController {
         jdbcOperations = Main.getJdbcOperations();
 
         new WABMThread().run(_void -> {
-            Employee employee = jdbcOperations.queryForObject(kSelectUser, (resultSet, i) -> new Employee(
-                    resultSet.getInt("employee_id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("birth_date"),     //date类型的，要转换为string类型
-                    resultSet.getInt("sex_status"),
-                    resultSet.getString("phone"),
-                    resultSet.getString("position_status"),
-                    resultSet.getString("entry_date"),   //数据库中取出来是date
-                    resultSet.getString("username"),
-                    resultSet.getString("password")
-            ), username, password);
+            try {
+                Employee employee = jdbcOperations.queryForObject(kSelectUser, (resultSet, i) -> new Employee(
+                        resultSet.getInt("employee_id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("birth_date"),     //date类型的，要转换为string类型
+                        resultSet.getInt("sex_status"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("position_status"),
+                        resultSet.getString("entry_date"),   //数据库中取出来是date
+                        resultSet.getString("username"),
+                        resultSet.getString("password")
+                ), username, password);
 
-            if (employee != null) {
-                ConsoleLog.print(employee.getName());
+                setEmployee(employee);
+                ConsoleLog.print(SingleLogin.getInstance().getEmployee().getName());
+
+                if (employee.getDepartmentString() !="收银员" && fxml.equals("CashierMain.fxml")) {
+                    Platform.runLater(() -> {
+                        SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("错误","请与管理员联系","没有权限！");
+                        simpleErrorAlert.show();
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(ViewPathHelper.class.getResource(fxml));
+                            root = loader.load();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        stage.setMinWidth(1000);
+                        stage.setMinHeight(625);
+                        stage.setScene(new Scene(root));
+                    });
+                }
+
+            } catch (EmptyResultDataAccessException exception) {
+                ConsoleLog.print("username or password error");
 
                 Platform.runLater(() -> {
-                    try {
-                        FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(ViewPathHelper.class.getResource("Main.fxml"));
-                        root = loader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Set min windows size
-                    stage.setMinWidth(1000);
-                    stage.setMinHeight(625);
-                    stage.setScene(new Scene(root));
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setContentText("用户名或密码错误，请重新登录！");
+                    alert.show();
                 });
+            } catch (DataAccessException exception) {
+                exception.printStackTrace();
             }
 
             return null;

@@ -1,7 +1,9 @@
 package io.wabm.supermarket.controller.sales;
 
 import io.wabm.supermarket.controller.AbstractMasterDetailController;
+import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -66,5 +68,4 @@ public class SalesManagementController extends AbstractMasterDetailController {
         loder.setLocation(ViewPathHelper.class.getResource("sales/CashManagementView.fxml"));
         setDetailViewFrom(loder);
     }
-
 }

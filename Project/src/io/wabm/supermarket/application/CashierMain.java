@@ -4,6 +4,7 @@ package io.wabm.supermarket.application;
  * Created by MainasuK on 2016-12-2.
  */
 
+import io.wabm.supermarket.controller.LoginController;
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Application;
@@ -29,21 +30,25 @@ public class CashierMain extends Application {
         primaryStage.setTitle("超市收银系统");
 
         // Set min windows size
-        primaryStage.setMinWidth(800);
-        primaryStage.setMinHeight(600);
 
         initRootlayout();
     }
 
     private void initRootlayout() {
         Parent root = null;
+        FXMLLoader loader = new FXMLLoader();
         try {
-            root = FXMLLoader.load(ViewPathHelper.class.getResource("CashierMain.fxml"));
+            loader.setLocation(ViewPathHelper.class.getResource("Login.fxml"));
+            root = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        LoginController controller = loader.getController();
+        controller.setStage(primaryStage,"CashierMain.fxml");
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(ViewPathHelper.class.getResource("Login.css").toExternalForm());
 
-        primaryStage.setScene(new Scene(root));
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
