@@ -4,7 +4,6 @@ import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
-import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -62,6 +61,7 @@ public class CommodityPriceManagementController extends SceneController {
             ModifyPriceByTypeController controller = loader.getController();
             controller.setStage(stage);
             controller.setDate(getClassification());
+            //controller.setDate(getClassification());
 
             stage.showAndWait();
         }catch (IOException e){

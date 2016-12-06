@@ -1,11 +1,9 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
-import io.wabm.supermarket.controller.procurement.CommoditySupplierManagementViewController;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
-import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplierModel;
@@ -22,8 +20,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.objects.NativeDate;
 import org.springframework.dao.DataAccessException;
-
 import java.io.IOException;
 import java.util.Optional;
 
@@ -57,17 +55,18 @@ public class CommoditySupplierManagementViewController extends SceneController {
 
     }
     private void setupTableViewColumn() {
-        idColumn.setCellValueFactory(cellData -> cellData.getValue().supplierIDProperty().asObject());
-        nameColumn.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
-        representativeColumn.setCellValueFactory(cellData -> cellData.getValue().linkmanProperty());
+        actionColumn.setCellFactory(actionColumnSetupCallback);
 
-        phoneColumn.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
-        addressColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
-        actionColumn.setCellValueFactory(cellData -> {
-
+            idColumn.setCellValueFactory(cellData -> cellData.getValue().supplierIDProperty().asObject());
+            nameColumn.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
+            representativeColumn.setCellValueFactory(cellData -> cellData.getValue().linkmanProperty());
+            phoneColumn.setCellValueFactory(cellData -> cellData.getValue().phoneProperty());
+            addressColumn.setCellValueFactory(cellData -> cellData.getValue().addressProperty());
+            actionColumn.setCellValueFactory(cellData -> {
             return new SimpleObjectProperty<>(new Hyperlink("查看"));
         });
     }
+    private SupplyGoodsController supplyGoodsController;
     private CellFactorySetupCallbackProtocol<Supplier, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
         @Override
         protected void updateItem(Hyperlink item, boolean empty) {
@@ -87,16 +86,16 @@ public class CommoditySupplierManagementViewController extends SceneController {
                     // Bind controller when you first call it.
                     navigationTo(loder, controller -> {
 
-                       /* if (Supplier == null) {
+                       if (supplyGoodsController == null) {
                             ConsoleLog.print("Bind controller success");
-                            Supplier = ((SupplyGoodsController) controller);
-                        }*/
+                            supplyGoodsController = ((SupplyGoodsController) controller);
+                        }
 
                         return null;
                     });
 
                     // Then dispatch the task to controller you hold.
-                    //SupplyGoodsController.fetchWith(classification.getClassificationID());
+                    supplyGoodsController.fetchWith(supplier.getSupplierID());
                 });
             }
         }
@@ -186,19 +185,25 @@ public class CommoditySupplierManagementViewController extends SceneController {
             AnchorPane pane=loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("我不知道写什么好");
+            stage.setTitle("修改供应商基本信息");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene=new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
+            ModifySupplierController  controller = loader.getController();
+            controller.setStage(stage);
+            controller.setDate(getSupplier());
 
             stage.showAndWait();
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+    private Supplier getSupplier()
+    {
+        Supplier supplier = tableView.getSelectionModel().getSelectedItem();
+        return supplier;
     }
     
 }

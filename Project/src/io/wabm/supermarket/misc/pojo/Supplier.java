@@ -2,6 +2,8 @@ package io.wabm.supermarket.misc.pojo;
 
 import javafx.beans.property.*;
 
+import javax.swing.*;
+
 /**
  * Created by liu on 2016-11-21 .
  */
@@ -33,6 +35,8 @@ public class Supplier {
         this.supplierID.set(supplierID);
     }
 
+
+
     public String getSupplierName() {
         return supplierName.get();
     }
@@ -44,6 +48,7 @@ public class Supplier {
     public void setSupplierName(String supplierName) {
         this.supplierName.set(supplierName);
     }
+
 
     public String getLinkman() {
         return linkman.get();
@@ -57,6 +62,7 @@ public class Supplier {
         this.linkman.set(linkman);
     }
 
+
     public String getPhone() {
         return phone.get();
     }
@@ -68,6 +74,7 @@ public class Supplier {
     public void setPhone(String phone) {
         this.phone.set(phone);
     }
+
 
     public String getAddress() {
         return address.get();
@@ -81,6 +88,9 @@ public class Supplier {
         this.address.set(address);
     }
 
+
     public String getName() {return supplierName.get();
     }
+
+
 }

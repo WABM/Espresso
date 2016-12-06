@@ -1,5 +1,6 @@
 package io.wabm.supermarket.protocol;
 
+import io.wabm.supermarket.misc.pojo.Supplier;
 import javafx.stage.Stage;
 
 /**
@@ -11,4 +12,5 @@ import javafx.stage.Stage;
  */
 public interface StageSetableController {
     void setStage(Stage stage);
+
 }

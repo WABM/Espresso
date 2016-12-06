@@ -51,6 +51,7 @@ public class TransactionRecordDetailController extends SceneController {
     private void setupControl(){
     }
     private void setupModel(){
+
         model = new TransationRecordDetailModel<>(tableView);
     }
     private void setupTableView(){}

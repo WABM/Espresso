@@ -1,42 +1,53 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
-import io.wabm.supermarket.controller.warehouse.AddCommodityController;
-import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
-import io.wabm.supermarket.misc.pojo.Classification;
-import io.wabm.supermarket.misc.pojo.Commodity;
+import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.util.ConsoleLog;
-import io.wabm.supermarket.model.warehouse.CommodityInformationModel;
-import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
-import io.wabm.supermarket.protocol.StageSetableController;
+import io.wabm.supermarket.model.procurement.SupplyGoodsModel;
 import io.wabm.supermarket.view.ViewPathHelper;
-import javafx.beans.property.IntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import org.springframework.dao.DataAccessException;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Optional;
-/**
- * Created by 14580 on 2016/12/3 0003.
+/* Created by 14580 on 2016/12/3 0003.
  */
+
 public class SupplyGoodsController  extends SceneController {
 
+    private SupplyGoodsModel<SupplyGoods> model;
+    @FXML
+    private TableView<SupplyGoods> tableView;
+    @FXML
+    private TableColumn<SupplyGoods, Integer> commodity_idColumn;
+    @FXML
+    private TableColumn<SupplyGoods, String> delivery_time_costColumn;
+    @FXML
+    private TableColumn<SupplyGoods, Double> price_dbColumn;
 
-    @FXML Button backButton;
-    @FXML Button addButton;
-    @FXML Button deleteButton;
-    @FXML Button modifyButton;
-    @FXML Button searchButton;
+    @FXML
+    Button backButton;
+    @FXML
+    Button addButton;
+    @FXML
+    Button deleteButton;
+    @FXML
+    Button modifyButton;
+    @FXML
+    Button searchButton;
 
-    @FXML private void backButtonPressed() {
+    @FXML
+    public void initialize() {
+        ConsoleLog.print("SupplyGoodsController init");
+
+        setupControl();
+        setupModel();
+        setupTableView();
+        setupTableViewColumn();
+    }
+
+    @FXML
+    private void backButtonPressed() {
         ConsoleLog.print("button pressed");
 
         FXMLLoader loader = new FXMLLoader();
@@ -45,8 +56,35 @@ public class SupplyGoodsController  extends SceneController {
         navigationTo(loader);
     }
 
-   /* @FXML private void addButtonPressed() {
-        ConsoleLog.print("button pressed");
+    private void setupControl() {
+    }
+
+    private void setupModel() {
+        model = new SupplyGoodsModel<>(tableView);
+    }
+
+    private void setupTableView() {
+    }
+
+    private void setupTableViewColumn() {
+        commodity_idColumn.setCellValueFactory(cellData -> cellData.getValue().commodityIDProperty().asObject());
+        price_dbColumn.setCellValueFactory(cellData -> cellData.getValue().price_dbProperty().asObject());
+        delivery_time_costColumn.setCellValueFactory(cellData -> cellData.getValue().delivery_time_costProperty());
+
+    }
+
+    public void fetchWith(int SupplierID) {
+
+        this.model.fetchData(SupplierID,
+                (isSuccess) -> {
+                    ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+                    return null;
+                }
+        );
+    }
+
+   @FXML private void addButtonPressed() {
+       /* ConsoleLog.print("button pressed");
 
         try {
             // Load view
@@ -91,10 +129,10 @@ public class SupplyGoodsController  extends SceneController {
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }*/
-    /*@FXML private void deleteButtonPressed() {
-        ConsoleLog.print("button pressed");
+        }*/
+    }
+    @FXML private void deleteButtonPressed() {
+       /* ConsoleLog.print("button pressed");
 
         Commodity commodity = tableView.getSelectionModel().getSelectedItem();
 
@@ -117,8 +155,8 @@ public class SupplyGoodsController  extends SceneController {
             });
         } else {
             ConsoleLog.print("Delete process cancel");
-        }
-    }*/
+        }*/
+    }
 
    /* @FXML public void initialize() {
         ConsoleLog.print("SupplierController init");
@@ -142,6 +180,7 @@ public class SupplyGoodsController  extends SceneController {
         );
 
     }*/
+
 
 
 }
