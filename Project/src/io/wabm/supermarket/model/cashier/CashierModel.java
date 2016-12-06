@@ -35,10 +35,10 @@ public class CashierModel<T> extends TableViewModel<T> {
     public CashierModel(TableView<T> tableView) {
         super(tableView);
 
-        setupControl();
+        setupProperty();
 
         // init JDBC
-        try { jdbcOperations.execute("SELECT  1"); }
+        try { jdbcOperations.queryForObject("SELECT co.* FROM commodity co LIMIT 1", (resultSet, i) -> new Commodity(resultSet)); }
         catch (Exception e) { ConsoleLog.print("init JDBC failed"); }
 
         // Check connection every 10s
@@ -61,18 +61,17 @@ public class CashierModel<T> extends TableViewModel<T> {
         timer.start();
     }
 
-    private void setupControl() {
+    private void setupProperty() {
         status = new SimpleStringProperty("检查中…");
 
         totalPrice = new BigDecimal(0.00);
         totalPrice.setScale(2);
-
     }
 
-    @Override
-    protected void setupJdbcOperations() {
-        jdbcOperations = CashierMain.getJdbcOperations();
-    }
+//    @Override
+//    protected void setupJdbcOperations() {
+//        jdbcOperations = CashierMain.getJdbcOperations();
+//    }
 
     public void addCommoditytWith(String text, Callback<DataAccessException, Void> callback) {
         ConsoleLog.print("Check bar code: " + text);
@@ -99,6 +98,7 @@ public class CashierModel<T> extends TableViewModel<T> {
                 // Deal with model change
                 currentCommodity = saleRecoredDetail.getCommodity();
                 commodityCount += 1;
+
                 totalPrice = totalPrice.add(saleRecoredDetail.getSalesPrice());
 
                 callback.call(null);
@@ -140,5 +140,17 @@ public class CashierModel<T> extends TableViewModel<T> {
 
     public BigDecimal getTotalPrice() {
         return totalPrice;
+    }
+
+    public void resetTotalPrice() {
+        final BigDecimal[] price = {new BigDecimal(0.0)};
+        price[0].setScale(2);
+
+        list.parallelStream()
+                .filter(t -> t instanceof SalesRecordDetail)
+                .map(c -> (SalesRecordDetail) c)
+                .forEach(c -> price[0] = price[0].add(c.getSalesPrice().multiply(new BigDecimal(c.getQuantity()))));
+
+        totalPrice = price[0];
     }
 }

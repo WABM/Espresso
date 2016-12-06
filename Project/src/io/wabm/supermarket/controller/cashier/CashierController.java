@@ -4,11 +4,16 @@ import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.cashier.CashierModel;
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Font;
+import javafx.util.StringConverter;
 
 import java.math.BigDecimal;
+import java.util.EventListener;
+import java.util.Objects;
 
 /**
  * Created by MainasuK on 2016-12-2.
@@ -38,6 +43,7 @@ public class CashierController {
 
     @FXML TextField barCodeTextField;
 
+
     @FXML private void initialize() {
         ConsoleLog.print("CashierController init");
 
@@ -61,6 +67,38 @@ public class CashierController {
 
             }
         });
+        quantityColumn.setCellFactory(column -> {
+            TextFieldTableCell cell = new TextFieldTableCell<SalesRecordDetail, Integer>() {
+
+                @Override
+                public void updateItem(Integer item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    column.getTableView().getSelectionModel().select(getIndex());
+
+                    // Handle total price label
+                    model.resetTotalPrice();
+                    Platform.runLater(() -> {
+                        totalPriceLabel.setText("¥" + model.getTotalPrice());
+                    });
+                }
+            };
+
+            cell.setConverter(new StringConverter<Integer>() {
+                @Override
+                public String toString(Integer object) {
+                    return object.toString();
+                }
+
+                @Override
+                public Integer fromString(String string) {
+                    return Integer.parseInt(string);
+                }
+            });
+
+            return cell;
+        });
+
 
         barCodeColumn.setCellValueFactory(cellData -> cellData.getValue().getCommodity().barcodeProperty());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getCommodity().nameProperty());
@@ -75,11 +113,13 @@ public class CashierController {
 
         statusLabel.textProperty().bind(model.statusProperty());
 
-        // Set bar code input control focused
+        // Set bar code input control
         barCodeTextField.setText("");
-
         // Handle text changes.
         setupBarCodeListener();
+
+        // Release focus of tableView
+        tableView.setFocusTraversable(false);
     }
 
     private void setupBarCodeListener() {
@@ -96,9 +136,9 @@ public class CashierController {
             }
 
             // Try to fetch & add commodity in POS model
-            String finalNewValue = newValue;
+            String finalBarCode = newValue;
             model.addCommoditytWith(newValue, exception -> {
-                ConsoleLog.print("finish add '" + finalNewValue + "' with exception:" + exception);
+                ConsoleLog.print("finish add '" + finalBarCode + "' with exception:" + exception);
 
                 if (exception == null) {
                     ConsoleLog.print("add success…");
