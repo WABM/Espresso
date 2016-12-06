@@ -6,6 +6,8 @@ package io.wabm.supermarket.application;
 
 import io.wabm.supermarket.controller.LoginController;
 import io.wabm.supermarket.misc.config.DBConfig;
+import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +34,7 @@ public class CashierMain extends Application {
         // Set min windows size
 
         initRootlayout();
+//        initRootlayoutWithoutLogin();
     }
 
     private void initRootlayout() {
@@ -48,6 +51,29 @@ public class CashierMain extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ViewPathHelper.class.getResource("Login.css").toExternalForm());
 
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void initRootlayoutWithoutLogin() {
+        Parent root = null;
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(ViewPathHelper.class.getResource("CashierMain.fxml"));
+            root = loader.load();
+
+            if (loader.getController() instanceof StageSetableController) {
+                ConsoleLog.print("Set stage ");
+                ((StageSetableController) loader.getController()).setStage(primaryStage);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(root);
+
+        // Set min windows size
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(625);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

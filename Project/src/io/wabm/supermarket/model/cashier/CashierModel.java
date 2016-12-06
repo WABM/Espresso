@@ -118,6 +118,16 @@ public class CashierModel<T> extends TableViewModel<T> {
         });
     }
 
+    public void clear() {
+        ConsoleLog.print("Model clear…");
+
+        list.clear();
+        currentCommodity = null;
+        commodityCount = 0;
+        totalPrice = new BigDecimal(0.00);
+        totalPrice.setScale(2);
+    }
+
     public String getStatus() {
         return status.get();
     }
@@ -145,12 +155,29 @@ public class CashierModel<T> extends TableViewModel<T> {
     public void resetTotalPrice() {
         final BigDecimal[] price = {new BigDecimal(0.0)};
         price[0].setScale(2);
+        final int[] totalQuantity = {0};
 
         list.parallelStream()
                 .filter(t -> t instanceof SalesRecordDetail)
                 .map(c -> (SalesRecordDetail) c)
-                .forEach(c -> price[0] = price[0].add(c.getSalesPrice().multiply(new BigDecimal(c.getQuantity()))));
+                .forEach(c -> {
+                    int quantity = c.getQuantity();
+                    BigDecimal sum = c.getSalesPrice().multiply(new BigDecimal(quantity));
+
+                    c.setTotalPrice(sum);
+
+                    Platform.runLater(() -> {
+                        if (c.getQuantity() == 0) {
+                            list.remove(c);
+                        }
+                    });
+
+                    // Side effect
+                    price[0] = price[0].add(sum);
+                    totalQuantity[0] += quantity;
+                });
 
         totalPrice = price[0];
+        commodityCount = totalQuantity[0];
     }
 }

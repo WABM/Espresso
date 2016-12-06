@@ -1,24 +1,34 @@
 package io.wabm.supermarket.controller.cashier;
 
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
+import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.model.cashier.CashierModel;
+import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.EventListener;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by MainasuK on 2016-12-2.
  */
-public class CashierController {
+public class CashierController implements StageSetableController {
+
+    private Stage primaryStage;
 
     private CashierModel<SalesRecordDetail> model;
 
@@ -33,6 +43,9 @@ public class CashierController {
     @FXML TableColumn<SalesRecordDetail, String> unitColumn;
     @FXML TableColumn<SalesRecordDetail, BigDecimal> salesPriceColumn;
     @FXML TableColumn<SalesRecordDetail, BigDecimal> priceSumColumn;
+
+    @FXML Label nameLabel;
+    @FXML Label dateLabel;
 
     @FXML Label commodityNameLabel;
     @FXML Label commodityPriceLabel;
@@ -63,6 +76,8 @@ public class CashierController {
             protected void updateItem(Integer item, boolean empty) {
                 if (!empty) {
                     setText("" + (getIndex() + 1));
+                } else {
+                    setText("");
                 }
 
             }
@@ -79,7 +94,8 @@ public class CashierController {
                     // Handle total price label
                     model.resetTotalPrice();
                     Platform.runLater(() -> {
-                        totalPriceLabel.setText("¥" + model.getTotalPrice());
+                        ConsoleLog.print("Reset order info label…");
+                        resetControl();
                     });
                 }
             };
@@ -92,7 +108,17 @@ public class CashierController {
 
                 @Override
                 public Integer fromString(String string) {
-                    return Integer.parseInt(string);
+                    try {
+                        int quantity = Integer.parseInt(string);
+
+                        if (quantity < 0) {
+                            return 0;
+                        }
+
+                        return quantity;
+                    } catch (NumberFormatException exception) {
+                        return 0;
+                    }
                 }
             });
 
@@ -111,15 +137,92 @@ public class CashierController {
 
     private void setupControl() {
 
+        if (SingleLogin.getInstance().getEmployee() != null) {
+            nameLabel.setText(SingleLogin.getInstance().getEmployee().getName());
+        } else {
+            nameLabel.setText("未登录用户");
+        }
+
+        dateLabel.setText(LocalDate.now().toString());
+
         statusLabel.textProperty().bind(model.statusProperty());
 
         // Set bar code input control
+        barCodeTextField.setPromptText("");
         barCodeTextField.setText("");
+
         // Handle text changes.
         setupBarCodeListener();
 
         // Release focus of tableView
         tableView.setFocusTraversable(false);
+    }
+
+    private void resetControl() {
+        ConsoleLog.print("Resetting…");
+
+        if (model.getTotalPrice().doubleValue() == 0.0) {
+            totalPriceLabel.setText("¥" + "0.00");
+        } else {
+            totalPriceLabel.setText("¥" + model.getTotalPrice());
+        }
+
+        commodityCountLabel.setText(model.getCommodityCount() + "");
+
+        if (model.getCurrentCommodity() == null) {
+            commodityNameLabel.setText("—");
+            commodityPriceLabel.setText("¥0.00");
+        } else {
+            commodityNameLabel.setText(model.getCurrentCommodity().getName());
+            commodityPriceLabel.setText("¥" + model.getCurrentCommodity().getPrice());
+        }
+    }
+
+    private void setupShortcut() {
+        barCodeTextField.setOnKeyPressed(event -> {
+            ConsoleLog.print("Key " + event.getCode() + " pressed in barCodeTextFiled");
+
+            triggerActionWithKey(event.getCode());
+        });
+
+        primaryStage.getScene().setOnKeyPressed(event -> {
+            ConsoleLog.print("Key " + event.getCode() + " pressed in scene");
+
+            triggerActionWithKey(event.getCode());
+        });
+    }
+
+    private void triggerActionWithKey(KeyCode keyCode) {
+        switch (keyCode) {
+            case F1:
+                barCodeTextField.requestFocus();
+                break;
+            case F5:
+
+                break;
+            case F9:
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("确认删单");
+                alert.setHeaderText("是否删单");
+                alert.setContentText("按 回车键 删除\n按 ESC 取消");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    ConsoleLog.print("Delete order");
+
+                    model.clear();
+
+                    ConsoleLog.print("Reset bar code label");
+                    barCodeTextField.setPromptText("");
+                    barCodeTextField.setText("");
+
+                    // resetControl(…) will be called by quantityColumn listener
+
+                } else {
+                    ConsoleLog.print("Delete process cancel");
+                }
+                break;
+        }
     }
 
     private void setupBarCodeListener() {
@@ -169,4 +272,14 @@ public class CashierController {
         });
     }   // end setupBarCodeListener() { … }
 
+
+    @Override
+    public void setStage(Stage stage) {
+        ConsoleLog.print("get stage");
+        primaryStage = stage;
+
+        Platform.runLater(() -> {
+            setupShortcut();
+        });
+    }
 }

@@ -6,6 +6,7 @@ import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.misc.util.WABMThread;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
@@ -148,6 +149,13 @@ public class LoginController {
                             FXMLLoader loader = new FXMLLoader();
                             loader.setLocation(ViewPathHelper.class.getResource(fxml));
                             root = loader.load();
+
+                            // If is stage acceptable
+                            if (loader.getController() instanceof StageSetableController) {
+                                ConsoleLog.print("Set stage");
+                                ((StageSetableController) loader.getController()).setStage(stage);
+                            }
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

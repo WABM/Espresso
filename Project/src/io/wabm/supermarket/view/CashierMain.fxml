@@ -138,8 +138,8 @@
                               <Label text="收银员：" GridPane.rowIndex="2" />
                               <Label fx:id="statusLabel" text="正常收银" GridPane.columnIndex="1" />
                               <Label GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label text="姓名" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label text="2016-12-31" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="nameLabel" text="姓名" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="dateLabel" text="2016-12-31" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" />
@@ -158,16 +158,15 @@
                         <GridPane layoutX="-2.0" layoutY="26.0" prefHeight="216.0" prefWidth="198.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
                            <children>
                               <Label text="操作说明" />
-                              <Label prefHeight="20.0" prefWidth="78.0" text="退出：ESC" GridPane.rowIndex="1" />
-                              <Label text="收款：+" GridPane.rowIndex="2" />
-                              <Label text="查单：F10" GridPane.rowIndex="3" />
-                              <Label text="挂单：F11" GridPane.rowIndex="4" />
-                              <Label text="删单：Delete" GridPane.rowIndex="5" />
+                              <Label text="扫码：F1" GridPane.rowIndex="1" />
+                              <Label text="收款：F5" GridPane.rowIndex="2" />
+                              <Label text="删单：F9" GridPane.rowIndex="3" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" />
                            </columnConstraints>
                            <rowConstraints>
+                              <RowConstraints vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
