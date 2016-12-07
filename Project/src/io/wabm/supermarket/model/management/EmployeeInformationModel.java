@@ -30,7 +30,7 @@ import java.util.List;
  */
     public class  EmployeeInformationModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll = "SELECT f.* FROM wabm.Employee f";
+    private final String kSelectAll = "SELECT f.* FROM wabm.employee f";
     private final String kInsertSQL = "INSERT INTO wabm.employee (employee_id, name,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.employee (name, birth_date,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kDeleteSQLWithID = "DELETE FROM wabm.employee WHERE wabm.employee.employee_id = ?;";

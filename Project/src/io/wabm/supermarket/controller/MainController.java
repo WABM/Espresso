@@ -20,6 +20,7 @@ public class MainController {
 
     @FXML public void initialize() {
         ConsoleLog.print("MainController init");
+
         permissionSale();
         permissionManagement();
         permissionProcurement();
@@ -31,7 +32,7 @@ public class MainController {
         if (employee.getDepartmentString()=="销售管理员"
                 ||employee.getDepartmentString()=="总管理员") {
             return true;
-        }else {
+        } else {
             saleTab.setDisable(true);
             return false;
         }

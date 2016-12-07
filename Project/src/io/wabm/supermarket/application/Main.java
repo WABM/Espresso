@@ -2,6 +2,8 @@ package io.wabm.supermarket.application;
 
 import io.wabm.supermarket.controller.LoginController;
 import io.wabm.supermarket.misc.config.DBConfig;
+import io.wabm.supermarket.misc.pojo.Employee;
+import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
