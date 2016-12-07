@@ -52,6 +52,7 @@ public class Main extends Application {
         primaryStage.show();
     }
     private void initRootlayoutWithoutLogin(){
+        SingleLogin.getInstance().initEmployee(new Employee(0, "Dev", "2016-1-1", 1, "10000", "总管理员", "2016-1-1", "admin", "admin"));
         Parent root = null;
         FXMLLoader loader = new FXMLLoader();
         try {
