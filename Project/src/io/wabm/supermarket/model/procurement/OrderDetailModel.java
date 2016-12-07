@@ -1,14 +1,12 @@
 package io.wabm.supermarket.model.procurement;
 
 import io.wabm.supermarket.misc.config.DBConfig;
+import io.wabm.supermarket.misc.pojo.OrderDetail;
 import io.wabm.supermarket.misc.pojo.SupplyGoods;
-import io.wabm.supermarket.misc.pojo.TransactionRecordDetail;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -19,38 +17,40 @@ import java.sql.ResultSet;
 import java.util.List;
 
 /**
- * Created by 14580 on 2016/12/5 0005.
+ * Created by 14580 on 2016/12/7 0007.
  */
 @Repository
 @ContextConfiguration(classes = DBConfig.class)
-public class SupplyGoodsModel<T> extends TableViewModel<T> {
+public class OrderDetailModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll ="select commodity_id,price_db,delivery_time_cost FROM wabm.supply_detail  WHERE supplier_id=? AND valid=1";
-    private int SupplierID;
+    private final String kSelectAll ="select order_id,commodity_id,quantity,price_db,production_date FROM wabm.order_detail  WHERE order_id=?";
+    private int orderID;
 
-    public SupplyGoodsModel(TableView tableView){
+    public OrderDetailModel(TableView tableView){
 
         super(tableView);
     }
 
-    public  void fetchData(int SupplierID, Callback<Boolean, Void> callback) {
-        ConsoleLog.print("fetching data with id: " + SupplierID+"…");
-        this.SupplierID = SupplierID;
+    public  void fetchData(int orderID, Callback<Boolean, Void> callback) {
+        ConsoleLog.print("fetching data with id: " + orderID+"…");
+        this.orderID = orderID;
         Assert.notNull(jdbcOperations);
 
         new WABMThread().run((_void) -> {
             ConsoleLog.print("Start background task…");
 
             try {
-                List<SupplyGoods> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
-                    SupplyGoods supplyGoods;
-                    supplyGoods = new SupplyGoods(
+                List<OrderDetail> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
+                    OrderDetail orderDetail;
+                    orderDetail = new OrderDetail(
+                            resultSet.getInt("order_id"),
                             resultSet.getInt("commodity_id"),
                             resultSet.getDouble("price_db"),
-                            resultSet.getString("delivery_time_cost")
+                            resultSet.getInt("quantity"),
+                            resultSet.getString("production_date")
                     );
-                    return supplyGoods;
-                }, SupplierID);
+                    return orderDetail;
+                }, orderID);
 
                 list.clear();
                 list.addAll((T[]) templist.toArray());
@@ -66,5 +66,4 @@ public class SupplyGoodsModel<T> extends TableViewModel<T> {
         });
 
     }
-
 }

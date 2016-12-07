@@ -76,7 +76,6 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
                 }
             } else {
                 jdbcOperations.update(kInsertSQLAutoIncrease,
-                        //supplier.getSupplierID(),
                         supplier.getSupplierName(),
                         supplier.getAddress(),
                         supplier.getPhone(),

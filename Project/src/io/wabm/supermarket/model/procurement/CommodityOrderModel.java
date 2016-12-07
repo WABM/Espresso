@@ -31,7 +31,7 @@ public class CommodityOrderModel<T> extends TableViewModel<T> {
                 List<Order> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                     Order order= new Order(
                                     resultSet.getInt("order_id"),
-                                    resultSet.getInt("supplier_id"),
+                                    resultSet.getInt("suppiler_id"),
                                     resultSet.getString("create_timestamp"),
                                     resultSet.getInt("status")
                             );
