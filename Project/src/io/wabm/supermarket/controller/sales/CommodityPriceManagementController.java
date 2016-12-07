@@ -3,15 +3,14 @@ package io.wabm.supermarket.controller.sales;
 import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.model.sales.ClassComboBoxModel;
+import io.wabm.supermarket.model.sales.SaleClassificationInformationModel;
 import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -24,14 +23,18 @@ import java.io.IOException;
  */
 public class CommodityPriceManagementController extends SceneController {
 
-    private CommodityClassificationInformationModel<Classification> Classmodel;
+    private SaleClassificationInformationModel<Classification> Classmodel;
+    private ClassComboBoxModel<String> boxModel;
 
     @FXML private TableView<Classification> tableView;
-
     @FXML private TableColumn<Classification, String> nameColumn;
     @FXML private TableColumn<Classification,Double> profitRate;
     @FXML private TableColumn<Classification,Double> taxRate;
     @FXML private TableColumn<Classification, Hyperlink> actionColumn;
+
+    @FXML Button queryButton;
+    @FXML ComboBox classButton;
+    @FXML Button modify;
 
     @FXML public void initialize() {
         ConsoleLog.print("CommodityPriceManagementController init");
@@ -41,8 +44,24 @@ public class CommodityPriceManagementController extends SceneController {
         setupTableView();
         setupTableViewColumn();
     }
-    @FXML Button modify;
+    @FXML private void queryButtonPressed(){
+        ConsoleLog.print("Button Pressed");
 
+        String name = classButton.getValue().toString();
+
+        if (name.equals("全部")) {
+            Classmodel.fetchData(isSuccess -> {
+                ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+                return null;
+            });
+        }else {
+            Classmodel.Choose(name, isSuccess -> {
+                ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+                return null;
+            });
+        }
+
+    }
     @FXML private void modifyButtonPressed(){
         ConsoleLog.print("Button Pressed");
 
@@ -70,9 +89,11 @@ public class CommodityPriceManagementController extends SceneController {
     }
     private void setupControl(){
         modify.setDisable(true);
+        boxModel = new ClassComboBoxModel<>(classButton);
+        classButton.setItems(boxModel.getList());
     }
     private void setupModel(){
-        Classmodel = new CommodityClassificationInformationModel<>(tableView);
+        Classmodel = new SaleClassificationInformationModel<>(tableView);
 
         // TODO: loading info need add to view (Spinner or just Loading… (e.g. 加载中……)
         Classmodel.fetchData(isSuccess -> {

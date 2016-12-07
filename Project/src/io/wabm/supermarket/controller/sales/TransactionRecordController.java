@@ -32,14 +32,17 @@ public class TransactionRecordController extends SceneController {
     @FXML private TableColumn<TransactionRecord,String> recordID;
     @FXML private TableColumn<TransactionRecord,String> emploee_ID;
     @FXML private TableColumn<TransactionRecord,Double> totalprice;
-    @FXML private TableColumn<TransactionRecord,LocalDate> date;
+    //@FXML private TableColumn<TransactionRecord,LocalDate> date;
+    @FXML private TableColumn<TransactionRecord,String> date;
     @FXML private TableColumn<TransactionRecord, Hyperlink> actionColumn;
 
     @FXML private Button queryButton;
-    @FXML private DatePicker datePicker;
+    @FXML private DatePicker datePickerFront;
+    @FXML private DatePicker datePickerRear;
 
     @FXML public void initialize(){
         ConsoleLog.print("TransactionRecordController init");
+
         setupControl();
         setupModel();
         setupTableView();
@@ -47,12 +50,25 @@ public class TransactionRecordController extends SceneController {
     }
     @FXML public void queryButtonPressed(){
         ConsoleLog.print("queryButton pressed");
+
+        String front = datePickerFront.getValue().toString();
+        String rear = datePickerRear.getValue().toString();
+        model.fetchData(front,rear,isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
-    private void setupControl() {}
+    private void setupControl() {
+        datePickerFront.setValue(LocalDate.now().minusMonths(1));
+        datePickerRear.setValue(LocalDate.now());
+    }
     private void setupModel() {
+        String front = datePickerFront.getValue().toString();
+        String rear = datePickerRear.getValue().toString();
+
         model = new TransationRecordModel<>(tableView);
-        model.fetchData(isSuccess -> {
+        model.fetchData(front,rear,isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
             return null;
         });
@@ -61,21 +77,57 @@ public class TransactionRecordController extends SceneController {
         tableView.setEditable(true);
     }
     private void setupTableViewColumn() {
-
         recordID.setCellValueFactory(new PropertyValueFactory<TransactionRecord, String>("recordID"));
         emploee_ID.setCellValueFactory(new PropertyValueFactory<TransactionRecord, String>("emploee_ID"));
         totalprice.setCellValueFactory(new PropertyValueFactory<TransactionRecord, Double>("totalprice"));
-        //date.setCellValueFactory();
-        actionColumn.setCellFactory(actionColumnSetupCallback);
+        //date.setCellValueFactory(new PropertyValueFactory<TransactionRecord, LocalDate>("date"));
+        date.setCellValueFactory(new PropertyValueFactory<TransactionRecord, String>("date"));
 
+        actionColumn.setCellFactory(actionColumnSetupCallback);
         actionColumn.setCellValueFactory(cellData -> {
 
             return new SimpleObjectProperty<>(new Hyperlink("查看"));
         });
 
-    }
-    private TransactionRecordDetailController transactionRecordDetailController;
+        datePickerRear.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
 
+                        if (item.isBefore(
+                                datePickerFront.getValue().plusDays(1))
+                                ) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
+        });
+        datePickerFront.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (item.isAfter(
+                                datePickerRear.getValue().minusDays(1))
+                                ) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;");
+                        }
+                    }
+                };
+            }
+        });
+    }
+
+    private TransactionRecordDetailController transactionRecordDetailController;
     private CellFactorySetupCallbackProtocol<TransactionRecord, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
         @Override
         protected void updateItem(Hyperlink item, boolean empty) {

@@ -11,14 +11,16 @@ public class TransactionRecord {
     private StringProperty recordID;
     private StringProperty emploee_ID;
     private DoubleProperty totalprice;
-    private ObjectProperty<LocalDate> date;
+    //private ObjectProperty<LocalDate> date;
+    private StringProperty date;
 
     private BooleanProperty choose;
 
-    public TransactionRecord(String recordID, String emploee_ID, Double totalprice) {
+    public TransactionRecord(String recordID, String emploee_ID, Double totalprice,String date) {
         this.recordID = new SimpleStringProperty(recordID);
         this.emploee_ID = new SimpleStringProperty(emploee_ID);
         this.totalprice = new SimpleDoubleProperty(totalprice);
+        this.date = new SimpleStringProperty(date);
     }
 
     public String getRecordID() {
@@ -57,15 +59,15 @@ public class TransactionRecord {
         this.totalprice.set(totalprice);
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date.get();
     }
 
-    public ObjectProperty<LocalDate> dateProperty() {
+    public StringProperty dateProperty() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date.set(date);
     }
 

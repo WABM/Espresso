@@ -21,14 +21,14 @@ import java.util.List;
 @Repository
 @ContextConfiguration(classes = DBConfig.class)
 public class TransationRecordModel<T> extends TableViewModel<T> {
-    private final String kSelectAll = "SELECT * FROM sales_record";
+    private final String kSelectAll = "SELECT * FROM sales_record where timestamp >= ? and timestamp <= ?";
     private Service<Void> backgroundThread;
 
     public TransationRecordModel(TableView tableView){
         super(tableView);
         ConsoleLog.print("TransationRecordModel init");
     }
-    public void fetchData(Callback<Boolean, Void> callback){
+    public void fetchData(String front,String rear,Callback<Boolean, Void> callback){
         ConsoleLog.print("fetching data…");
         Assert.notNull(jdbcOperations);
 
@@ -45,9 +45,10 @@ public class TransationRecordModel<T> extends TableViewModel<T> {
                                 (resultSet, i) -> new TransactionRecord(
                                         resultSet.getString("sales_record_id"),
                                         resultSet.getString("employee_id"),
-                                        resultSet.getDouble("all_price_db")
+                                        resultSet.getDouble("all_price_db"),
+                                        resultSet.getString("timestamp")
                                 )
-                        );
+                        ,front,rear);
 
                         list.clear();
                         list.addAll((T[]) templist.toArray());

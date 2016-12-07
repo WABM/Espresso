@@ -33,7 +33,6 @@
                                     <TableColumn fx:id="nameColumn" prefWidth="75.0" text="分类" />
                                     <TableColumn fx:id="profitRate" prefWidth="75.0" text="利润率" />
                                     <TableColumn fx:id="taxRate" prefWidth="75.0" text="税率" />
-                                    <TableColumn prefWidth="75.0" text="操作" />
                                  </columns>
                               </TableView>
                            </center>
@@ -41,8 +40,8 @@
                               <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                  <items>
                                     <Label text="类别" />
-                                    <ChoiceBox prefWidth="150.0" />
-                                    <Button mnemonicParsing="false" text="查询" />
+                                    <ComboBox fx:id="classButton" prefHeight="32.0" prefWidth="131.0" />
+                                    <Button fx:id="queryButton" mnemonicParsing="false" onAction="#queryButtonPressed" text="查询" />
                                     <Pane HBox.hgrow="ALWAYS" />
                                     <Button fx:id="modify" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#modifyButtonPressed" text="修改" />
                                  </items>
