@@ -38,12 +38,11 @@ public class CashierModel<T> extends TableViewModel<T> {
         setupProperty();
 
         // init JDBC
-        try { jdbcOperations.queryForObject("SELECT co.* FROM commodity co LIMIT 1", (resultSet, i) -> new Commodity(resultSet)); }
-        catch (Exception e) { ConsoleLog.print("init JDBC failed"); }
+//        try { jdbcOperations.queryForObject("SELECT co.* FROM commodity co LIMIT 1", (resultSet, i) -> new Commodity(resultSet)); }
+//        catch (Exception e) { ConsoleLog.print("init JDBC failed"); }
 
         // Check connection every 10s
         Timer timer = new Timer(10000, arg0 -> {
-            Platform.runLater(() -> {
             boolean isConnected;
             try {
                 jdbcOperations.execute("SELECT 1");
@@ -52,8 +51,10 @@ public class CashierModel<T> extends TableViewModel<T> {
                 isConnected = false;
             }
 
+            boolean finalIsConnected = isConnected;
+            Platform.runLater(() -> {
             // Change property in JavaFX thread
-            setStatus(isConnected ? "正常收银" : "断开连接");
+            setStatus(finalIsConnected ? "正常收银" : "断开连接");
             });
 
         });

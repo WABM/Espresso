@@ -8,6 +8,7 @@ import io.wabm.supermarket.misc.util.ValidCheckHelper;
 import io.wabm.supermarket.model.warehouse.AddCommodityModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -40,7 +41,6 @@ public class AddCommodityController implements StageSetableController, CallbackA
     @FXML TextField unitTextField;
     @FXML TextField deliverySpecificationTextField;
     @FXML TextField shelfLifeTextField;
-    @FXML TextField startStorageTextField;
 
     @FXML Button confirmButton;
     @FXML Button cancelButton;
@@ -66,8 +66,7 @@ public class AddCommodityController implements StageSetableController, CallbackA
                 unitTextField.getText(),
                 new BigDecimal(0.0),
                 Integer.parseInt(deliverySpecificationTextField.getText()),
-                Integer.parseInt(shelfLifeTextField.getText()),
-                Integer.parseInt(startStorageTextField.getText())
+                Integer.parseInt(shelfLifeTextField.getText())
         );
         commodity.setClassificationName(classificationComboBox.getValue().getName());
 
@@ -124,14 +123,17 @@ public class AddCommodityController implements StageSetableController, CallbackA
         model.fetchClassification(isSuccess -> {
             ConsoleLog.print("Fetch classification is: " + isSuccess);
 
-            if (isSuccess) {
-                classificationComboBox.getItems().stream().filter(classification ->
-                        classification.getClassificationID() == classificationID
-                ).findFirst().ifPresent(classification -> {
-                    int index = classificationComboBox.getItems().indexOf(classification);
-                    classificationComboBox.getSelectionModel().select(index);
-                });
-            }
+            Platform.runLater(() -> {
+                if (isSuccess) {
+                    classificationComboBox.getItems().stream().filter(classification ->
+                            classification.getClassificationID() == classificationID
+                    ).findFirst().ifPresent(classification -> {
+                        int index = classificationComboBox.getItems().indexOf(classification);
+                        classificationComboBox.getSelectionModel().select(index);
+                    });
+                }
+            });
+
             return null;
         });
     }
@@ -153,17 +155,16 @@ public class AddCommodityController implements StageSetableController, CallbackA
         ValidCheckHelper helper = new ValidCheckHelper();
         String errorMessage = "";
 
-        if (idTextField.getText().length() > 16) {
-            errorMessage += "商品编号长度过长\n";
+        if (idTextField.getText().length() != 8) {
+            errorMessage += "需要 8 位商品编码\n";
         }
-
+        errorMessage += helper.checkTypeAndLength(idTextField, "编码", 8);
         errorMessage += helper.checkTypeAndLength(barCodeTextField, "条形码", 45);
         errorMessage += helper.checkTypeAndLength(nameTextField, "商品名称", 45);
         errorMessage += helper.checkTypeAndLength(specificationTextField, "商品规格", 45);
         errorMessage += helper.checkTypeAndLength(unitTextField, "商品单位", 45);
         errorMessage += helper.checkTypeAndLengthForInteger(deliverySpecificationTextField, "配送规格", 11);
         errorMessage += helper.checkTypeAndLengthForInteger(shelfLifeTextField, "保质期", 11);
-        errorMessage += helper.checkTypeAndLengthForInteger(startStorageTextField, "期初库存", 11);
 
         ConsoleLog.print(errorMessage);
         if (errorMessage.length() == 0) {

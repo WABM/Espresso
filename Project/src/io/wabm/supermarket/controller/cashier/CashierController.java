@@ -7,13 +7,18 @@ import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.model.cashier.CashierModel;
 import io.wabm.supermarket.protocol.StageSetableController;
+import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
@@ -198,6 +203,7 @@ public class CashierController implements StageSetableController {
                 barCodeTextField.requestFocus();
                 break;
             case F5:
+                presentPayView();
 
                 break;
             case F9:
@@ -272,6 +278,29 @@ public class CashierController implements StageSetableController {
         });
     }   // end setupBarCodeListener() { … }
 
+    private void presentPayView() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("cashier/PayView.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Create the popup Stage.
+            Stage stage = new Stage();
+            stage.setTitle("结算商品");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+
+            ((StageSetableController) loader.getController()).setStage(stage);
+
+
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void setStage(Stage stage) {
