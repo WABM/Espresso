@@ -73,7 +73,8 @@ public class AddEmployeeController implements StageSetableController,CallbackAcc
 
 
         Employee employee = new Employee(
-                Integer.parseInt(idTextField.getText()),
+                //Integer.parseInt(idTextField.getText()),
+                -1,
                 nameTextField.getText(),
                 birthTextField.getText(),
                 sexComboBox.getValue().getSex(),

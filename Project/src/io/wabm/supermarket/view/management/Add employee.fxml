@@ -29,7 +29,6 @@
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </padding>
                <children>
-                  <Label text="员工编号：" />
                   <Label text="姓名：" GridPane.rowIndex="1" />
                   <Label text="入职日期：" GridPane.rowIndex="4" />
                   <Label text="性别：" GridPane.rowIndex="2" />
@@ -38,7 +37,6 @@
                   <Label text="电话号码：" GridPane.rowIndex="6" />
                   <Label text="账号：" GridPane.rowIndex="7" />
                   <Label text="密码：" GridPane.rowIndex="8" />
-                  <TextField fx:id="idTextField" GridPane.columnIndex="1" />
                   <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ComboBox fx:id="sexComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="birthTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="3" />

@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.QueryTimeoutException;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
@@ -30,7 +31,7 @@ import java.util.List;
  */
     public class  EmployeeInformationModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll = "SELECT f.* FROM wabm.employee f";
+    private final String kSelectAll = "SELECT f.* FROM wabm.Employee f";
     private final String kInsertSQL = "INSERT INTO wabm.employee (employee_id, name,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.employee (name, birth_date,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kDeleteSQLWithID = "DELETE FROM wabm.employee WHERE wabm.employee.employee_id = ?;";
@@ -89,7 +90,7 @@ import java.util.List;
         ConsoleLog.print("Add employee: " + employee.getName());
         Assert.notNull(jdbcOperations);
         try {
-            if (String.valueOf(employee.getEmployeeID()) == null || String.valueOf(employee.getEmployeeID()) == "") {
+            if (employee.getEmployeeID()<0) {
                 jdbcOperations.update(kInsertSQLAutoIncrease,
                         employee.getName(),
                         employee.getBirthdate(),
@@ -100,9 +101,13 @@ import java.util.List;
                         employee.getUsername(),
                         employee.getPassword()
                         );
+                SqlRowSet rowSet = jdbcOperations.queryForRowSet("select LAST_INSERT_ID() AS id;");
+                if (rowSet.next()) {
+                    employee.setEmployeeID(rowSet.getInt("id"));
+                }
             } else {
-                jdbcOperations.update(kInsertSQL,
-                        employee.getEmployeeID(),
+                jdbcOperations.update(kInsertSQLAutoIncrease,
+                      //  employee.getEmployeeID(),
                         employee.getName(),
                         employee.getBirthdate(),
                         employee.getSex(),
