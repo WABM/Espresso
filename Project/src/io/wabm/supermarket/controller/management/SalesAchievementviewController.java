@@ -58,10 +58,10 @@ public class SalesAchievementviewController extends SceneController {
         ConsoleLog.print(year.getValue().toString());
         String b=month.getValue().toString();
         ConsoleLog.print(month.getValue().toString());
-        c = a+"-"+ b;
+        //c = a+"-"+ b;
 
         lookButton2.setDisable(true);
-        model.fetchData(c,isSuccess -> {
+        model.fetchData(a,b,isSuccess -> {
             lookButton2.setDisable(false);
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
             return null;

@@ -19,8 +19,8 @@
                   <RowConstraints vgrow="SOMETIMES" />
                   <RowConstraints vgrow="SOMETIMES" />
                   <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="36.0" minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
                 <RowConstraints vgrow="SOMETIMES" />
                   <RowConstraints vgrow="SOMETIMES" />
                   <RowConstraints vgrow="SOMETIMES" />
@@ -35,7 +35,7 @@
                   <Label text="账号：" GridPane.rowIndex="7" />
                   <Label text="密码：" GridPane.rowIndex="8" />
                   <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="departmentComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <ComboBox fx:id="departmentComboBox" prefHeight="36.0" prefWidth="114.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <TextField fx:id="userTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                   <TextField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
@@ -43,7 +43,7 @@
             </GridPane>
             <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="14.0">
                <children>
-                  <Button fx:id="comfirmButton" defaultButton="true" mnemonicParsing="false" onAction="#comfirmButtonPressed" text="添加" />
+                  <Button fx:id="comfirmButton" defaultButton="true" mnemonicParsing="false" onAction="#comfirmButtonPressed" text="修改" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#setCancelButtonpressed" text="取消" />
                </children>
             </HBox>
