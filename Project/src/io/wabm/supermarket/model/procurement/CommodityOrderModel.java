@@ -15,7 +15,12 @@ import java.util.List;
  * Created by 14580 on 2016/12/4 0004.
  */
 public class CommodityOrderModel<T> extends TableViewModel<T> {
-    private final String kSelectAll = "SELECT  order_id,suppiler_id,create_timestamp,status FROM wabm.order";
+    private final String kSelectAll = "SELECT\n" +
+            "  order.order_id,\n" +
+            "  supplier.name,  order.create_timestamp,\n" +
+            "  order.status\n" +
+            "from    wabm.order , wabm.supplier\n" +
+            "where   order.supplier_id=supplier.supplier_id  ";
 
     public CommodityOrderModel(TableView<T> tableView) {
         super(tableView);
@@ -30,10 +35,10 @@ public class CommodityOrderModel<T> extends TableViewModel<T> {
             try{
                 List<Order> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                     Order order= new Order(
-                                    resultSet.getInt("order_id"),
-                                    resultSet.getInt("suppiler_id"),
-                                    resultSet.getString("create_timestamp"),
-                                    resultSet.getInt("status")
+                                    resultSet.getInt("order.order_id"),
+                                    resultSet.getString("supplier.name"),
+                                    resultSet.getString("order.create_timestamp"),
+                                    resultSet.getInt("order.status")
                             );
                             return order;
                         }

@@ -165,7 +165,7 @@ public class CommodityClassificationInformationManagementController extends Scen
                     loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityInformationManagementView.fxml"));
 
                     // Bind controller when you first call it.
-                    navigationTo(loder, controller -> {
+                        navigationTo(loder, controller -> {
 
                         if (commodityInformationController == null) {
                             ConsoleLog.print("Bind controller success");

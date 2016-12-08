@@ -2,7 +2,6 @@ package io.wabm.supermarket.misc.pojo;
 
 import javafx.beans.property.*;
 
-import javax.swing.*;
 
 /**
  * Created by liu on 2016-11-21 .

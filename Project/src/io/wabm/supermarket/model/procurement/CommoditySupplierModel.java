@@ -40,7 +40,7 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
                         Supplier supplier = new Supplier(
                                 resultSet.getInt("supplier_id"),
                                 resultSet.getString("name"),
-                                resultSet.getString("representative_name"),//date类型的，要转换为string类
+                                resultSet.getString("representative_name"),
                                 resultSet.getString("phone"),
                                 resultSet.getString("address")
                         );

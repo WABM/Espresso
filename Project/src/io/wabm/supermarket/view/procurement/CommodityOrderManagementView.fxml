@@ -16,7 +16,7 @@
          </columnResizePolicy>
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="75.0" text="订单编号" />
-            <TableColumn fx:id="supplierIDColumn" prefWidth="75.0" text="供应商" />
+            <TableColumn fx:id="supplierNameColumn" prefWidth="75.0" text="供应商" />
             <TableColumn fx:id="create_timestampColumn" prefWidth="75.0" text="订单时间" />
             <TableColumn fx:id="statusColumn" prefWidth="75.0" text="订单状态" />
             <TableColumn fx:id="actionColumn" prefWidth="75.0" text="操作" />

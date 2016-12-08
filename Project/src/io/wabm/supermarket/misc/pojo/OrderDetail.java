@@ -7,16 +7,16 @@ import javafx.beans.property.*;
  */
 public class OrderDetail {
     private IntegerProperty orderID;
-    private IntegerProperty commodityID;
-    private DoubleProperty price_db;
+    private StringProperty commodityName;
     private IntegerProperty quantity;
+    private DoubleProperty price_db;
     private StringProperty production_date;
 
-    public OrderDetail(int orderID,int commodityID,Double  price_db,int quantity, String production_date){
+    public OrderDetail(int orderID,String commodityName,int quantity,Double  price_db, String production_date){
         this.orderID = new SimpleIntegerProperty(orderID);
-        this.commodityID = new SimpleIntegerProperty(commodityID);
-        this.price_db = new SimpleDoubleProperty(price_db);
+        this.commodityName = new SimpleStringProperty(commodityName);
         this.quantity= new SimpleIntegerProperty(quantity);
+        this.price_db = new SimpleDoubleProperty(price_db);
         this.production_date = new SimpleStringProperty(production_date);
     }
 
@@ -31,29 +31,16 @@ public class OrderDetail {
     }
 
 
-    public int getCommodityID() {
-        return commodityID.get();
+    public String getCommodityName() {
+        return commodityName.get();
     }
 
-    public IntegerProperty commodityIDProperty() {
-        return commodityID;
+    public StringProperty commodityNameProperty() {
+        return commodityName;
     }
 
-    public void setCommodityID(int commodityID) {
-        this.commodityID.set(commodityID);
-    }
-
-
-    public double getPrice_db() {
-        return price_db.get();
-    }
-
-    public DoubleProperty price_dbProperty() {
-        return price_db;
-    }
-
-    public void setPrice_db(double price_db) {
-        this.price_db.set(price_db);
+    public void setCommodityName(String commodityName) {
+        this.commodityName.set(commodityName);
     }
 
 
@@ -69,6 +56,18 @@ public class OrderDetail {
         this.quantity.set(quantity);
     }
 
+
+    public double getPrice_db() {
+        return price_db.get();
+    }
+
+    public DoubleProperty price_dbProperty() {
+        return price_db;
+    }
+
+    public void setPrice_db(double price_db) {
+        this.price_db.set(price_db);
+    }
 
     public String getProduction_date() {
         return production_date.get();

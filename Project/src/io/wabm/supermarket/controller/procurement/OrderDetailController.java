@@ -20,7 +20,7 @@ public class OrderDetailController extends SceneController {
     private OrderDetailModel<OrderDetail> model;
     @FXML private TableView<OrderDetail> tableView;
     @FXML private TableColumn<OrderDetail, Integer> order_idColumn;
-    @FXML private TableColumn<OrderDetail, Integer> commodity_idColumn;
+    @FXML private TableColumn<OrderDetail, String> commodityNameColumn;
     @FXML private TableColumn<OrderDetail, Integer> quantityColumn;
     @FXML private TableColumn<OrderDetail, Double> price_dbColumn;
     @FXML private TableColumn<OrderDetail, String> production_dateColumn;
@@ -50,9 +50,9 @@ public class OrderDetailController extends SceneController {
 
     private void setupTableViewColumn() {
         order_idColumn.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty().asObject());
-        commodity_idColumn.setCellValueFactory(cellData -> cellData.getValue().commodityIDProperty().asObject());
-        price_dbColumn.setCellValueFactory(cellData -> cellData.getValue().price_dbProperty().asObject());
+        commodityNameColumn.setCellValueFactory(cellData -> cellData.getValue().commodityNameProperty());
         quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+        price_dbColumn.setCellValueFactory(cellData -> cellData.getValue().price_dbProperty().asObject());
         production_dateColumn.setCellValueFactory(cellData -> cellData.getValue().production_dateProperty());
 
     }

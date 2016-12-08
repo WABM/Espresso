@@ -19,7 +19,7 @@ public class SupplyGoodsController  extends SceneController {
     @FXML
     private TableView<SupplyGoods> tableView;
     @FXML
-    private TableColumn<SupplyGoods, Integer> commodity_idColumn;
+    private TableColumn<SupplyGoods, String> commodityNameColumn;
     @FXML
     private TableColumn<SupplyGoods, String> delivery_time_costColumn;
     @FXML
@@ -67,7 +67,7 @@ public class SupplyGoodsController  extends SceneController {
     }
 
     private void setupTableViewColumn() {
-        commodity_idColumn.setCellValueFactory(cellData -> cellData.getValue().commodityIDProperty().asObject());
+        commodityNameColumn.setCellValueFactory(cellData -> cellData.getValue().commodityNameProperty());
         price_dbColumn.setCellValueFactory(cellData -> cellData.getValue().price_dbProperty().asObject());
         delivery_time_costColumn.setCellValueFactory(cellData -> cellData.getValue().delivery_time_costProperty());
 

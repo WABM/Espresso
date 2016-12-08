@@ -23,7 +23,8 @@ import java.util.List;
 @ContextConfiguration(classes = DBConfig.class)
 public class OrderDetailModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll ="select order_id,commodity_id,quantity,price_db,production_date FROM wabm.order_detail  WHERE order_id=?";
+    private final String kSelectAll ="select order_detail.order_id, commodity.name,order_detail.quantity,order_detail.price_db, order_detail.production_date FROM wabm.order_detail ,wabm.commodity WHERE order_detail.commodity_id=commodity.commodity_id and order_id = ?";
+
     private int orderID;
 
     public OrderDetailModel(TableView tableView){
@@ -43,11 +44,11 @@ public class OrderDetailModel<T> extends TableViewModel<T> {
                 List<OrderDetail> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                     OrderDetail orderDetail;
                     orderDetail = new OrderDetail(
-                            resultSet.getInt("order_id"),
-                            resultSet.getInt("commodity_id"),
-                            resultSet.getDouble("price_db"),
-                            resultSet.getInt("quantity"),
-                            resultSet.getString("production_date")
+                            resultSet.getInt("order_detail.order_id"),
+                            resultSet.getString("commodity.name"),
+                            resultSet.getInt("order_detail.quantity"),
+                            resultSet.getDouble("order_detail.price_db"),
+                            resultSet.getString("order_detail.production_date")
                     );
                     return orderDetail;
                 }, orderID);

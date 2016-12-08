@@ -8,28 +8,28 @@ import javafx.beans.property.*;
 public class Order{
 
     private IntegerProperty orderID;
-    private IntegerProperty supplierID;
+    private StringProperty supplierName;
     private StringProperty create_timestamp;
     private IntegerProperty status;
 
-    public Order(int orderID, int supplierID, String create_timestamp,int status)
+    public Order(int orderID, String supplierName, String create_timestamp,int status)
     {
         this.orderID = new SimpleIntegerProperty(orderID);
-        this.supplierID = new SimpleIntegerProperty(supplierID);
+        this.supplierName = new SimpleStringProperty(supplierName);
         this.create_timestamp = new SimpleStringProperty(create_timestamp);
         this.status = new SimpleIntegerProperty(status);
     }
 
-    public int getSupplierID() {
-        return supplierID.get();
+    public String getSupplierName() {
+        return supplierName.get();
     }
 
-    public IntegerProperty supplierIDProperty() {
-        return supplierID;
+    public StringProperty supplierNameProperty() {
+        return supplierName;
     }
 
-    public void setSupplierID(int supplierID) {
-        this.supplierID.set(supplierID);
+    public void setSupplierName(String supplierName) {
+        this.supplierName.set(supplierName);
     }
 
 

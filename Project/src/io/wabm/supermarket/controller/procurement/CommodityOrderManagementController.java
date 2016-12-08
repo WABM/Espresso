@@ -26,7 +26,7 @@ public class CommodityOrderManagementController extends SceneController {
 
     @FXML TableView<Order> tableView;
     @FXML TableColumn<Order, Integer> idColumn;
-    @FXML TableColumn<Order, Integer> supplierIDColumn;
+    @FXML TableColumn<Order, String> supplierNameColumn;
     @FXML TableColumn<Order, String> create_timestampColumn;
     @FXML TableColumn<Order, Integer> statusColumn;
     @FXML TableColumn<Order, Hyperlink> actionColumn;
@@ -67,7 +67,7 @@ public class CommodityOrderManagementController extends SceneController {
         actionColumn.setCellFactory(actionColumnSetupCallback);
 
         idColumn.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty().asObject());
-        supplierIDColumn.setCellValueFactory(cellData -> cellData.getValue().supplierIDProperty().asObject());
+        supplierNameColumn.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
         create_timestampColumn.setCellValueFactory(cellData -> cellData.getValue().create_timestampProperty());
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty().asObject());
         actionColumn.setCellValueFactory(cellData -> {

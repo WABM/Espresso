@@ -25,7 +25,9 @@ import java.util.List;
 @ContextConfiguration(classes = DBConfig.class)
 public class SupplyGoodsModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll ="select commodity_id,price_db,delivery_time_cost FROM wabm.supply_detail  WHERE supplier_id=? AND valid=1";
+    private final String kSelectAll ="select commodity.name,supply_detail.price_db,supply_detail.delivery_time_cost\n" +
+            "FROM wabm.supply_detail,wabm.commodity\n" +
+            "WHERE  supply_detail.commodity_id=commodity.commodity_id and supplier_id=?\n";
     private int SupplierID;
 
     public SupplyGoodsModel(TableView tableView){
@@ -45,9 +47,9 @@ public class SupplyGoodsModel<T> extends TableViewModel<T> {
                 List<SupplyGoods> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                     SupplyGoods supplyGoods;
                     supplyGoods = new SupplyGoods(
-                            resultSet.getInt("commodity_id"),
-                            resultSet.getDouble("price_db"),
-                            resultSet.getString("delivery_time_cost")
+                            resultSet.getString("commodity.name"),
+                            resultSet.getDouble("supply_detail.price_db"),
+                            resultSet.getString("supply_detail.delivery_time_cost")
                     );
                     return supplyGoods;
                 }, SupplierID);

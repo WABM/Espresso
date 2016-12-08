@@ -13,7 +13,7 @@
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
          <columns>
             <TableColumn fx:id="order_idColumn" minWidth="80.0" prefWidth="140.0" text="订单编号" />
-            <TableColumn fx:id="commodity_idColumn" minWidth="100.0" prefWidth="149.0" text="商品编号" />
+            <TableColumn fx:id="commodityNameColumn" minWidth="100.0" prefWidth="149.0" text="商品名称" />
             <TableColumn fx:id="quantityColumn" minWidth="50.0" prefWidth="140.0" text="商品数量" />
             <TableColumn fx:id="price_dbColumn" minWidth="50.0" prefWidth="140.0" text="商品进价" />
             <TableColumn fx:id="production_dateColumn" minWidth="50.0" prefWidth="140.0" text="生产日期" />
