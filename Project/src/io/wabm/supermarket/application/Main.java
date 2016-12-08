@@ -12,13 +12,16 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.io.IOException;
 
 public class Main extends Application {
 
     private Stage primaryStage;
-    private static JdbcOperations jdbcOperations = (new AnnotationConfigApplicationContext(DBConfig.class)).getBean(JdbcOperations.class);;
+    private static AnnotationConfigApplicationContext databaseContext = new AnnotationConfigApplicationContext(DBConfig.class);
+    private static JdbcOperations jdbcOperations = databaseContext.getBean(JdbcOperations.class);
+    private static DataSourceTransactionManager transactionManager = databaseContext.getBean(DataSourceTransactionManager.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -76,5 +79,9 @@ public class Main extends Application {
 
     public static JdbcOperations getJdbcOperations() {
         return jdbcOperations;
+    }
+
+    public static DataSourceTransactionManager getTransactionManager() {
+        return transactionManager;
     }
 }
