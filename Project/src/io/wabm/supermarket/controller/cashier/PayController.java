@@ -2,8 +2,9 @@ package io.wabm.supermarket.controller.cashier;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.protocol.StageSetableController;
-import javafx.beans.property.StringProperty;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -14,8 +15,6 @@ import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
@@ -30,10 +29,11 @@ public class PayController implements StageSetableController {
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     private Stage stage;
-    private Callback<BigDecimal, DataAccessException> callback;
+    private Callback<Double, DataAccessException> callback;
 
     private double shouldPay;
     private double change;
+    private double pay;
 
     @FXML Label shouldPayLabel;
     @FXML Label changeLabel;
@@ -42,8 +42,7 @@ public class PayController implements StageSetableController {
     @FXML private void initialize() {
         ConsoleLog.print("PayController init");
 
-        shouldPay = 98.7;
-        shouldPayLabel.setText("¥" + decimalFormat.format(shouldPay));
+        changeLabel.setText("¥-.--");
         setupListener();
     }
 
@@ -63,7 +62,11 @@ public class PayController implements StageSetableController {
     private void setupListener() {
         payTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.equals("") || inputPattern.matcher(newValue).matches()) {
-                resetControl(Double.parseDouble(newValue));
+                if (newValue.equals("")) {
+                    resetControl(0.0);
+                } else {
+                    resetControl(Double.parseDouble(newValue));
+                }
             } else {
                 payTextField.setText(oldValue);
             };
@@ -83,7 +86,30 @@ public class PayController implements StageSetableController {
 
             ConsoleLog.print("Got " + d);
 
+            pay = d;
             resetControl(d);
+
+            if (change < 0.0) { return ; }
+
+            payTextField.setDisable(true);
+            new WABMThread().run(_void -> {
+                DataAccessException exception = callback.call(pay);
+
+                if (exception != null) {
+                    ConsoleLog.print("Pay with exception: " + exception);
+
+                    Platform.runLater(() -> {
+                        payTextField.setDisable(false);
+                        new SimpleErrorAlert("收款失败", "无法连接到服务器进行结算", "请重试一次或联系管理员").show();
+                    });
+                } else {
+                    Platform.runLater(() -> {
+                        stage.close();
+                    });
+                }
+
+                return null;
+            });
 
         } catch (NumberFormatException exception) {
             showAlert();
@@ -100,7 +126,7 @@ public class PayController implements StageSetableController {
 
         change = pay - shouldPay;
         if (change < 0) {
-            changeLabel.setText("¥0.00");
+            changeLabel.setText("¥-.--");
         } else {
             changeLabel.setText("¥" + decimalFormat.format(change));
         }
@@ -110,5 +136,15 @@ public class PayController implements StageSetableController {
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setShouldPay(double shouldPay) {
+        this.shouldPay = shouldPay;
+
+        shouldPayLabel.setText("¥" + decimalFormat.format(shouldPay));
+    }
+
+    public void setCallback(Callback<Double, DataAccessException> callback) {
+        this.callback = callback;
     }
 }

@@ -21,8 +21,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.springframework.dao.DataAccessException;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.EventListener;
 import java.util.Objects;
@@ -35,6 +37,7 @@ public class CashierController implements StageSetableController {
 
     private Stage primaryStage;
 
+    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private CashierModel<SalesRecordDetail> model;
 
     @FXML Label statusLabel;
@@ -54,6 +57,9 @@ public class CashierController implements StageSetableController {
 
     @FXML Label commodityNameLabel;
     @FXML Label commodityPriceLabel;
+
+    @FXML Label actualPayLabel;
+    @FXML Label changeLabel;
 
     @FXML Label commodityCountLabel;
     @FXML Label totalPriceLabel;
@@ -203,8 +209,9 @@ public class CashierController implements StageSetableController {
                 barCodeTextField.requestFocus();
                 break;
             case F5:
-                presentPayView();
-
+                if (model.getTotalPrice().doubleValue() > 0.0) {
+                    presentPayView();
+                }
                 break;
             case F9:
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -294,9 +301,29 @@ public class CashierController implements StageSetableController {
 
 
             ((StageSetableController) loader.getController()).setStage(stage);
+            ((PayController) loader.getController()).setShouldPay(model.getTotalPrice().doubleValue());
+            ((PayController) loader.getController()).setCallback(pay -> {
 
+                DataAccessException result = model.pay();
+
+                if (result == null) {
+                    Platform.runLater(() -> {
+                        actualPayLabel.setText("¥" + decimalFormat.format(pay));
+                        changeLabel.setText("¥" + decimalFormat.format(pay - model.getTotalPrice().doubleValue()));
+                        model.clear();
+                        resetControl();
+                    });
+                }
+
+                return result;
+            });
 
             stage.show();
+
+            stage.setMinWidth(stage.getWidth());
+            stage.setMinHeight(stage.getHeight());
+            stage.setMaxHeight(stage.getHeight());
+
         } catch (Exception e) {
             e.printStackTrace();
         }

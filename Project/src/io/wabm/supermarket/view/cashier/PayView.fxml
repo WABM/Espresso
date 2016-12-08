@@ -20,12 +20,12 @@
                   <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label style="-fx-font-family: Verdana; -fx-font-size: 36;" text="应收：" />
-                  <Label style="-fx-font-family: Verdana; -fx-font-size: 36;" text="找零：" GridPane.rowIndex="1" />
-                  <Label style="-fx-font-family: Verdana; -fx-font-size: 36;" text="实收：" GridPane.rowIndex="2" />
-                  <Label fx:id="shouldPayLabel" style="-fx-font-family: Verdana; -fx-font-size: 36;" text="¥0.00" GridPane.columnIndex="1" />
-                  <Label fx:id="changeLabel" style="-fx-font-family: Verdana; -fx-font-size: 36;" text="¥0.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="payTextField" alignment="CENTER_RIGHT" onKeyPressed="#payTextFieldOnKeyPressed" style="-fx-font-family: Verdana; -fx-font-size: 20;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label style="-fx-font-family: Verdana; -fx-font-size: 54;" text="应收：" />
+                  <Label style="-fx-font-family: Verdana; -fx-font-size: 54;" text="找零：" GridPane.rowIndex="1" />
+                  <Label style="-fx-font-family: Verdana; -fx-font-size: 54;" text="实收：" GridPane.rowIndex="2" />
+                  <Label fx:id="shouldPayLabel" style="-fx-font-family: Verdana; -fx-font-size: 54;" text="¥0.00" GridPane.columnIndex="1" />
+                  <Label fx:id="changeLabel" style="-fx-font-family: Verdana; -fx-font-size: 54;" text="¥0.00" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="payTextField" alignment="CENTER_RIGHT" onKeyPressed="#payTextFieldOnKeyPressed" style="-fx-font-family: Verdana; -fx-font-size: 36;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>

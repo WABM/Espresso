@@ -6,7 +6,9 @@ package io.wabm.supermarket.application;
 
 import io.wabm.supermarket.controller.LoginController;
 import io.wabm.supermarket.misc.config.DBConfig;
+import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Application;
@@ -56,6 +58,7 @@ public class CashierMain extends Application {
     }
 
     private void initRootlayoutWithoutLogin() {
+        SingleLogin.getInstance().initEmployee(new Employee(0, "Dev", "2016-1-1", 1, "10000", "总管理员", "2016-1-1", "admin", "admin"));
         Parent root = null;
         FXMLLoader loader = new FXMLLoader();
         try {
