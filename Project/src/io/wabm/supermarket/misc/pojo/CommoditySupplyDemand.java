@@ -12,25 +12,25 @@ public class CommoditySupplyDemand {
     private StringProperty barcode;
     private StringProperty commodityname;
     private StringProperty classification;
-    private IntegerProperty specification;
+    private StringProperty specification;
     private IntegerProperty deliveryspecification;
     private StringProperty unit;
     private IntegerProperty quantity;
     private ObjectProperty<BigDecimal> price;
-    //private StringProperty supplier;
+    private StringProperty supplier;
 
-    public CommoditySupplyDemand(String commodityid,String barcode,String commodityname, String classification, int specification,int deliveryspecification,String unit,int quantity,BigDecimal price)
+    public CommoditySupplyDemand(String commodityid,String barcode,String commodityname, String classification, String specification,int deliveryspecification,String unit,int quantity,BigDecimal price,String supplier)
     {
         this.commodityid = new SimpleStringProperty(commodityid);
         this.barcode = new SimpleStringProperty(barcode);
         this.commodityname = new SimpleStringProperty(commodityname);
         this.classification = new SimpleStringProperty(classification);
-        this.specification = new SimpleIntegerProperty(specification);
+        this.specification = new SimpleStringProperty(specification);
         this.deliveryspecification = new SimpleIntegerProperty(deliveryspecification);
         this.unit = new SimpleStringProperty(unit);
         this.quantity = new SimpleIntegerProperty(quantity);
         this.price = new SimpleObjectProperty<>(price);
-        //this.supplier = new SimpleStringProperty(supplier);
+        this.supplier = new SimpleStringProperty(supplier);
 
     }
     public String getCommodityid() {
@@ -85,15 +85,15 @@ public class CommoditySupplyDemand {
     }
 
 
-    public int getSpecification() {
+    public String getSpecification() {
         return specification.get();
     }
 
-    public IntegerProperty specificationProperty() {
+    public StringProperty specificationProperty() {
         return specification;
     }
 
-    public void setSpecification(int specification) {
+    public void setSpecification(String specification) {
         this.specification.set(specification);
     }
 
@@ -148,16 +148,16 @@ public class CommoditySupplyDemand {
     }
 
 
-//    public String getsupplier() {
-//        return supplier.get();
-//    }
-//
-//    public StringProperty supplierProperty() {
-//        return supplier;
-//    }
-//
-//    public void setSupplier(String supplier) {
-//        this.supplier.set(supplier);
-//    }
+    public String getsupplier() {
+        return supplier.get();
+    }
+
+    public StringProperty supplierProperty() {
+        return supplier;
+    }
+
+    public void setSupplier(String supplier) {
+        this.supplier.set(supplier);
+    }
 
 }

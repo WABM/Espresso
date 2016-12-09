@@ -17,10 +17,11 @@ import java.util.List;
 public class CommodityOrderModel<T> extends TableViewModel<T> {
     private final String kSelectAll = "SELECT\n" +
             "  order.order_id,\n" +
-            "  supplier.name,  order.create_timestamp,\n" +
+            "  supplier.name,\n" +
+            "  order.create_timestamp,\n" +
             "  order.status\n" +
             "from    wabm.order , wabm.supplier\n" +
-            "where   order.supplier_id=supplier.supplier_id  ";
+            "where   order.supplier_id = supplier.supplier_id and supplier.valid=1";
 
     public CommodityOrderModel(TableView<T> tableView) {
         super(tableView);

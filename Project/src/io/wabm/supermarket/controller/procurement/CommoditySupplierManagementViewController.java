@@ -54,6 +54,15 @@ public class CommoditySupplierManagementViewController extends SceneController {
         setupTableViewColumn();
 
     }
+    private void setupModel() {
+        model = new CommoditySupplierModel<>(tableView);
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+    }
+    private void setupTableView() {}
+    private void setupControl() {}
     private void setupTableViewColumn() {
         actionColumn.setCellFactory(actionColumnSetupCallback);
 
@@ -100,19 +109,6 @@ public class CommoditySupplierManagementViewController extends SceneController {
             }
         }
     };
-    private void setupModel() {
-        model = new CommoditySupplierModel<>(tableView);
-        model.fetchData(isSuccess -> {
-            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
-            return null;
-        });
-    }
-
-    private void setupTableView() {
-    }
-
-    private void setupControl() {
-    }
 
 
     @FXML private void newButtonPressed(){

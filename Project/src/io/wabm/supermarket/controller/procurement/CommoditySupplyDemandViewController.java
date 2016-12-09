@@ -1,14 +1,17 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.CommoditySupplyDemand;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplyDemandModel;
+import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -25,6 +28,7 @@ import java.math.BigDecimal;
  * Created by 14580 on 2016/11/20 0020.
  */
 public class CommoditySupplyDemandViewController extends SceneController {
+
     private CommoditySupplyDemandModel<CommoditySupplyDemand> model;
 
     @FXML TableView<CommoditySupplyDemand> tableView;
@@ -33,27 +37,16 @@ public class CommoditySupplyDemandViewController extends SceneController {
     @FXML TableColumn<CommoditySupplyDemand, String> barcodeColumn;
     @FXML TableColumn<CommoditySupplyDemand, String> commoditynameColumn;
     @FXML TableColumn<CommoditySupplyDemand, String> classificationColumn;
-    @FXML TableColumn<CommoditySupplyDemand, Integer> specificationColumn;
+    @FXML TableColumn<CommoditySupplyDemand, String> specificationColumn;
     @FXML TableColumn<CommoditySupplyDemand, Integer> deliveryspecificationColumn;
     @FXML TableColumn<CommoditySupplyDemand, String> unitColumn;
     @FXML TableColumn<CommoditySupplyDemand, Integer> quantityColumn;
     @FXML TableColumn<CommoditySupplyDemand, BigDecimal> priceColumn;
-    //@FXML TableColumn<CommoditySupplyDemand, String> supplierColumn;
+    @FXML TableColumn<CommoditySupplyDemand, String> supplierColumn;
     @FXML private TableColumn<CommoditySupplyDemand, Hyperlink> actionColumn;
 
     @FXML Button createButton;
 
-    public void fetchWith(String commodityid) {
-
-        this.model.fetchData(commodityid,
-                (exception) -> {
-
-                    // TODO: handle exception
-                    return null;
-                }
-        );
-
-    }
 
     @FXML public void initialize() {
         ConsoleLog.print("CommoditySupplyDemandViewController init");
@@ -66,7 +59,10 @@ public class CommoditySupplyDemandViewController extends SceneController {
     }
     private void setupModel() {
         model = new CommoditySupplyDemandModel<>(tableView);
-
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " /*+ (isSuccess ? "success" : "failed")*/);
+            return null;
+        });
     }
 
     private void setupTableView() {
@@ -77,24 +73,24 @@ public class CommoditySupplyDemandViewController extends SceneController {
 
     private void setupTableViewColumn() {
 
-        //actionColumn.setCellFactory(actionColumnSetupCallback);
+        actionColumn.setCellFactory(actionColumnSetupCallback);
 
         commodityidColumn.setCellValueFactory(cellData -> cellData.getValue().commodityidProperty());
         barcodeColumn.setCellValueFactory(cellData -> cellData.getValue().barcodeProperty());
         commoditynameColumn.setCellValueFactory(cellData -> cellData.getValue().commoditynameProperty());
         classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationProperty());
-        specificationColumn.setCellValueFactory(cellData -> cellData.getValue().specificationProperty().asObject());
+        specificationColumn.setCellValueFactory(cellData -> cellData.getValue().specificationProperty());
         deliveryspecificationColumn.setCellValueFactory(cellData -> cellData.getValue().deliveryspecificationProperty().asObject());
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
         quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
-        //supplierColumn.setCellValueFactory(cellData -> cellData.getValue().supplierProperty());
+        supplierColumn.setCellValueFactory(cellData -> cellData.getValue().supplierProperty());
         actionColumn.setCellValueFactory(cellData -> {
-            return new SimpleObjectProperty<>(new Hyperlink("查看"));
+            return new SimpleObjectProperty<>(new Hyperlink("选择供应商"));
         });
     }
-    /*private SupplyGoodsController supplyGoodsController;
-    private CellFactorySetupCallbackProtocol<Supplier, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
+    private SelectSupplierController selectSupplierController;
+    private CellFactorySetupCallbackProtocol<CommoditySupplyDemand, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
         @Override
         protected void updateItem(Hyperlink item, boolean empty) {
             super.updateItem(item, empty);
@@ -104,29 +100,29 @@ public class CommoditySupplyDemandViewController extends SceneController {
             // Check empty first
             if (!empty) {
                 item.setOnAction(event -> {
-                    Supplier supplier = (Supplier) getTableRow().getItem();
-                    ConsoleLog.print("" + supplier.getName());
+                    CommoditySupplyDemand commoditySupplyDemand = (CommoditySupplyDemand) getTableRow().getItem();
+                    ConsoleLog.print("ok");
 
                     FXMLLoader loder = new FXMLLoader();
-                    loder.setLocation(ViewPathHelper.class.getResource("procurement/SupplyGoodsView.fxml"));
+                    loder.setLocation(ViewPathHelper.class.getResource("procurement/SelectSupplier.fxml"));
 
                     // Bind controller when you first call it.
                     navigationTo(loder, controller -> {
 
-                        if (supplyGoodsController == null) {
+                        if (selectSupplierController == null) {
                             ConsoleLog.print("Bind controller success");
-                            supplyGoodsController = ((SupplyGoodsController) controller);
+                            selectSupplierController = ((SelectSupplierController) controller);
                         }
 
                         return null;
                     });
 
                     // Then dispatch the task to controller you hold.
-                    supplyGoodsController.fetchWith(supplier.getSupplierID());
+                    selectSupplierController.fetchWith(commoditySupplyDemand.getCommodityid());
                 });
             }
         }
-    };*/
+    };
 
     @FXML private void createButtonPressed(){
         ConsoleLog.print("Button pressed");
