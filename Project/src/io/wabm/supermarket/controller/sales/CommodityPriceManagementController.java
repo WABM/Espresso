@@ -30,7 +30,6 @@ public class CommodityPriceManagementController extends SceneController {
     @FXML private TableColumn<Classification, String> nameColumn;
     @FXML private TableColumn<Classification,Double> profitRate;
     @FXML private TableColumn<Classification,Double> taxRate;
-    @FXML private TableColumn<Classification, Hyperlink> actionColumn;
 
     @FXML Button queryButton;
     @FXML ComboBox classButton;
@@ -80,7 +79,6 @@ public class CommodityPriceManagementController extends SceneController {
             ModifyPriceByTypeController controller = loader.getController();
             controller.setStage(stage);
             controller.setDate(getClassification());
-            //controller.setDate(getClassification());
 
             stage.showAndWait();
         }catch (IOException e){

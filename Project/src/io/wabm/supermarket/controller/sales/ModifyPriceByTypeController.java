@@ -1,16 +1,15 @@
 package io.wabm.supermarket.controller.sales;
 
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2016/10/27 0027.
@@ -30,6 +29,7 @@ public class ModifyPriceByTypeController implements StageSetableController {
     public void setStage(Stage stage){
         this.stage = stage;
     }
+
     @FXML private void comfirmButtonPressed() {
         ConsoleLog.print("Button pressed");
         if (check()) {
@@ -54,15 +54,28 @@ public class ModifyPriceByTypeController implements StageSetableController {
         taxRateText.setText(String.valueOf(classification.getTaxRate()));
     }
     private Boolean check() {
-        if (profitRateText.getText().isEmpty() ||taxRateText.getText().isEmpty()) {
+        if (!isDouble(profitRateText.getText()) &&isDouble(taxRateText.getText())) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("修改");
-            alert.setHeaderText("");
-            alert.setContentText("填写内容不能为空");
+            alert.setTitle("输入格式错误");
+            alert.setHeaderText("只能输入数字");
+            alert.setContentText("请重新输入！");
             Optional<ButtonType> result = alert.showAndWait();
+            return false;
+        }
+        if (Double.valueOf(profitRateText.getText())>1.0
+                ||Double.valueOf(taxRateText.getText())>1.0)
+        {
+            SimpleErrorAlert alert = new SimpleErrorAlert("输入错误","税率和利润率不能大于100%","请重新输入！");
+            alert.show();
             return false;
         }
         return true;
     }
-
+    private boolean isDouble(String str) {
+        if (null == str || "".equals(str)) {
+            return false;
+        }
+        Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");
+        return pattern.matcher(str).matches();
+    }
 }

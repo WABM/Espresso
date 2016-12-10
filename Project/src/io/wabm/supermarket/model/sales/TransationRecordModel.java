@@ -48,7 +48,7 @@ public class TransationRecordModel<T> extends TableViewModel<T> {
                                         resultSet.getDouble("all_price_db"),
                                         resultSet.getString("timestamp")
                                 )
-                        ,front,rear);
+                        ,front,rear+1);
 
                         list.clear();
                         list.addAll((T[]) templist.toArray());

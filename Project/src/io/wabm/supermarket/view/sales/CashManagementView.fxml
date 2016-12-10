@@ -11,19 +11,19 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
          <columns>
-            <TableColumn fx:id="CashRegisterID" prefWidth="75.0" text="机号" />
-            <TableColumn fx:id="EmployeeID" prefWidth="75.0" text="收银员" />
-            <TableColumn fx:id="MoneyIN" prefWidth="75.0" text="初始金额" />
-            <TableColumn fx:id="MoneyOUT" prefWidth="75.0" text="实收金额" />
-            <TableColumn fx:id="MoneyShould" prefWidth="75.0" text="应收金额" />
-            <TableColumn fx:id="MoneyShould1" prefWidth="75.0" text="日期" />
+            <TableColumn fx:id="employeeID" prefWidth="75.0" text="收银员编号" />
+            <TableColumn fx:id="name" prefWidth="75.0" text="收银员" />
+            <TableColumn fx:id="moneyIN" prefWidth="75.0" text="初始金额" />
+            <TableColumn fx:id="moneyOUT" prefWidth="75.0" text="应收金额" />
+            <TableColumn fx:id="moneyShould" prefWidth="75.0" text="实收金额" />
+            <TableColumn fx:id="date" prefWidth="75.0" text="日期" />
          </columns>
       </TableView>
    </center>
    <top>
       <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button fx:id="accountingButton" mnemonicParsing="false" onAction="#accountingPressed" text="核算" />
+            <Button fx:id="accountingButton" mnemonicParsing="false" onAction="#accountingPressed" prefHeight="32.0" prefWidth="156.0" text="核算今日现金" />
          </items></ToolBar>
    </top>
 </BorderPane>

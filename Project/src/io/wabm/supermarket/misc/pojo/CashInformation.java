@@ -1,41 +1,35 @@
 package io.wabm.supermarket.misc.pojo;
 
 import javafx.beans.property.*;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
  * Created by Administrator on 2016/11/20 0020.
  */
 public class CashInformation {
-
-    private StringProperty cashRegisterID;
     private StringProperty employeeID;
-    private DoubleProperty moneyIN;
-    private DoubleProperty moneyOUT;
-    private DoubleProperty moneyShould;
-    private ObjectProperty<LocalDate> date;
+    private StringProperty name;
+    private ObjectProperty<BigDecimal> moneyIN;
+    private ObjectProperty<BigDecimal> moneyOUT;
+    private ObjectProperty<BigDecimal> moneyShould;
+    private StringProperty date;
 
-    public CashInformation(String CashRegisterID,String EmployeeID,
-                           Double MoneyIN,Double MoneyOUT,
-                           Double MoneyShould){
-        this.cashRegisterID = new SimpleStringProperty(CashRegisterID);
-        this.employeeID = new SimpleStringProperty(EmployeeID);
-        this.moneyIN = new SimpleDoubleProperty(MoneyIN);
-        this.moneyOUT = new SimpleDoubleProperty(MoneyOUT);
-        this.moneyShould = new SimpleDoubleProperty(MoneyShould);
-        //this.date = new SimpleObjectProperty<LocalDate>(date);
-    }
+    public CashInformation(String employeeID,String name,
+                           BigDecimal moneyIN,BigDecimal moneyOUT,
+                           BigDecimal moneyShould,
+                           String date){
+        this.employeeID = new SimpleStringProperty(employeeID);
+        this.name = new SimpleStringProperty(name);
+        this.moneyIN = new SimpleObjectProperty<>(moneyIN);
+        this.moneyOUT = new SimpleObjectProperty<>(moneyOUT);
+        this.moneyShould = new SimpleObjectProperty<>(moneyShould);
+        this.date = new SimpleStringProperty(date);
 
-    public String getCashRegisterID() {
-        return cashRegisterID.get();
-    }
-
-    public StringProperty cashRegisterIDProperty() {
-        return cashRegisterID;
-    }
-
-    public void setCashRegisterID(String cashRegisterID) {
-        this.cashRegisterID.set(cashRegisterID);
+        moneyIN.setScale(2);
+        moneyOUT.setScale(2);
+        moneyShould.setScale(2);
     }
 
     public String getEmployeeID() {
@@ -50,51 +44,63 @@ public class CashInformation {
         this.employeeID.set(employeeID);
     }
 
-    public double getMoneyIN() {
+    public String getName() {
+        return name.get();
+    }
+
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public BigDecimal getMoneyIN() {
         return moneyIN.get();
     }
 
-    public DoubleProperty moneyINProperty() {
+    public ObjectProperty<BigDecimal> moneyINProperty() {
         return moneyIN;
     }
 
-    public void setMoneyIN(double moneyIN) {
+    public void setMoneyIN(BigDecimal moneyIN) {
         this.moneyIN.set(moneyIN);
     }
 
-    public double getMoneyOUT() {
+    public BigDecimal getMoneyOUT() {
         return moneyOUT.get();
     }
 
-    public DoubleProperty moneyOUTProperty() {
+    public ObjectProperty<BigDecimal> moneyOUTProperty() {
         return moneyOUT;
     }
 
-    public void setMoneyOUT(double moneyOUT) {
+    public void setMoneyOUT(BigDecimal moneyOUT) {
         this.moneyOUT.set(moneyOUT);
     }
 
-    public double getMoneyShould() {
+    public BigDecimal getMoneyShould() {
         return moneyShould.get();
     }
 
-    public DoubleProperty moneyShouldProperty() {
+    public ObjectProperty<BigDecimal> moneyShouldProperty() {
         return moneyShould;
     }
 
-    public void setMoneyShould(double moneyShould) {
+    public void setMoneyShould(BigDecimal moneyShould) {
         this.moneyShould.set(moneyShould);
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date.get();
     }
 
-    public ObjectProperty<LocalDate> dateProperty() {
+    public StringProperty dateProperty() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date.set(date);
     }
 }

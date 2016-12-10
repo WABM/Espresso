@@ -106,7 +106,7 @@ public class HotsaleController extends SceneController {
                     return null;
             }
         };
-        datePicker.setValue(LocalDate.now());
+        datePicker.setValue(LocalDate.now().minusMonths(1));
         datePicker.setConverter(converter);
         datePicker.setPromptText(pattern.toLowerCase());
         datePicker.requestFocus();

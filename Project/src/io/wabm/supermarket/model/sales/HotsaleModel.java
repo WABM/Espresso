@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class HotsaleModel<T> extends TableViewModel<T>{
 
-    private final String kSelectAll = "select c.*,sa.all_price_db,sum(quantity) from commodity c,sales_record sa,sales_record_detail sad where sa.sales_record_id=sad.sales_record_id and sad.commodity_id=c.commodity_id and EXTRACT(YEAR FROM timestamp) =? and EXTRACT(MONTH FROM timestamp)=?  group by c.commodity_id, sa.all_price_db ORDER BY all_price_db DESC LIMIT 10";
+    private final String kSelectAll = "select c.*,sum(sa.all_price_db),sum(quantity) from commodity c,sales_record sa,sales_record_detail sad where sa.sales_record_id=sad.sales_record_id and sad.commodity_id=c.commodity_id and EXTRACT(YEAR FROM timestamp) =? and EXTRACT(MONTH FROM timestamp)=?  group by c.commodity_id ORDER BY sum(sa.all_price_db) DESC LIMIT 10";
     private Service<Void> backgroundThread;
 
     public HotsaleModel(TableView<T> tableView){
@@ -56,7 +56,7 @@ public class HotsaleModel<T> extends TableViewModel<T>{
                                         resultSet.getString("unit"),
                                         resultSet.getInt("sum(quantity)"),
                                         resultSet.getString("price_db"),
-                                        resultSet.getString("all_price_db")
+                                        resultSet.getString("sum(sa.all_price_db)")
                                 )
                         ,year,month);
 
