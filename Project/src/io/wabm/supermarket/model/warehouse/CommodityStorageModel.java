@@ -46,7 +46,8 @@ public class CommodityStorageModel<T> extends TableViewModel<T> {
                             resultSet.getBigDecimal("price_db"),
                             resultSet.getInt("delivery_specification"),
                             resultSet.getInt("shelf_life"),
-                            resultSet.getInt("storage")
+                            resultSet.getInt("storage"),
+                            resultSet.getBoolean("valid")
                     );
                     commodity.setClassificationName(resultSet.getString("classification_name"));
                     return commodity;

@@ -91,7 +91,7 @@ public class WarehouseTest {
         BigDecimal price = new BigDecimal(14.50);
         price.setScale(2);
 
-        Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", price, 20, 21, 10);
+        Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", price, 20, 21, 10, true);
         model.delete(commodity, (exception) -> {
 
             future.complete(exception);

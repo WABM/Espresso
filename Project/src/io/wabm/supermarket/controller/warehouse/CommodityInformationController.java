@@ -3,14 +3,14 @@ package io.wabm.supermarket.controller.warehouse;
 import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
-import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityInformationModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
-import javafx.beans.property.IntegerProperty;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,7 +22,6 @@ import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Optional;
 
 /**
@@ -44,7 +43,7 @@ public class CommodityInformationController extends SceneController {
 
     @FXML Button backButton;
     @FXML Button addButton;
-    @FXML Button deleteButton;
+    @FXML Button removeButton;
     @FXML Button modifyButton;
     @FXML Button searchButton;
 
@@ -106,30 +105,31 @@ public class CommodityInformationController extends SceneController {
         }
     }
 
-    @FXML private void deleteButtonPressed() {
+    @FXML private void removeButtonPressed() {
         ConsoleLog.print("button pressed");
 
         Commodity commodity = tableView.getSelectionModel().getSelectedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("删除分类");
-        alert.setHeaderText("确认删除");
-        alert.setContentText("删除 " + commodity.getName() + " " + (commodity.getSpecification()));
+        alert.setTitle("移除商品");
+        alert.setHeaderText("移除商品会导致商品被标记为失效状态，数据仍会被保留，但仅供查看而无法修改和使用");
+        alert.setContentText("是否移除 " + commodity.getName());
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            ConsoleLog.print("Delete " + commodity.getName() + " …");
+            ConsoleLog.print("Remove " + commodity.getName() + " …");
 
-            model.delete(commodity, exception -> {
+            model.remove(commodity, exception -> {
                 if (null == exception) {
-                    new SimpleSuccessAlert("删除成功", "", commodity.getName() + " 删除成功").show();
+                    tableView.refresh();
+                    new SimpleSuccessAlert("移除成功", "", commodity.getName() + " 移除成功").show();
                 } else {
-                    new SimpleErrorAlert("删除失败", "删除数据遇到了错误", "请重试").show();
+                    new SimpleErrorAlert("移除失败", "更新数据遇到了错误", "请重试").show();
                 }
                 return null;
             });
         } else {
-            ConsoleLog.print("Delete process cancel");
+            ConsoleLog.print("Remove canceled");
         }
     }
 
@@ -158,15 +158,27 @@ public class CommodityInformationController extends SceneController {
     // MARK: Setup method
 
     private void setupControl() {
-        deleteButton.setDisable(true);
+        removeButton.setDisable(true);
     }
     private void setupModel() {
         model = new CommodityInformationModel<>(tableView);
     }
 
     private void setupTableView() {
+        tableView.setRowFactory(tableView -> new TableRow<Commodity>() {
+            @Override
+            protected void updateItem(Commodity item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (!empty) {
+                    setDisable(!item.isValid());
+                    setEditable(item.isValid());
+                }
+            }
+        });
+
         tableView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
+                (observable, oldValue, newValue) -> removeButton.setDisable(newValue == null)
         );
     }
 

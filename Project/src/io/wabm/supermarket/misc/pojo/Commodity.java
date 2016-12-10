@@ -3,12 +3,8 @@ package io.wabm.supermarket.misc.pojo;
 import javafx.beans.property.*;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
 
 /**
  * Created by MainasuK on 2016-11-14.
@@ -23,6 +19,7 @@ public class Commodity {
     private StringProperty unit;
     private ObjectProperty<BigDecimal> price;
     private IntegerProperty deliverySpecification;
+    private BooleanProperty valid;
 
     private IntegerProperty shelfLife;
     private IntegerProperty storage;
@@ -39,7 +36,8 @@ public class Commodity {
                      BigDecimal price,
                      Integer deliverySpecification,
                      Integer shelfLife,
-                     Integer storage) {
+                     Integer storage,
+                     boolean valid) {
         this.commodityID = new SimpleStringProperty(commodityID);
         this.classificationID = new SimpleIntegerProperty(classificationID);
         this.barcode = new SimpleStringProperty(barcode);
@@ -50,6 +48,7 @@ public class Commodity {
         this.deliverySpecification = new SimpleIntegerProperty(deliverySpecification);
         this.shelfLife = new SimpleIntegerProperty(shelfLife);
         this.storage = new SimpleIntegerProperty(storage);
+        this.valid = new SimpleBooleanProperty(valid);
 
         price.setScale(2);
 
@@ -68,8 +67,9 @@ public class Commodity {
                      String unit,
                      BigDecimal price,
                      Integer deliverySpecification,
-                     Integer shelfLife) {
-        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, 0);
+                     Integer shelfLife,
+                     boolean valid) {
+        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, 0, valid);
     }
 
     public Commodity(StringProperty commodityID,
@@ -81,7 +81,8 @@ public class Commodity {
                      ObjectProperty<BigDecimal> price,
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife,
-                     IntegerProperty storage) {
+                     IntegerProperty storage,
+                     BooleanProperty valid) {
         this.commodityID = commodityID;
         this.classificationID = classificationID;
         this.barcode = barcode;
@@ -92,6 +93,7 @@ public class Commodity {
         this.deliverySpecification = deliverySpecification;
         this.shelfLife = shelfLife;
         this.storage = storage;
+        this.valid = valid;
     }
 
     public Commodity(StringProperty commodityID,
@@ -103,7 +105,7 @@ public class Commodity {
                      ObjectProperty<BigDecimal> price,
                      IntegerProperty deliverySpecification,
                      IntegerProperty shelfLife) {
-        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, new SimpleIntegerProperty(0));
+        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, new SimpleIntegerProperty(0), new SimpleBooleanProperty(true));
     }
 
     public Commodity(ResultSet resultSet) throws SQLException {
@@ -116,7 +118,8 @@ public class Commodity {
                 resultSet.getString("unit"),
                 resultSet.getBigDecimal("price_db"),
                 resultSet.getInt("delivery_specification"),
-                resultSet.getInt("shelf_life")
+                resultSet.getInt("shelf_life"),
+                resultSet.getBoolean("valid")
         );
     }
 
@@ -253,5 +256,17 @@ public class Commodity {
 
     public void setStorage(int storage) {
         this.storage.set(storage);
+    }
+
+    public boolean isValid() {
+        return valid.get();
+    }
+
+    public BooleanProperty validProperty() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid.set(valid);
     }
 }

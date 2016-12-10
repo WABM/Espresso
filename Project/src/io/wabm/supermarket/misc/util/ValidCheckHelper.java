@@ -45,4 +45,8 @@ public class ValidCheckHelper {
 
         return (text == null || text.length() == 0);
     }
+
+    public Boolean isLengthEqualTo(String text, int length) {
+        return text.length() == length;
+    }
 }

@@ -57,6 +57,11 @@ public class AddCommodityController implements StageSetableController, CallbackA
             return ;
         }
 
+        String shelfLifeStr = shelfLifeTextField.getText();
+        if (shelfLifeStr == null || shelfLifeStr.equals("")) {
+            shelfLifeStr = "0";
+        }
+
         Commodity commodity = new Commodity(
                 idTextField.getText(),
                 classificationComboBox.getValue().getClassificationID(),
@@ -66,7 +71,8 @@ public class AddCommodityController implements StageSetableController, CallbackA
                 unitTextField.getText(),
                 new BigDecimal(0.0),
                 Integer.parseInt(deliverySpecificationTextField.getText()),
-                Integer.parseInt(shelfLifeTextField.getText())
+                Integer.parseInt(shelfLifeStr),
+                true
         );
         commodity.setClassificationName(classificationComboBox.getValue().getName());
 
@@ -74,10 +80,11 @@ public class AddCommodityController implements StageSetableController, CallbackA
         if (null != (exception = callback.call(commodity))) {
             if (exception instanceof DuplicateKeyException) {
                 String message = exception.getLocalizedMessage();
+                ConsoleLog.print(message);
 
                 if (message.contains("bar_code_UNIQUE")) {
                     new SimpleErrorAlert("数据库更新出现错误", "请检查输入条形码", "该条形码在数据库中已存在").show();
-                } else if (message.contains("PRIMARY")) {
+                } else if (message.contains("commodity_id_UNIQUE")) {
                     new SimpleErrorAlert("数据库更新出现错误", "请检查输入商品编码", "该商品编码在数据库中已存在").show();
                 }   // end if message.contains(…)
             } else {
@@ -158,13 +165,17 @@ public class AddCommodityController implements StageSetableController, CallbackA
         if (idTextField.getText().length() != 8) {
             errorMessage += "需要 8 位商品编码\n";
         }
+        if (barCodeTextField.getText().length() != 13) {
+            errorMessage += "需要 13 位条形码\n";
+        }
+
         errorMessage += helper.checkTypeAndLength(idTextField, "编码", 8);
-        errorMessage += helper.checkTypeAndLength(barCodeTextField, "条形码", 45);
+        errorMessage += helper.checkTypeAndLength(barCodeTextField, "条形码", 16);
         errorMessage += helper.checkTypeAndLength(nameTextField, "商品名称", 45);
         errorMessage += helper.checkTypeAndLength(specificationTextField, "商品规格", 45);
         errorMessage += helper.checkTypeAndLength(unitTextField, "商品单位", 45);
         errorMessage += helper.checkTypeAndLengthForInteger(deliverySpecificationTextField, "配送规格", 11);
-        errorMessage += helper.checkTypeAndLengthForInteger(shelfLifeTextField, "保质期", 11);
+//        errorMessage += helper.checkTypeAndLengthForInteger(shelfLifeTextField, "保质期", 11);
 
         ConsoleLog.print(errorMessage);
         if (errorMessage.length() == 0) {

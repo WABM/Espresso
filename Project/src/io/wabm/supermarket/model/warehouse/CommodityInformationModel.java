@@ -27,6 +27,7 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
     private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kDeleteSQLWithID = "DELETE FROM wabm.commodity WHERE wabm.commodity.commodity_id = ?;";
+    private final String kUpdateValidWithID = "UPDATE wabm.commodity SET valid = ? WHERE commodity_id = ?";
 
     private int classificationID;
 
@@ -62,7 +63,8 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
                             resultSet.getString("unit"),
                             resultSet.getBigDecimal("price_db"),
                             resultSet.getInt("delivery_specification"),
-                            resultSet.getInt("shelf_life")
+                            resultSet.getInt("shelf_life"),
+                            resultSet.getBoolean("valid")
                     );
                     commodity.setClassificationName(resultSet.getString("classification_name"));
 
@@ -90,6 +92,8 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         Assert.notNull(jdbcOperations);
 
         try {
+
+
 
             if (commodity.getCommodityID() == null || commodity.getCommodityID() == "") {
                 jdbcOperations.update(kInsertSQLAutoIncrease,
@@ -147,5 +151,24 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
         }
 
     }   // end delete(…) { … }
+
+    public void remove(Commodity commodity, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("remove commodity: " + commodity.getName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+
+            jdbcOperations.update(kUpdateValidWithID, 0, commodity.getCommodityID());
+
+            commodity.setValid(false);
+            callback.call(null);
+
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+
+    }
 
 }
