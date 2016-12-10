@@ -159,13 +159,15 @@
                            <children>
                               <Label text="操作说明" />
                               <Label text="扫码：F1" GridPane.rowIndex="1" />
-                              <Label text="收款：F5" GridPane.rowIndex="2" />
-                              <Label text="删单：F9" GridPane.rowIndex="3" />
+                              <Label text="收款：F5" GridPane.rowIndex="3" />
+                              <Label text="删单：F9" GridPane.rowIndex="4" />
+                              <Label text="重输：F2" GridPane.rowIndex="2" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" />
                            </columnConstraints>
                            <rowConstraints>
+                              <RowConstraints vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />
                               <RowConstraints vgrow="SOMETIMES" />

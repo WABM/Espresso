@@ -162,9 +162,6 @@ public class CashierController implements StageSetableController {
         barCodeTextField.setPromptText("");
         barCodeTextField.setText("");
 
-        // Handle text changes.
-        setupBarCodeListener();
-
         // Release focus of tableView
         tableView.setFocusTraversable(false);
     }
@@ -194,6 +191,9 @@ public class CashierController implements StageSetableController {
             ConsoleLog.print("Key " + event.getCode() + " pressed in barCodeTextFiled");
 
             triggerActionWithKey(event.getCode());
+            if (event.getCode() == KeyCode.ENTER) {
+                triggerActionWithEnter();
+            }
         });
 
         primaryStage.getScene().setOnKeyPressed(event -> {
@@ -203,10 +203,17 @@ public class CashierController implements StageSetableController {
         });
     }
 
+    private void triggerActionWithEnter() {
+        fetchCommodityWith(barCodeTextField.getText().trim());
+    }
+
     private void triggerActionWithKey(KeyCode keyCode) {
         switch (keyCode) {
             case F1:
                 barCodeTextField.requestFocus();
+                break;
+            case F2:
+                barCodeTextField.setText("");
                 break;
             case F5:
                 if (model.getTotalPrice().doubleValue() > 0.0) {
@@ -238,52 +245,52 @@ public class CashierController implements StageSetableController {
         }
     }
 
-    private void setupBarCodeListener() {
-        barCodeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+    /**
+     * Fetch commodity with commodity_id or bar_code
+     * @param text
+     */
+    private void fetchCommodityWith(String text) {
+        if (text == null || text.equals("")) {
+            return ;
+        }
 
-            newValue = newValue.trim();
+        // Press ENTER for length < 13 case
+        if (text.length() < 8) {
+            return ;
+        }
 
-            if (newValue == null || newValue.equals("")) {
-                return ;
+        // Try to fetch & add commodity in POS model
+        String finalBarCode = text;
+        model.addCommoditytWith(text, exception -> {
+            ConsoleLog.print("finish add '" + finalBarCode + "' with exception:" + exception);
+
+            if (exception == null) {
+                ConsoleLog.print("add success…");
+
+                String barCode = barCodeTextField.getText();
+                Platform.runLater(() -> {
+                    // Handle barCode input control
+                    barCodeTextField.setPromptText(barCode.trim());
+                    barCodeTextField.setText("");
+
+                    // Handle commodity name label
+                    commodityNameLabel.setText(model.getCurrentCommodity().getName());
+
+                    // Handle commodity price label
+                    commodityPriceLabel.setText("¥" + model.getCurrentCommodity().getPrice().toPlainString());
+
+                    // Handle commodity count label
+                    commodityCountLabel.setText(model.getCommodityCount() + "");
+
+                    // Handle total price label
+                    totalPriceLabel.setText("¥" + model.getTotalPrice());
+                });
+
             }
 
-            if (newValue.length() < 8) {
-                return ;
-            }
-
-            // Try to fetch & add commodity in POS model
-            String finalBarCode = newValue;
-            model.addCommoditytWith(newValue, exception -> {
-                ConsoleLog.print("finish add '" + finalBarCode + "' with exception:" + exception);
-
-                if (exception == null) {
-                    ConsoleLog.print("add success…");
-
-                    String barCode = barCodeTextField.getText();
-                    Platform.runLater(() -> {
-                        // Handle barCode input control
-                        barCodeTextField.setPromptText(barCode.trim());
-                        barCodeTextField.setText("");
-
-                        // Handle commodity name label
-                        commodityNameLabel.setText(model.getCurrentCommodity().getName());
-
-                        // Handle commodity price label
-                        commodityPriceLabel.setText("¥" + model.getCurrentCommodity().getPrice().toPlainString());
-
-                        // Handle commodity count label
-                        commodityCountLabel.setText(model.getCommodityCount() + "");
-
-                        // Handle total price label
-                        totalPriceLabel.setText("¥" + model.getTotalPrice());
-                    });
-
-                }
-
-                return null;
-            });
+            return null;
         });
-    }   // end setupBarCodeListener() { … }
+    }
 
     private void presentPayView() {
         try {

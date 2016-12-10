@@ -165,9 +165,6 @@ public class AddCommodityController implements StageSetableController, CallbackA
         if (idTextField.getText().length() != 8) {
             errorMessage += "需要 8 位商品编码\n";
         }
-        if (barCodeTextField.getText().length() != 13) {
-            errorMessage += "需要 13 位条形码\n";
-        }
 
         errorMessage += helper.checkTypeAndLength(idTextField, "编码", 8);
         errorMessage += helper.checkTypeAndLength(barCodeTextField, "条形码", 16);
