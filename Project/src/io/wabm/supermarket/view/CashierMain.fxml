@@ -99,7 +99,7 @@
          <center>
             <VBox>
                <children>
-                  <TableView fx:id="tableView" editable="true" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+                  <TableView fx:id="tableView" editable="true" style="-fx-selection-bar-non-focused: -fx-accent;" BorderPane.alignment="CENTER" VBox.vgrow="ALWAYS">
                      <columns>
                         <TableColumn fx:id="noColumn" maxWidth="60.0" minWidth="58.0" prefWidth="58.0" sortable="false" text="序号" />
                         <TableColumn fx:id="barCodeColumn" maxWidth="130.0" minWidth="120.0" prefWidth="125.0" sortable="false" text="商品条码" />
