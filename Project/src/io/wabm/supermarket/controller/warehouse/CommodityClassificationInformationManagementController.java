@@ -42,23 +42,6 @@ public class CommodityClassificationInformationManagementController extends Scen
         setupTableViewColumn();
     }
 
-
-    @FXML private void deleteButtonPressed() {
-        final String name = tableView.getSelectionModel().getSelectedItem().getName();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("删除分类");
-        alert.setHeaderText("确认删除");
-        alert.setContentText("删除 " + name);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-
-        } else {
-
-        }
-    }
-
     // MARK: Setup method
 
     private void setupControl() {
@@ -92,17 +75,6 @@ public class CommodityClassificationInformationManagementController extends Scen
             return new SimpleObjectProperty<>(new Hyperlink("查看"));
         });
 
-        // Just for test
-//        actionColumn.setCellFactory(column -> new CheckBoxTableCell<>());
-//        actionColumn.setCellValueFactory(cellData -> {
-//            Classification classification = cellData.getValue();
-//            BooleanProperty property = classification.choosedProperty();
-//
-//            // Add listener for handler change
-//            property.addListener((observable, oldValue, newValue) -> classification.setChoosed(newValue));
-//
-//            return property;
-//        });
     }
 
     private CommodityInformationController commodityInformationController;
