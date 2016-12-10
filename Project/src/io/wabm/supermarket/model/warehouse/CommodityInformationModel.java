@@ -4,24 +4,29 @@ import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
+import io.wabm.supermarket.model.FilteredTableViewModel;
 import io.wabm.supermarket.model.Model;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.QueryTimeoutException;
 import org.springframework.util.Assert;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Created by MainasuK on 2016-11-17.
  */
-public class CommodityInformationModel<T> extends TableViewModel<T> {
+public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
     private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -169,6 +174,33 @@ public class CommodityInformationModel<T> extends TableViewModel<T> {
             callback.call(dataAccessException);
         }
 
+    }
+
+    public void update(Commodity commodity, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("remove commodity: " + commodity.getName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+            jdbcOperations.update("UPDATE wabm.commodity SET commodity_id=?, bar_code=?, name=?, classification_id=?, specification=?, unit=?, delivery_specification=?, shelf_life=? WHERE commodity_id=?",
+                    commodity.getCommodityID(),
+                    commodity.getBarcode(),
+                    commodity.getName(),
+                    commodity.getClassificationID(),
+                    commodity.getSpecification(),
+                    commodity.getUnit(),
+                    commodity.getDeliverySpecification(),
+                    commodity.getShelfLife(),
+                    commodity.getCommodityID()  // where
+            );
+        } catch (DataAccessException exception) {
+            callback.call(exception);
+        }
+
+    }
+
+    public void setFilter(Predicate<T> predicate) {
+        ConsoleLog.print("set predicate");
+        setPredicate(predicate);
     }
 
 }

@@ -14,17 +14,17 @@ import java.util.List;
 /**
  * Created by MainasuK on 2016-11-28.
  */
-public class AddCommodityModel<T> extends ComboBoxModel<T> {
+public class CommodityModel<T> extends ComboBoxModel<T> {
 
     private ComboBox<T> comboBox;
     private final String kSelectSQL = "SELECT cl.classification_id, cl.name FROM wabm.classification cl;";
 
-    public AddCommodityModel(ComboBox<T> comboBox) {
+    public CommodityModel(ComboBox<T> comboBox) {
         super(comboBox);
 
         this.comboBox = comboBox;
 
-        ConsoleLog.print("AddCommodityModel init");
+        ConsoleLog.print("CommodityModel init");
     }
 
 

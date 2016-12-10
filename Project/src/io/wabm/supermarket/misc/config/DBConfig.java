@@ -30,7 +30,7 @@ public class DBConfig {
         BasicDataSource dataSource = new BasicDataSource();
 
         dataSource.setUrl(url);    // Set timezone to China Standard Time
-//        dataSource.setDefaultQueryTimeout(10);
+//        dataSource.setDefaultQueryTimeout(10);  // wait 10s
         dataSource.setUsername(username);
         dataSource.setPassword(password);
         dataSource.setInitialSize(5);

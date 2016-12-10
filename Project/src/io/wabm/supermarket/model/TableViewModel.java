@@ -10,17 +10,24 @@ import org.springframework.jdbc.core.JdbcOperations;
  */
 public class TableViewModel<T> extends Model<T> {
 
-    private TableView<T> tableView;
+    protected TableView<T> tableView;
 
     protected JdbcOperations jdbcOperations;
 
     public TableViewModel(TableView<T> tableView) {
         this.tableView = tableView;
 
-        list = FXCollections.observableArrayList();
-        tableView.setItems(list);
-
+        setupList();
+        setupTableViewDataSource();
         setupJdbcOperations();
+    }
+
+    protected void setupList() {
+        list = FXCollections.observableArrayList();
+    }
+
+    protected void setupTableViewDataSource() {
+        tableView.setItems(list);
     }
 
     protected void setupJdbcOperations() {

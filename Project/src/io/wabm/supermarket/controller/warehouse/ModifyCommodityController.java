@@ -25,10 +25,11 @@ import java.math.BigDecimal;
 /**
  * Created by MainasuK on 2016-11-28.
  */
-public class AddCommodityController implements StageSetableController, CallbackAcceptableProtocol<Commodity, DataAccessException> {
+public class ModifyCommodityController implements StageSetableController, CallbackAcceptableProtocol<Commodity, DataAccessException> {
 
     private CommodityModel<Classification> model;
     private Callback<Commodity, DataAccessException> callback = null;
+    private Commodity commodity;
     private int classificationID;
 
     @FXML Stage stage;
@@ -62,7 +63,7 @@ public class AddCommodityController implements StageSetableController, CallbackA
             shelfLifeStr = "0";
         }
 
-        Commodity commodity = new Commodity(
+        Commodity newCommodity = new Commodity(
                 idTextField.getText(),
                 classificationComboBox.getValue().getClassificationID(),
                 barCodeTextField.getText(),
@@ -74,10 +75,10 @@ public class AddCommodityController implements StageSetableController, CallbackA
                 Integer.parseInt(shelfLifeStr),
                 true
         );
-        commodity.setClassificationName(classificationComboBox.getValue().getName());
+        newCommodity.setClassificationName(classificationComboBox.getValue().getName());
 
         DataAccessException exception = null;
-        if (null != (exception = callback.call(commodity))) {
+        if (null != (exception = callback.call(newCommodity))) {
             if (exception instanceof DuplicateKeyException) {
                 String message = exception.getLocalizedMessage();
                 ConsoleLog.print(message);
@@ -92,6 +93,15 @@ public class AddCommodityController implements StageSetableController, CallbackA
             }   // end if (exception instanceof …)
 
         } else {
+
+            commodity.setBarcode(newCommodity.getBarcode());
+            commodity.setName(newCommodity.getName());
+            commodity.setClassificationID(newCommodity.getClassificationID());
+            commodity.setSpecification(newCommodity.getSpecification());
+            commodity.setUnit(newCommodity.getUnit());
+            commodity.setDeliverySpecification(newCommodity.getDeliverySpecification());
+            commodity.setShelfLife(newCommodity.getShelfLife());
+
             stage.close();
         }   // end if (null != callback…)
 
@@ -107,15 +117,33 @@ public class AddCommodityController implements StageSetableController, CallbackA
      * Use JavaFX initialize. This method will be called after control init.
      */
     @FXML public void initialize() {
-        ConsoleLog.print("AddCommodityController init");
+        ConsoleLog.print("ModifyCommodityController init");
 
         setupModel();
+        setupControl();
+    }
+
+    private void resetControl(Commodity commodity) {
+        idTextField.setText(commodity.getCommodityID());
+        barCodeTextField.setText(commodity.getBarcode());
+        nameTextField.setText(commodity.getName());
+        specificationTextField.setText(commodity.getSpecification());
+        unitTextField.setText(commodity.getUnit());
+        deliverySpecificationTextField.setText(commodity.getDeliverySpecification() + "");
+        shelfLifeTextField.setText(commodity.getShelfLife() + "");
     }
 
     // MARK: Public config method
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setCommodity(Commodity commodity) {
+        ConsoleLog.print("Set commodity: " + commodity.getName());
+
+        this.commodity = commodity;
+        resetControl(commodity);
     }
 
     @Override
@@ -151,6 +179,10 @@ public class AddCommodityController implements StageSetableController, CallbackA
     private void setupModel() {
         Assert.notNull(classificationComboBox);
         model = new CommodityModel<>(classificationComboBox);
+    }
+
+    private void setupControl() {
+        idTextField.setDisable(true);
     }
 
     /**
