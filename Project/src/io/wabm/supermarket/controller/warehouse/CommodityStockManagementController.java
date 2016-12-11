@@ -17,6 +17,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
 
@@ -68,6 +69,7 @@ public class CommodityStockManagementController {
             // (This event thread is blocked until close)
             stage.showAndWait();
 
+            refetchPurchase();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -172,7 +174,6 @@ public class CommodityStockManagementController {
             // (This event thread is blocked until close)
             stage.showAndWait();
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -203,6 +204,27 @@ public class CommodityStockManagementController {
             return null;
         });
 
+        refetchPurchase();
+
+        orderReceiveButton.setDisable(true);
+        model.fetchNeedsProcurementCount(num -> {
+            if (num == null) {
+                ConsoleLog.print("fetch transporting order count get error");
+                return null;
+            }
+
+            Platform.runLater(() -> {
+                orderReceiveButton.setText("待收货订单("+ num +")");
+                orderReceiveButton.setDisable(num == 0);
+            });
+
+            return null;
+        });
+
+    }
+
+    private void refetchPurchase() {
+        ConsoleLog.print("refetching…");
         purchaseFormButton.setDisable(true);
         model.fetchNeedsProcurementCount(num -> {
             if (num == null) {
@@ -217,7 +239,6 @@ public class CommodityStockManagementController {
 
             return null;
         });
-
     }
 
     private void setupTableViewColumn() {
@@ -235,6 +256,5 @@ public class CommodityStockManagementController {
 
     private void setupControl() {
         searchButton.setDisable(true);
-        orderReceiveButton.setDisable(true);
     }
 }

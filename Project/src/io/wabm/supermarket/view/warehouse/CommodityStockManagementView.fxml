@@ -27,8 +27,8 @@
          <items>
             <Button fx:id="searchButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#searchButtonPressed" text="查找" />
             <Pane HBox.hgrow="ALWAYS" />
-            <Button fx:id="orderReceiveButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#orderReceiveButtonPressed" text="待收货订单 (9)" />
-            <Button fx:id="purchaseFormButton" mnemonicParsing="false" onAction="#purchaseFormButtonPressed" text="需补货商品 (42)" />
+            <Button fx:id="orderReceiveButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#orderReceiveButtonPressed" text="待收货订单" />
+            <Button fx:id="purchaseFormButton" mnemonicParsing="false" onAction="#purchaseFormButtonPressed" text="需补货商品" />
          </items>
       </ToolBar>
    </top>

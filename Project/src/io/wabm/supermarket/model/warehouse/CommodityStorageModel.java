@@ -4,9 +4,6 @@ import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.FilteredTableViewModel;
-import io.wabm.supermarket.model.Model;
-import io.wabm.supermarket.model.TableViewModel;
-import javafx.collections.FXCollections;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
@@ -22,6 +19,7 @@ public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAllSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id;";
     private final String kSelectNeedsProcurementSQL = "SELECT count(*) num FROM needs_procurement_commodity LIMIT 1;";
+    private final String kSelectTransportingOrderCountSQL = "SELECT count(*) num FROM `order` o WHERE o.status = 2 LIMIT 1;";
 
     public CommodityStorageModel(TableView<T> tableView) {
         super(tableView);
@@ -70,15 +68,15 @@ public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
 
     }  // end of fetchData
 
-    public void fetchNeedsProcurementCount(Callback<Integer, Void> callback) {
-        ConsoleLog.print("fetching all data…");
+    private void fetchCountWithSQL(String sql, Callback<Integer, Void> callback) {
+        ConsoleLog.print("fetching count…");
 
         Assert.notNull(jdbcOperations);
 
         new WABMThread().run(_void -> {
 
             try {
-                int num = jdbcOperations.queryForObject(kSelectNeedsProcurementSQL, Integer.class);
+                int num = jdbcOperations.queryForObject(sql, Integer.class);
                 callback.call(num);
 
             } catch (DataAccessException exception) {
@@ -88,7 +86,14 @@ public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
 
             return null;
         });
+    }
 
+    public void fetchNeedsProcurementCount(Callback<Integer, Void> callback) {
+        fetchCountWithSQL(kSelectNeedsProcurementSQL, callback);
+    }
+
+    public void fetchTransportingOrderCount(Callback<Integer, Void> callback) {
+        fetchCountWithSQL(kSelectTransportingOrderCountSQL, callback);
     }
 
 }

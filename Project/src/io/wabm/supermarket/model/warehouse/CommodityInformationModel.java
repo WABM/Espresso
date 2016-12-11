@@ -192,6 +192,7 @@ public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
                     commodity.getShelfLife(),
                     commodity.getCommodityID()  // where
             );
+            callback.call(null);
         } catch (DataAccessException exception) {
             callback.call(exception);
         }
