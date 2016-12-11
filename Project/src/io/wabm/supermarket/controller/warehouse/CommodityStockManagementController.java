@@ -2,6 +2,7 @@ package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
+import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
@@ -24,6 +25,7 @@ import java.io.IOException;
 public class CommodityStockManagementController {
 
     private CommodityStorageModel<Commodity> model;
+    private boolean isSearching = false;
 
     @FXML TableView<Commodity> tableView;
     @FXML TableColumn<Commodity, String> idColumn;
@@ -37,6 +39,8 @@ public class CommodityStockManagementController {
 
     @FXML Button purchaseFormButton;
     @FXML Button orderReceiveButton;
+
+    @FXML Button searchButton;
 
     @FXML private void purchaseFormButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -100,11 +104,85 @@ public class CommodityStockManagementController {
         }
     }
 
+    @FXML private void searchButtonPressed() {
+        ConsoleLog.print("button pressed");
+
+        if (isSearching) {
+            isSearching = !isSearching;
+            searchButton.setText("查询");
+            model.setPredicate(commodity -> true);
+
+            return ;
+        }
+
+        try {
+            // Load view
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("warehouse/FilterCommodityWithClassificationView.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Create the popup Stage.
+            Stage stage = new Stage();
+            stage.setTitle("查询商品");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Pass the info into the controller.
+            StageSetableController controller = loader.getController();
+            controller.setStage(stage);
+
+            ((CallbackAcceptableProtocol<String[], Void>) controller).set((strings) -> {
+                ConsoleLog.print("filter commodity callback called");
+
+                // Check input first
+                if (    (strings[0] == null || "".equals(strings[0])) &&
+                        (strings[1] == null || "".equals(strings[1])) &&
+                        (strings[2] == null || "".equals(strings[2])) &&
+                        (strings[3] == null || "".equals(strings[3]))) {
+                    model.setPredicate(commodity -> true);
+                    return null;
+                }
+
+                searchButton.setText("重置");
+                isSearching = true;
+                model.setPredicate(commodity -> {
+                    boolean hasID, hasBarCode, hasName, hasClassificationID;
+
+                    hasID = commodity.getCommodityID().contains(strings[0]);
+                    hasBarCode = commodity.getBarcode().contains(strings[1]);
+                    hasName = commodity.getName().contains(strings[2]);
+                    if (strings[3] == null) {
+                        hasClassificationID = true;
+                    } else {
+                        hasClassificationID = (commodity.getClassificationID() + "").equals(strings[3]);
+                    }
+
+                    // Debug
+                    // ConsoleLog.print(hasID+ " " + hasBarCode + " " + hasName + " " + hasClassificationID);
+                    return  hasID && hasBarCode && hasName && hasClassificationID;
+                });
+
+                return null;
+            });
+
+            // Show the dialog and wait until the user closes it.
+            // (This event thread is blocked until close)
+            stage.showAndWait();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML public void initialize() {
         ConsoleLog.print("CommodityStockManagementController init");
 
         setupModel();
         setupTableViewColumn();
+        setupControl();
     }
 
 
@@ -114,6 +192,13 @@ public class CommodityStockManagementController {
         model = new CommodityStorageModel<>(tableView);
         model.fetchAllData(exception -> {
             ConsoleLog.print("Fetch has: " + exception);
+
+            if (exception != null) {
+                return null;
+            }
+
+            searchButton.setDisable(false);
+
             return null;
         });
     }
@@ -129,5 +214,11 @@ public class CommodityStockManagementController {
         storageColumn.setCellValueFactory(cellData -> cellData.getValue().storageProperty().asObject());
 
         // TODO: actionColumn
+    }
+
+    private void setupControl() {
+        searchButton.setDisable(true);
+        orderReceiveButton.setDisable(true);
+        purchaseFormButton.setDisable(true);
     }
 }

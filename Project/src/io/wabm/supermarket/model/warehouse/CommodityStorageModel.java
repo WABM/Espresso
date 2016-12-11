@@ -3,6 +3,7 @@ package io.wabm.supermarket.model.warehouse;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
+import io.wabm.supermarket.model.FilteredTableViewModel;
 import io.wabm.supermarket.model.Model;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.collections.FXCollections;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by MainasuK on 2016-11-20.
  */
-public class CommodityStorageModel<T> extends TableViewModel<T> {
+public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAllSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id;";
 

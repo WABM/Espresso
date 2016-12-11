@@ -229,7 +229,7 @@ public class CommodityInformationController extends SceneController {
                 model.setPredicate(commodity -> {
                     boolean hasID, hasBarCode, hasName;
 
-                    hasID = (""+commodity.getCommodityID()).contains(strings[0]);
+                    hasID = commodity.getCommodityID().contains(strings[0]);
                     hasBarCode = commodity.getBarcode().contains(strings[1]);
                     hasName = commodity.getName().contains(strings[2]);
 
