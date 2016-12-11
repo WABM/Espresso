@@ -6,6 +6,7 @@ import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -201,6 +202,22 @@ public class CommodityStockManagementController {
 
             return null;
         });
+
+        purchaseFormButton.setDisable(true);
+        model.fetchNeedsProcurementCount(num -> {
+            if (num == null) {
+                ConsoleLog.print("fetch needs procurement commodity count get error");
+                return null;
+            }
+
+            Platform.runLater(() -> {
+                purchaseFormButton.setText("需补货商品("+ num +")");
+                purchaseFormButton.setDisable(num == 0);
+            });
+
+            return null;
+        });
+
     }
 
     private void setupTableViewColumn() {
@@ -219,6 +236,5 @@ public class CommodityStockManagementController {
     private void setupControl() {
         searchButton.setDisable(true);
         orderReceiveButton.setDisable(true);
-        purchaseFormButton.setDisable(true);
     }
 }

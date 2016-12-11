@@ -21,6 +21,7 @@ import java.util.List;
 public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAllSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id;";
+    private final String kSelectNeedsProcurementSQL = "SELECT count(*) num FROM needs_procurement_commodity LIMIT 1;";
 
     public CommodityStorageModel(TableView<T> tableView) {
         super(tableView);
@@ -68,5 +69,26 @@ public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
         });
 
     }  // end of fetchData
+
+    public void fetchNeedsProcurementCount(Callback<Integer, Void> callback) {
+        ConsoleLog.print("fetching all data…");
+
+        Assert.notNull(jdbcOperations);
+
+        new WABMThread().run(_void -> {
+
+            try {
+                int num = jdbcOperations.queryForObject(kSelectNeedsProcurementSQL, Integer.class);
+                callback.call(num);
+
+            } catch (DataAccessException exception) {
+                callback.call(null);
+                exception.printStackTrace();
+            }
+
+            return null;
+        });
+
+    }
 
 }
