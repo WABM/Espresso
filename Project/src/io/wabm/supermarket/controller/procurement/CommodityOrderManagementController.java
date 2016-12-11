@@ -28,7 +28,7 @@ public class CommodityOrderManagementController extends SceneController {
     @FXML TableColumn<Order, Integer> idColumn;
     @FXML TableColumn<Order, String> supplierNameColumn;
     @FXML TableColumn<Order, String> create_timestampColumn;
-    @FXML TableColumn<Order, Integer> statusColumn;
+    @FXML TableColumn<Order, String> statusColumn;
     @FXML TableColumn<Order, Hyperlink> actionColumn;
 
     @FXML Button unpaymentButton;
@@ -69,7 +69,7 @@ public class CommodityOrderManagementController extends SceneController {
         idColumn.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty().asObject());
         supplierNameColumn.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
         create_timestampColumn.setCellValueFactory(cellData -> cellData.getValue().create_timestampProperty());
-        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty().asObject());
+        statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty().asString());
         actionColumn.setCellValueFactory(cellData -> {
 
             return new SimpleObjectProperty<>(new Hyperlink("查看"));

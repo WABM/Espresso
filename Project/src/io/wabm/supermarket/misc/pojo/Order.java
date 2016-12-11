@@ -1,5 +1,6 @@
 package io.wabm.supermarket.misc.pojo;
 
+import io.wabm.supermarket.misc.enums.OrderStatusEnum;
 import javafx.beans.property.*;
 
 /**
@@ -10,14 +11,14 @@ public class Order{
     private IntegerProperty orderID;
     private StringProperty supplierName;
     private StringProperty create_timestamp;
-    private IntegerProperty status;
+    private ObjectProperty<OrderStatusEnum> status;
 
-    public Order(int orderID, String supplierName, String create_timestamp,int status)
+    public Order(int orderID, String supplierName, String create_timestamp, OrderStatusEnum status)
     {
         this.orderID = new SimpleIntegerProperty(orderID);
         this.supplierName = new SimpleStringProperty(supplierName);
         this.create_timestamp = new SimpleStringProperty(create_timestamp);
-        this.status = new SimpleIntegerProperty(status);
+        this.status = new SimpleObjectProperty<>(status);
     }
 
     public String getSupplierName() {
@@ -54,19 +55,16 @@ public class Order{
 
     public void setCreate_timestamp(String create_timestamp) {this.create_timestamp.set(create_timestamp);}
 
-
-    public int  getStatus() {
+    public OrderStatusEnum getStatus() {
         return status.get();
     }
 
-    public IntegerProperty statusProperty() {
+    public ObjectProperty<OrderStatusEnum> statusProperty() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(OrderStatusEnum status) {
         this.status.set(status);
     }
-
-
 
 }

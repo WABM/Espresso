@@ -1,5 +1,6 @@
 package io.wabm.supermarket.model.procurement;
 
+import io.wabm.supermarket.misc.enums.OrderStatusEnum;
 import io.wabm.supermarket.misc.pojo.Order;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
@@ -39,7 +40,7 @@ public class CommodityOrderModel<T> extends TableViewModel<T> {
                                     resultSet.getInt("order.order_id"),
                                     resultSet.getString("supplier.name"),
                                     resultSet.getString("order.create_timestamp"),
-                                    resultSet.getInt("order.status")
+                                    OrderStatusEnum.values()[resultSet.getInt("order.status")]
                             );
                             return order;
                         }
