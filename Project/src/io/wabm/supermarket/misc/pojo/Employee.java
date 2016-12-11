@@ -13,35 +13,40 @@ import java.util.Calendar;
  */
 public class Employee {
     final static public ArrayList<String> sexArray = new ArrayList<>(Arrays.asList("男","女"));
-    static private ArrayList<String> positonArray = new ArrayList<>(Arrays.asList("总管理员","仓库管理员","收银员","采购管理员","销售管理员"));
+    final static public ArrayList<String> positonArray = new ArrayList<>(Arrays.asList("总管理员","仓库管理员","收银员","采购管理员","销售管理员"));
 
     private IntegerProperty employeeID;
     private StringProperty name;
     private StringProperty birthdate;
     private IntegerProperty sex;
     private StringProperty phone;
-    private StringProperty department;
+    private IntegerProperty department;
     private StringProperty entrydate;
     private StringProperty username;
     private StringProperty password;
 
+    private BooleanProperty valid;
 
-    public Employee(int employeeID, String name, String birthdate, int sex, String phone, String department, String entrydate,String username,String password)
+
+    //private BooleanProperty valid;
+
+    public Employee(int employeeID, String name, String birthdate, int sex, String phone, int department, String entrydate,String username,String password,boolean valid)
     {
         this.employeeID = new SimpleIntegerProperty(employeeID);
         this.name = new SimpleStringProperty(name);
         this.birthdate = new SimpleStringProperty(birthdate);
         this.sex = new SimpleIntegerProperty(sex);
         this.phone = new SimpleStringProperty(phone);
-        this.department = new SimpleStringProperty(department);
+        this.department = new SimpleIntegerProperty(department);
 
         this.entrydate = new SimpleStringProperty(entrydate);
 
         this.username = new SimpleStringProperty(username);
         this.password = new SimpleStringProperty(password);
+        this.valid = new SimpleBooleanProperty(valid);
     }
 
-    public Employee(IntegerProperty employeeID, StringProperty name, StringProperty birthdate, IntegerProperty sex, StringProperty phone, StringProperty department, StringProperty entrydate,StringProperty username,StringProperty password) {
+    public Employee(IntegerProperty employeeID, StringProperty name, StringProperty birthdate, IntegerProperty sex, StringProperty phone, IntegerProperty department, StringProperty entrydate,StringProperty username,StringProperty password,BooleanProperty valid) {
         this.employeeID = employeeID;
         this.name = name;
         this.birthdate = birthdate;
@@ -51,6 +56,7 @@ public class Employee {
         this.entrydate=entrydate;
         this.username=username;
         this.password=password;
+        this.valid=valid;
     }
 
     public int getEmployeeID() {
@@ -78,9 +84,7 @@ public class Employee {
     }
 
 
-    public int getSex() {
-        return sex.get();
-    }
+    public int getSex() {return sex.get();}
 
     public IntegerProperty sexProperty() {
         return sex;
@@ -92,6 +96,23 @@ public class Employee {
 
     public String getSexString() {
         return sexArray.get(getSex());
+    }
+
+
+    public int getDepartment() {
+        return department.get();
+    }
+
+    public IntegerProperty departmentProperty() {
+        return department;
+    }
+
+    public void setDepartment(int department) {
+        this.department.set(department);
+    }
+
+    public String getDepartmentString() {
+        return positonArray.get(getDepartment());
     }
 
     public String getPhone() {
@@ -106,7 +127,7 @@ public class Employee {
         this.phone.set(phone);
     }
 
-    public String getDepartment() {
+   /* public String getDepartment() {
         return department.get();
     }
 
@@ -128,7 +149,7 @@ public class Employee {
 
     public void setDepartment(String department) {
         this.department.set(department);
-    }
+    }*/
 
     public String getBirthdate() {
         return birthdate.get();
@@ -170,4 +191,15 @@ public class Employee {
         this.password.set(password);
     }
 
+    public boolean isValid() {
+        return valid.get();
+    }
+
+    public BooleanProperty validProperty() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid.set(valid);
+    }
 }

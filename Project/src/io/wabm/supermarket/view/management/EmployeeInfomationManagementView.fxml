@@ -6,7 +6,7 @@
 
 <BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.EmployeeImformationManagementController">
    <center>
-      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../misc/css/DisableTableRowStyle.css" BorderPane.alignment="CENTER">
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
@@ -26,7 +26,7 @@
          <items>
             <Button fx:id="queryButton" mnemonicParsing="false" onAction="#queryButtonPressed" text="查询" />
             <Button fx:id="modifyButton" mnemonicParsing="false" onAction="#modifyButtonPressed" text="修改" />
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" text="删除" />
+            <Button fx:id="removeButton" mnemonicParsing="false" onAction="#removeButtonPressed" text="删除" />
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#addButtonPressed" text="添加" />
             <Pane HBox.hgrow="ALWAYS" />
          </items>

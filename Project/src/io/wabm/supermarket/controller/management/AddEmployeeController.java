@@ -4,6 +4,7 @@ import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.GenderWrapper;
+import io.wabm.supermarket.misc.util.GenderWrapper1;
 import io.wabm.supermarket.model.management.AddEmployeeModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
@@ -24,7 +25,7 @@ import org.springframework.util.Assert;
  */
 public class AddEmployeeController implements StageSetableController,CallbackAcceptableProtocol<Employee, DataAccessException> {
 
-//    private AddEmployeeModel<Employee> model;
+    private AddEmployeeModel<Employee> model;
     private Callback<Employee, DataAccessException> callback = null;
     @FXML
     Stage stage;
@@ -34,7 +35,7 @@ public class AddEmployeeController implements StageSetableController,CallbackAcc
     @FXML
     TextField nameTextField;
     @FXML
-    ComboBox<String> departmentComboBox;
+    ComboBox<GenderWrapper1> departmentComboBox;
     @FXML
     ComboBox<GenderWrapper> sexComboBox;
     @FXML
@@ -79,10 +80,11 @@ public class AddEmployeeController implements StageSetableController,CallbackAcc
                 birthTextField.getText(),
                 sexComboBox.getValue().getSex(),
                 phoneTextField.getText(),
-                departmentComboBox.getValue(),
+                departmentComboBox.getValue().getDepartment(),
                 entryTextField.getText(),
                 userTextField.getText(),
-                passwordTextField.getText()
+                passwordTextField.getText(),
+                true
         );
 
     DataAccessException exception = null;
@@ -124,12 +126,15 @@ public void initialize() {
 
     setupModel();
 
-    departmentComboBox.setItems(FXCollections.observableArrayList("总管理员","仓库管理员","收银员","采购管理员","销售管理员"));
+   // departmentComboBox.setItems(FXCollections.observableArrayList("总管理员","仓库管理员","收银员","采购管理员","销售管理员"));
+
     sexComboBox.setItems(FXCollections.observableArrayList(new GenderWrapper(0),new GenderWrapper(1)));
+        departmentComboBox.setItems(FXCollections.observableArrayList(new GenderWrapper1(0),new GenderWrapper1(1),new GenderWrapper1(2),new GenderWrapper1(3),new GenderWrapper1(4)));
 }
 
     private void setupModel() {
         Assert.notNull(departmentComboBox);
+
         //model = new AddEmployeeModel<>(departmentComboBox);
     }
 

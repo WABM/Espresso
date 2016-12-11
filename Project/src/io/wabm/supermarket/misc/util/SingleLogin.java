@@ -27,7 +27,8 @@ public class SingleLogin {
                                 employee1.getDepartment(),
                                 employee1.getEntrydate(),
                                 employee1.getUsername(),
-                                employee1.getPassword());
+                                employee1.getPassword(),
+                                employee1.isValid());
     }
     public Employee getEmployee(){
         return employee;

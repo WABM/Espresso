@@ -129,10 +129,11 @@ public class LoginController {
                         resultSet.getString("birth_date"),     //date类型的，要转换为string类型
                         resultSet.getInt("sex_status"),
                         resultSet.getString("phone"),
-                        resultSet.getString("position_status"),
+                        resultSet.getInt("position_status"),
                         resultSet.getString("entry_date"),   //数据库中取出来是date
                         resultSet.getString("username"),
-                        resultSet.getString("password")
+                        resultSet.getString("password"),
+                        resultSet.getBoolean("valid")
                 ), username, password);
 
                 setEmployee(employee);

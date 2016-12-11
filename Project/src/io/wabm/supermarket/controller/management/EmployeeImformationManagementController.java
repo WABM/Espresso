@@ -31,6 +31,7 @@ public class EmployeeImformationManagementController extends SceneController{
 
 
     private EmployeeInformationModel<Employee> model;
+    private boolean isSearching = false;
 
     @FXML TableView<Employee> tableView;
     @FXML TableColumn<Employee, Integer> idColumn;
@@ -46,15 +47,16 @@ public class EmployeeImformationManagementController extends SceneController{
     @FXML Button addButton;
     @FXML Button modifyButton;
     @FXML Button queryButton;
+    @FXML Button removeButton;
 
     @FXML public void initialize() {
         ConsoleLog.print("EmployeeImformationManagermentController init");
         // Stub for develop
-        setupControl();
+
         setupModel();
         setupTableView();
         setupTableViewColumn();
-
+        setupControl();
     }
 
 
@@ -79,13 +81,32 @@ public class EmployeeImformationManagementController extends SceneController{
     }
 
     private void setupTableView() {
+        tableView.setRowFactory(tableView -> new TableRow<Employee>() {
+            @Override
+            protected void updateItem(Employee item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!empty) {
+                    setDisable(!item.isValid());
+                    setEditable(item.isValid());
+                }
+            }
+        });
+
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    removeButton.setDisable(newValue == null);
+                    modifyButton.setDisable(newValue == null);
+                }
+        );
     }
 
     private void setupControl() {
+        removeButton.setDisable(true);
+        modifyButton.setDisable(true);
     }
 
 
-    @FXML private void deleteButtonPressed(){
+    @FXML private void removeButtonPressed(){
         ConsoleLog.print("Button pressed");
         Employee employee = tableView.getSelectionModel().getSelectedItem();
 
@@ -93,12 +114,14 @@ public class EmployeeImformationManagementController extends SceneController{
         alert.setTitle("删除员工");
         alert.setHeaderText("确认删除");
         alert.setContentText("删除 " + employee.getName());
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             ConsoleLog.print("Delete " + employee.getName() + " …");
 
-            model.delete(employee, exception -> {
+            model.remove(employee, exception -> {
                 if (null == exception) {
+                    tableView.refresh();
                     new SimpleSuccessAlert("删除成功", "", employee.getName() + " 删除成功").show();
                 } else {
                     new SimpleErrorAlert("删除失败", "删除数据遇到了错误", "请重试").show();
@@ -178,22 +201,58 @@ public class EmployeeImformationManagementController extends SceneController{
             AnchorPane pane=loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("我不知道写什么好");
+            stage.setTitle("修改员工信息");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene=new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
+            StageSetableController controller = loader.getController();
+            controller.setStage(stage);
 
+            ((ModifyEmployeeController) controller).setEmployee(tableView.getSelectionModel().getSelectedItem());
+            ((CallbackAcceptableProtocol<Employee, DataAccessException>) controller).set((employee) -> {
+                ConsoleLog.print("modify employee callback called");
+                final DataAccessException[] e = {null};
+
+                model.update(employee, (exception) -> {
+                    e[0] = exception;
+                    if (null != exception) {
+                        exception.printStackTrace();
+                    } else {
+                        tableView.refresh();
+                        ConsoleLog.print("update employee success");
+                    }
+
+                    return null;
+                });
+
+                return e[0];
+            });
+
+            // Show the dialog and wait until the user closes it.
+            // (This event thread is blocked until close)
             stage.showAndWait();
+           // StageSetableController contoller=loader.getController();
+            //contoller.setStage(stage);
         }catch(IOException e){
             e.printStackTrace();
         }
+
+
+
     }
     @FXML private void queryButtonPressed(){
         ConsoleLog.print("Button pressed");
+
+        if (isSearching) {
+            isSearching = !isSearching;
+            queryButton.setText("查询");
+            model.setPredicate(employee -> true);
+
+            return ;
+        }
+
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ViewPathHelper.class.getResource("management/Query employee information.fxml"));
@@ -206,12 +265,42 @@ public class EmployeeImformationManagementController extends SceneController{
             Scene scene=new Scene(pane);
             stage.setScene(scene);
 
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
+            StageSetableController controller=loader.getController();
+            controller.setStage(stage);
+
+            ((CallbackAcceptableProtocol<String[], Void>) controller).set((strings) -> {
+                        ConsoleLog.print("filter employee callback called");
+                        if ((strings[0] == null || "".equals(strings[0])) &&
+                                (strings[1] == null || "".equals(strings[1])) &&
+                                (strings[2] == null || "".equals(strings[2]))) {
+                            model.setPredicate(employee -> true);
+                            return null;
+                        }
+                        queryButton.setText("重置");
+                        isSearching = true;
+
+                        model.setPredicate(employee -> {
+                            boolean hasID, hasName, hasPhone;
+
+                            hasID = ("" + employee.getEmployeeID()).contains(strings[0]);
+                            hasName = employee.getName().contains(strings[1]);
+                           // hasdepartment = employee.getDepartment().contains(strings[2]);
+                            hasPhone = employee.getPhone().contains(strings[2]);
+
+                            // Debug
+
+                            return hasID && hasName && hasPhone;
+                        });
+
+                        return null;
+                    });
 
             stage.showAndWait();
+
         }catch(IOException e){
             e.printStackTrace();
         }
     }
+
+
 }

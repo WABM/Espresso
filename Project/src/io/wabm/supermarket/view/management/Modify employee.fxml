@@ -10,36 +10,45 @@
       <VBox layoutX="121.0" layoutY="14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
             <GridPane vgap="7.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="NEVER" />
-                <ColumnConstraints hgrow="SOMETIMES" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="36.0" minHeight="36.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-                  <RowConstraints vgrow="SOMETIMES" />
-              </rowConstraints>
+               <children>
+                  <Label text="姓名：" GridPane.rowIndex="2" />
+                  <Label text="入职日期：" GridPane.rowIndex="5" />
+                  <Label text="性别：" GridPane.rowIndex="3" />
+                  <Label text="出生日期：" GridPane.rowIndex="4" />
+                  <Label text="职位：" GridPane.rowIndex="6" />
+                  <Label text="电话号码：" GridPane.rowIndex="7" />
+                  <Label text="账号：" GridPane.rowIndex="8" />
+                  <Label text="密码：" GridPane.rowIndex="9" />
+                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <ComboBox fx:id="sexComboBox" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="birthTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="entryTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <ComboBox fx:id="departmentComboBox" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                  <TextField fx:id="userTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                  <TextField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                  <Label text="员工编号：" GridPane.rowIndex="1" />
+                  <TextField fx:id="idTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+               <columnConstraints>
+                  <ColumnConstraints hgrow="NEVER" />
+                  <ColumnConstraints hgrow="SOMETIMES" />
+               </columnConstraints>
                <padding>
                   <Insets bottom="14.0" left="14.0" right="14.0" top="14.0" />
                </padding>
-               <children>
-                  <Label text="姓名：" GridPane.rowIndex="1" />
-                  <Label text="职位：" GridPane.rowIndex="5" />
-                  <Label text="电话号码：" GridPane.rowIndex="6" />
-                  <Label text="账号：" GridPane.rowIndex="7" />
-                  <Label text="密码：" GridPane.rowIndex="8" />
-                  <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <ComboBox fx:id="departmentComboBox" prefHeight="36.0" prefWidth="114.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                  <TextField fx:id="userTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <TextField fx:id="passwordTextField" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-               </children>
+               <rowConstraints>
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="SOMETIMES" />
+               </rowConstraints>
             </GridPane>
             <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="14.0">
                <children>

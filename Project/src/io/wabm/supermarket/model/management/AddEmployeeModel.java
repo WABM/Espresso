@@ -38,10 +38,11 @@ public class AddEmployeeModel<T> extends ComboBoxModel<T>{
                                 resultSet.getString("birth_date"),
                                 resultSet.getInt("sex_status"),
                                 resultSet.getString("phone"),
-                                resultSet.getString("position_status"),
+                                resultSet.getInt("position_status"),
                                 resultSet.getString("entry_date"),
                                 resultSet.getString("username"),
-                                resultSet.getString("password")
+                                resultSet.getString("password"),
+                                resultSet.getBoolean("valid")
                         );
 
                         return employee;
