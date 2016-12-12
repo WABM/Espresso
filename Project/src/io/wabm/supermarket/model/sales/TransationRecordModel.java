@@ -1,6 +1,5 @@
 package io.wabm.supermarket.model.sales;
 
-import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.TransactionRecord;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.TableViewModel;
@@ -9,8 +8,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
-import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -18,8 +15,6 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/11/19 0019.
  */
-@Repository
-@ContextConfiguration(classes = DBConfig.class)
 public class TransationRecordModel<T> extends TableViewModel<T> {
     private final String kSelectAll = "SELECT * FROM sales_record where timestamp >= ? and timestamp <= ?";
     private Service<Void> backgroundThread;

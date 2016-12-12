@@ -54,7 +54,7 @@ public class ModifyPriceByTypeController implements StageSetableController {
         taxRateText.setText(String.valueOf(classification.getTaxRate()));
     }
     private Boolean check() {
-        if (!isDouble(profitRateText.getText()) &&isDouble(taxRateText.getText())) {
+        if (!(isDouble(profitRateText.getText()) && isDouble(taxRateText.getText()))) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("输入格式错误");
             alert.setHeaderText("只能输入数字");
@@ -79,3 +79,5 @@ public class ModifyPriceByTypeController implements StageSetableController {
         return pattern.matcher(str).matches();
     }
 }
+
+

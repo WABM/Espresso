@@ -17,12 +17,13 @@ import java.util.List;
  */
 public class SaleClassificationInformationModel<T> extends CommodityClassificationInformationModel<T>{
     String KSelectone = "select * from classification where name = ?";
+
     public SaleClassificationInformationModel(TableView<T> tableView){
         super(tableView);
     }
+
     public void Choose(String name,Callback<Boolean, Void> callback) {
         ConsoleLog.print("fetching data…");
-        Assert.notNull(jdbcOperations);
 
         new WABMThread().run((_void) -> {
             try {
