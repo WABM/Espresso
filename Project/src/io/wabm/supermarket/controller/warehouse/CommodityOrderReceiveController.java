@@ -1,6 +1,7 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.controller.procurement.OrderDetailController;
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Order;
 import io.wabm.supermarket.model.warehouse.TransportingOrderModel;
@@ -12,11 +13,16 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
  * Created by MainasuK on 2016-10-25.
@@ -52,8 +58,15 @@ public class CommodityOrderReceiveController implements StageSetableController {
     private void setupModel() {
         model = new TransportingOrderModel<>(tableView);
 
-        model.fetchData(isSuccess -> {
+        refetch();
+    }
 
+    private void refetch() {
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("fetching…");
+            if (!isSuccess) {
+                new SimpleErrorAlert("数据获取失败", "未能成功订单数据", "请关闭并重新打开该窗口").show();
+            }
             return null;
         });
     }
@@ -83,27 +96,42 @@ public class CommodityOrderReceiveController implements StageSetableController {
 
             setAlignment(Pos.CENTER);
 
-            if(!empty){
+            if (!empty){
                 item.setOnAction(event -> {
                     Order order = (Order) getTableRow().getItem();
-                    ConsoleLog.print("" + order.getOrderID());
+                    ConsoleLog.print("pass value: " + order.getOrderID());
 
-//                    FXMLLoader loader = new FXMLLoader();
-//                    loader.setLocation(ViewPathHelper.class.getResource("procurement/OrderDetailView.fxml"));
-//
-//                    navigationTo(loader,controller -> {
-//
-//                        if (orderDetailController == null){
-//                            ConsoleLog.print("Bind controller success");
-//                            orderDetailController = ((OrderDetailController)controller);
-//                        }
-//                        return null;
-//                    });
-//
-//                    orderDetailController.fetchWith(order.getOrderID());
+                    try {
+                        // Load view
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityOrderReceiveDetailView.fxml"));
+                        AnchorPane pane = loader.load();
 
-                });
-            }
+                        // Create the popup Stage.
+                        Stage stage = new Stage();
+                        stage.setTitle("订单详情");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+
+                        Scene scene = new Scene(pane);
+                        stage.setScene(scene);
+
+                        // Pass the info into the controller.
+                        CommodityOrderReceiveDetailController controller = loader.getController();
+                        controller.setStage(stage);
+                        controller.setOrderID(order.getOrderID());
+
+                        // Show the dialog and wait until the user closes it.
+                        // (This event thread is blocked until close)
+                        stage.showAndWait();
+
+                        refetch();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }); // end item.setOnAction(…)
+            }   // end if (!empty) …
         }
     };
 

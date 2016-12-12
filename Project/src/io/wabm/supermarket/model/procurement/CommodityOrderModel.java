@@ -16,7 +16,7 @@ import java.util.List;
  * Created by 14580 on 2016/12/4 0004.
  */
 public class CommodityOrderModel<T> extends TableViewModel<T> {
-    protected String kSelectAll = "SELECT\n" +
+    private String kSelectAll = "SELECT\n" +
             "  order.order_id,\n" +
             "  supplier.name,\n" +
             "  order.create_timestamp,\n" +

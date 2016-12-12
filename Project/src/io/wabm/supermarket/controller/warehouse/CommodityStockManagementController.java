@@ -101,6 +101,7 @@ public class CommodityStockManagementController {
             // (This event thread is blocked until close)
             stage.showAndWait();
 
+            refetchOrder();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -205,22 +206,7 @@ public class CommodityStockManagementController {
         });
 
         refetchPurchase();
-
-        orderReceiveButton.setDisable(true);
-        model.fetchNeedsProcurementCount(num -> {
-            if (num == null) {
-                ConsoleLog.print("fetch transporting order count get error");
-                return null;
-            }
-
-            Platform.runLater(() -> {
-                orderReceiveButton.setText("待收货订单("+ num +")");
-                orderReceiveButton.setDisable(num == 0);
-            });
-
-            return null;
-        });
-
+        refetchOrder();
     }
 
     private void refetchPurchase() {
@@ -235,6 +221,23 @@ public class CommodityStockManagementController {
             Platform.runLater(() -> {
                 purchaseFormButton.setText("需补货商品("+ num +")");
                 purchaseFormButton.setDisable(num == 0);
+            });
+
+            return null;
+        });
+    }
+
+    private void refetchOrder() {
+        orderReceiveButton.setDisable(true);
+        model.fetchTransportingOrderCount(num -> {
+            if (num == null) {
+                ConsoleLog.print("fetch transporting order count get error");
+                return null;
+            }
+
+            Platform.runLater(() -> {
+                orderReceiveButton.setText("待收货订单("+ num +")");
+                orderReceiveButton.setDisable(num == 0);
             });
 
             return null;

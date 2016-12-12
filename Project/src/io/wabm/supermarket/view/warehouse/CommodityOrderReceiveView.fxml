@@ -23,7 +23,7 @@
                <children>
                   <HBox alignment="CENTER_RIGHT" spacing="8.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButtonPressed" text="关闭" />
+                        <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonPressed" text="关闭" />
                      </children>
                   </HBox>
                </children>
