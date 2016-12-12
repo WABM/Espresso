@@ -1,22 +1,20 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.pojo.ShelfLifeCommodity;
-import io.wabm.supermarket.misc.util.CalendarFormater;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityShelfLifeModel;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 /**
  * Created by MainasuK on 2016-11-20.
@@ -43,6 +41,8 @@ public class CommodityShelfLifeController {
 
     @FXML private void printListButtonPressed() {
         ConsoleLog.print("button pressed");
+
+        print(tableView);
     }
 
     @FXML public void initialize() {
@@ -79,5 +79,17 @@ public class CommodityShelfLifeController {
 
         // TODO: actionColumn
 
+    }
+
+    public void print(final Node node) {
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        ConsoleLog.print(Printer.getDefaultPrinter().getName());
+        if (job != null && job.showPrintDialog(node.getScene().getWindow())) {
+            boolean success = job.printPage(node);
+            if (success) {
+                job.endJob();
+            }
+        }
     }
 }
