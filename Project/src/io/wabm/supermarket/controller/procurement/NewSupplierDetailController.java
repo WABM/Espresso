@@ -1,10 +1,10 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.pojo.Supplier;
+import io.wabm.supermarket.misc.pojo.SupplyGoods;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -13,37 +13,29 @@ import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 
-
-
 /**
- * Created by 14580 on 2016/11/19 0019.
+ * Created by 14580 on 2016/12/11 0011.
  */
-public class NewSupplierController implements StageSetableController,CallbackAcceptableProtocol<Supplier, DataAccessException> {
-    private Callback<Supplier, DataAccessException> callback = null;
-    @FXML
-    Stage stage;
+public class NewSupplierDetailController implements StageSetableController,CallbackAcceptableProtocol<SupplyGoods, DataAccessException> {
 
+    private Callback<SupplyGoods, DataAccessException> callback = null;
 
-    @FXML
-    TextField nameTextField;
-    @FXML
-    TextField representative_nameTextField;
-    @FXML
-    TextField addressTextField;
-    @FXML
-    TextField phoneTextField;
+    @FXML Stage stage;
+    @FXML TextField commodityIDTextField;
+    @FXML TextField commodityNameTextField;
+    @FXML TextField priceTextField;
+    @FXML TextField deliveryTimeTextField;
 
+    @FXML Button comfirmButton;
+    @FXML Button cancelButton;
 
-
-    @FXML
-    Button comfirmButton;
-    @FXML
-    Button cancelButton;
-
-    @Override
-    public void setStage(Stage stage) {
+    @Override public void setStage(Stage stage) {
         this.stage = stage;
     }
+    @Override public void set (Callback < SupplyGoods, DataAccessException > callback){
+        this.callback = callback;
+    }
+
     @FXML private void setComfirmButtonPressed() {
 
         ConsoleLog.print("Button pressed");
@@ -51,17 +43,16 @@ public class NewSupplierController implements StageSetableController,CallbackAcc
             ConsoleLog.print("Callback not set");
             return;
         }
-        Supplier supplier = new Supplier(
-                -1,
-                nameTextField.getText(),
-                representative_nameTextField.getText(),
-                phoneTextField.getText(),
-                addressTextField.getText()
+        SupplyGoods supplyGoods = new SupplyGoods(
+                commodityIDTextField.getText(),
+                commodityNameTextField.getText(),
+                Double.parseDouble(priceTextField.getText()),
+                deliveryTimeTextField.getText()
         );
 
         DataAccessException exception =null;
 
-        if (null!= (exception = callback.call(supplier)))
+        if (null!= (exception = callback.call(supplyGoods)))
         {
             if (exception instanceof DuplicateKeyException) {
                 String message = exception.getLocalizedMessage();
@@ -81,15 +72,10 @@ public class NewSupplierController implements StageSetableController,CallbackAcc
             stage.close();
         }
     }
-
-        @Override
-        public void set (Callback < Supplier, DataAccessException > callback){
-            this.callback = callback;
-        }
-
-
-        @FXML private void setCancelButtonpressed () {
-            ConsoleLog.print("Button pressed");
-            stage.close();
-        }
+    @FXML private void setCancelButtonPressed () {
+        ConsoleLog.print("Button pressed");
+        stage.close();
     }
+
+
+}

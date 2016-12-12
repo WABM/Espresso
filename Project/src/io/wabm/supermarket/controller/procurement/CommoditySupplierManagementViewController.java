@@ -1,9 +1,11 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.controller.management.ModifyEmployeeController;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
+import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplierModel;
@@ -31,6 +33,7 @@ import java.util.Optional;
 public class CommoditySupplierManagementViewController extends SceneController {
 
     private CommoditySupplierModel<Supplier> model;
+    private boolean isSearching = false;
 
     @FXML TableView<Supplier> tableView;
     @FXML TableColumn<Supplier, Integer> idColumn;
@@ -40,7 +43,7 @@ public class CommoditySupplierManagementViewController extends SceneController {
     @FXML TableColumn<Supplier, String> addressColumn;
     @FXML private TableColumn<Supplier, Hyperlink> actionColumn;
 
-
+    @FXML Button queryButton;
     @FXML Button newButton;
     @FXML Button deleteButton;
     @FXML Button modifyButton;
@@ -189,13 +192,97 @@ public class CommoditySupplierManagementViewController extends SceneController {
 
             ModifySupplierController  controller = loader.getController();
             controller.setStage(stage);
-            controller.setDate(getSupplier());
 
+            ((ModifySupplierController) controller).setSupplier(tableView.getSelectionModel().getSelectedItem());
+            ((CallbackAcceptableProtocol<Supplier, DataAccessException>) controller).set((supplier) -> {
+                ConsoleLog.print("modify supplier callback called");
+                final DataAccessException[] e = {null};
+
+                model.update(supplier, (exception) -> {
+                    e[0] = exception;
+                    if (null != exception) {
+                        exception.printStackTrace();
+                    } else {
+                        tableView.refresh();
+                        ConsoleLog.print("update supplier success");
+                    }
+
+                    return null;
+                });
+
+                return e[0];
+            });
             stage.showAndWait();
         }catch(IOException e){
             e.printStackTrace();
         }
+
+
+
     }
+
+    @FXML private void queryButtonPressed(){
+        ConsoleLog.print("Button pressed");
+
+        if (isSearching) {
+            isSearching = !isSearching;
+            queryButton.setText("查询");
+            model.setPredicate(supplier -> true);
+
+            return ;
+        }
+
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("procurement/QuerySupplier.fxml"));
+            AnchorPane pane=loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("查找供应商");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene=new Scene(pane);
+            stage.setScene(scene);
+
+            StageSetableController controller=loader.getController();
+            controller.setStage(stage);
+
+            ((CallbackAcceptableProtocol<String[], Void>) controller).set((strings) -> {
+                ConsoleLog.print("filter supplier callback called");
+                if ((strings[0] == null || "".equals(strings[0])) &&
+                        (strings[1] == null || "".equals(strings[1])) &&
+                        (strings[2] == null || "".equals(strings[2])) &&
+                        (strings[3] == null || "".equals(strings[3]))) {
+                    model.setPredicate(supplier -> true);
+                    return null;
+                }
+                queryButton.setText("重置");
+                isSearching = true;
+
+                model.setPredicate(supplier -> {
+                    boolean hasID, hasName, hasLinkman, hasPhone;
+
+                    hasID = ("" + supplier.getSupplierID()).contains(strings[0]);
+                    hasName = supplier.getSupplierName().contains(strings[1]);
+                    hasLinkman = supplier.getLinkman().contains(strings[2]);
+                    hasPhone = supplier.getPhone().contains(strings[3]);
+
+                    // Debug
+
+                    return hasID && hasName && hasLinkman && hasPhone;
+                });
+
+                return null;
+            });
+
+            stage.showAndWait();
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
     private Supplier getSupplier()
     {
         Supplier supplier = tableView.getSelectionModel().getSelectedItem();

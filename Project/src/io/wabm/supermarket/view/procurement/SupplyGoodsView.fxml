@@ -13,6 +13,7 @@
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
          <columns>
+            <TableColumn fx:id="commodityIDColumn" minWidth="80.0" prefWidth="-1.0" text="商品编号" />
             <TableColumn fx:id="commodityNameColumn" minWidth="80.0" prefWidth="-1.0" text="商品名称" />
             <TableColumn fx:id="price_dbColumn" minWidth="100.0" prefWidth="149.0" text="进价" />
             <TableColumn fx:id="delivery_time_costColumn" minWidth="50.0" prefWidth="140.0" text="送达期限" />
@@ -27,8 +28,8 @@
          <items>
             <Button fx:id="searchButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="查询" />
             <Button fx:id="modifyButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="修改" />
-            <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="移除" />
-            <Button fx:id="addButton" layoutX="106.0" layoutY="11.0" mnemonicParsing="false" onAction="#addButtonPressed" text="添加" />
+            <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" onAction="#setRemoveButtonPressed" text="移除" />
+            <Button fx:id="addButton" layoutX="106.0" layoutY="11.0" mnemonicParsing="false" onAction="#setAddButtonPressed" text="添加" />
             <Pane HBox.hgrow="ALWAYS">
                <children>
                   <Label fx:id="supplierNameLabel" layoutX="203.0" layoutY="7.0" text="供应商名称" />

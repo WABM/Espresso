@@ -1,8 +1,10 @@
 package io.wabm.supermarket.model.procurement;
 
+import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
+import io.wabm.supermarket.model.FilteredTableViewModel;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
@@ -12,16 +14,17 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.util.Assert;
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Created by liu on 2016-11-21 .
  */
 
-public class  CommoditySupplierModel<T> extends TableViewModel<T> {
+public class  CommoditySupplierModel<T> extends FilteredTableViewModel<T> {
     private final String kSelectAll = "SELECT * FROM wabm.supplier WHERE wabm.supplier.valid=1";
     private final String kInsertSQL = "INSERT INTO wabm.supplier (supplier_id, name,address,phone,representative_name) VALUES (?, ?, ?, ?, ?);";
     private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.supplier (name, address,phone,representative_name,valid) VALUES (?, ?, ?, ?,1);";
-    private final String kDeleteSQLWithID = "DELETE FROM wabm.supplier WHERE wabm.supplier.supplier_id = ?;";
+    private final String kDeleteSQLWithID = "UPDATE wabm.supplier SET name=?, representative_name=?,  phone=?, address=? WHERE suplier_id=?";
     private final String kRmoveSQLWithID = "UPDATE wabm.supplier SET valid=0 WHERE wabm.supplier.supplier_id = ?;";
 
 
@@ -104,6 +107,31 @@ public class  CommoditySupplierModel<T> extends TableViewModel<T> {
         } catch (DataAccessException dataAccessException) {
             callback.call(dataAccessException);
         }
+    }
+
+    public void update(Supplier supplier, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("modify supplier: " + supplier.getSupplierName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+            jdbcOperations.update("UPDATE wabm.supplier SET name=?, representative_name=?,  phone=?, address=? WHERE suplier_id=?",
+                    // supplier.getSupplierID(),
+                    supplier.getSupplierName(),
+                    supplier.getLinkman(),
+                    supplier.getPhone(),
+                    supplier.getAddress(),
+                    supplier.getSupplierID()
+            );
+            callback.call(null);
+        } catch (DataAccessException exception) {
+            callback.call(exception);
+        }
+
+    }
+
+    public void setFilter(Predicate<T> predicate) {
+        ConsoleLog.print("set predicate");
+        setPredicate(predicate);
     }
 }
 
