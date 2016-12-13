@@ -62,6 +62,9 @@ public class AddCommodityController implements StageSetableController, CallbackA
             shelfLifeStr = "0";
         }
 
+        BigDecimal price = new BigDecimal("0.00");
+        price.setScale(2);
+
         Commodity commodity = new Commodity(
                 idTextField.getText(),
                 classificationComboBox.getValue().getClassificationID(),
@@ -69,7 +72,7 @@ public class AddCommodityController implements StageSetableController, CallbackA
                 nameTextField.getText(),
                 specificationTextField.getText(),
                 unitTextField.getText(),
-                new BigDecimal(0.0),
+                price,
                 Integer.parseInt(deliverySpecificationTextField.getText()),
                 Integer.parseInt(shelfLifeStr),
                 true

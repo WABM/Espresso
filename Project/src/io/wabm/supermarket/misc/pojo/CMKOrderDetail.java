@@ -14,7 +14,7 @@ import java.time.LocalDate;
 /**
  * Created by MainasuK on 2016-12-12.
  */
-public class CMKOrderDetail extends Commodity implements DateGetable {
+public class CMKOrderDetail extends Commodity {
 
     private IntegerProperty orderID;
     private IntegerProperty orderDetailID;
@@ -111,8 +111,4 @@ public class CMKOrderDetail extends Commodity implements DateGetable {
         this.actualQuantity.set(actualQuantity);
     }
 
-    @Override
-    public LocalDate getDate() {
-        return getProductionDate();
-    }
 }

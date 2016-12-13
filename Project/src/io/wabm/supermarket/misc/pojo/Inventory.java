@@ -1,5 +1,6 @@
 package io.wabm.supermarket.misc.pojo;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 
 import java.sql.Timestamp;
@@ -15,6 +16,9 @@ public class Inventory {
     private SimpleObjectProperty<Timestamp> createTimestamp;
     private SimpleObjectProperty<Timestamp> fillTimestamp;      // mark inventory finish time
 
+    // Binding property
+    private StringProperty status = new SimpleStringProperty();
+
     // Not database stored property
     private StringProperty classificationName = new SimpleStringProperty();
     private IntegerProperty hasNum = new SimpleIntegerProperty();
@@ -25,6 +29,13 @@ public class Inventory {
         this.employeeID = new SimpleIntegerProperty(employeeID);
         this.createTimestamp = new SimpleObjectProperty<>(createTimestamp);
         this.fillTimestamp = new SimpleObjectProperty<>(fillTimestamp);
+
+        status.bind(
+                Bindings.createStringBinding(
+                        () -> (getFillTimestamp() == null) ? "待盘点" : "已盘点",
+                        this.fillTimestamp
+                )
+        );
     }
 
     public int getInventoryID() {
@@ -109,5 +120,17 @@ public class Inventory {
 
     public void setHasNum(int hasNum) {
         this.hasNum.set(hasNum);
+    }
+
+    public String getStatus() {
+        return status.get();
+    }
+
+    public StringProperty statusProperty() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status.set(status);
     }
 }

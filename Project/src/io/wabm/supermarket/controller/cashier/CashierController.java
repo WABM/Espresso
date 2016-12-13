@@ -255,9 +255,12 @@ public class CashierController implements StageSetableController {
         }
 
         // Press ENTER for length < 13 case
-        if (text.length() < 8) {
-            return ;
-        }
+
+
+//        if (text.length() < 8) {
+//            return ;
+//        }
+
 
         // Try to fetch & add commodity in POS model
         String finalBarCode = text;

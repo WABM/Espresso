@@ -59,6 +59,7 @@ public class Commodity {
 //        this.price = new SimpleStringProperty(formater.format(decimal.doubleValue()));
     }
 
+    // storage = 0 init method
     public Commodity(String commodityID,
                      int classificationID,
                      String barcode,
@@ -96,18 +97,6 @@ public class Commodity {
         this.valid = valid;
     }
 
-    public Commodity(StringProperty commodityID,
-                     IntegerProperty classificationID,
-                     StringProperty barcode,
-                     StringProperty name,
-                     StringProperty specification,
-                     StringProperty unit,
-                     ObjectProperty<BigDecimal> price,
-                     IntegerProperty deliverySpecification,
-                     IntegerProperty shelfLife) {
-        this(commodityID, classificationID, barcode, name, specification, unit, price, deliverySpecification, shelfLife, new SimpleIntegerProperty(0), new SimpleBooleanProperty(true));
-    }
-
     public Commodity(ResultSet resultSet) throws SQLException {
         this(
                 resultSet.getString("commodity_id"),
@@ -119,6 +108,7 @@ public class Commodity {
                 resultSet.getBigDecimal("price_db"),
                 resultSet.getInt("delivery_specification"),
                 resultSet.getInt("shelf_life"),
+                resultSet.getInt("storage"),
                 resultSet.getBoolean("valid")
         );
     }

@@ -10,7 +10,7 @@
 
 <BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.CommodityInformationController">
    <center>
-      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../misc/css/DisableTableRowStyle.css">
+      <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../misc/css/HyperlinkCellReadable.css">
          <columns>
             <TableColumn fx:id="idColumn" minWidth="70.0" prefWidth="-1.0" text="商品编码" />
             <TableColumn fx:id="barCodeColumn" minWidth="80.0" prefWidth="-1.0" text="条形码" />
