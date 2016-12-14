@@ -3,12 +3,14 @@ package io.wabm.supermarket.model.procurement;
 import io.wabm.supermarket.misc.enums.OrderStatusEnum;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Order;
+import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.util.Assert;
 import java.sql.ResultSet;
 import java.util.List;
@@ -31,9 +33,25 @@ public class CommodityOrderModel<T> extends TableViewModel<T> {
             "  order.status\n" +
             "from    wabm.order , wabm.supplier\n" +
             "where   order.supplier_id = supplier.supplier_id and supplier.valid=1 and order.status=?";
+
+    private String kPassSQLWithID = "UPDATE wabm.order  SET status=2 WHERE wabm.order.order_id = ?; ";
     public CommodityOrderModel(TableView<T> tableView) {
         super(tableView);
         ConsoleLog.print("CommodityOrderModel init");
+    }
+
+    public void pass(Order order, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("pass order: " + order.getOrderID());
+        Assert.notNull(jdbcOperations);
+        try {
+            jdbcOperations.update(kPassSQLWithID, order.getOrderID());
+            delete((T) order);
+            callback.call(null);
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
     }
     public void Choose(Integer status,Callback<Boolean, Void> callback) {
         ConsoleLog.print("fetching data…");

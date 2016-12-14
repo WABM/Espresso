@@ -1,8 +1,11 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
+import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Order;
+import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommodityOrderModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
@@ -12,12 +15,10 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 
 import java.io.IOException;
+import java.util.Optional;
 
 
 /**
@@ -38,6 +39,7 @@ public class CommodityOrderManagementController extends SceneController {
     @FXML Button noncheckedButton;
     @FXML Button waitButton;
     @FXML Button completeButton;
+    @FXML Button passButton;
 
     @FXML public void initialize() {
         ConsoleLog.print("CommodityOrderManagementViewController init");
@@ -141,5 +143,29 @@ public class CommodityOrderManagementController extends SceneController {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
             return null;
         });
+    }
+    @FXML private void setPassButtonPressed(){
+        ConsoleLog.print("Button pressed");
+        Order order = tableView.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("通过审核");
+        alert.setHeaderText("确认审核通过");
+        alert.setContentText("通过 " + order.getOrderID());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            ConsoleLog.print("pass " + order.getOrderID() + " …");
+
+            model.pass(order, exception -> {
+                if (null == exception) {
+                    new SimpleSuccessAlert("通过成功", "", order.getOrderID() + " 审核通过成功").show();
+                } else {
+                    new SimpleErrorAlert("通过失败", "修改数据遇到了错误", "请重试").show();
+                }
+                return null;
+            });
+        } else {
+            ConsoleLog.print("Pass process cancel");
+        }
     }
 }

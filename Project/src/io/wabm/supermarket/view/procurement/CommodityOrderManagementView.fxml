@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.CommodityOrderManagementController">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.CommodityOrderManagementController">
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <columnResizePolicy>
@@ -26,7 +26,10 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Pane HBox.hgrow="ALWAYS" />
+            <Pane HBox.hgrow="ALWAYS">
+               <children>
+                  <Button fx:id="passButton" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#setPassButtonPressed" text="审核通过" />
+               </children></Pane>
             <Button fx:id="completeButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#completeButtonPressed" text="已完成订单" />
             <Button fx:id="waitButton" layoutX="543.0" layoutY="10.0" mnemonicParsing="false" onAction="#waitButtonPressed" text="待收货订单" />
             <Button fx:id="noncheckedButton" layoutX="543.0" layoutY="10.0" mnemonicParsing="false" onAction="#noncheckedButtonPressed" text="待审核订单" />

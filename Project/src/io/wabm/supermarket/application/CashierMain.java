@@ -35,8 +35,8 @@ public class CashierMain extends Application {
 
         // Set min windows size
 
-        initRootlayout();
-//        initRootlayoutWithoutLogin();
+        //initRootlayout();
+       initRootlayoutWithoutLogin();
     }
 
     private void initRootlayout() {

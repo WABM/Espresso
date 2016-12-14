@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="tableView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="393.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.SelectSupplierController">
+<AnchorPane  maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="393.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.SelectSupplierController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="137.0" prefHeight="478.0" prefWidth="304.0" spacing="8.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -17,7 +17,7 @@
                <font>
                   <Font size="30.0" />
                </font></Label>
-            <TableView prefHeight="348.0" prefWidth="337.0" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView" prefHeight="348.0" prefWidth="337.0" VBox.vgrow="ALWAYS">
               <columns>
                   <TableColumn fx:id="commodityIDColumn" prefWidth="75.0" text="商品编号" />
                 <TableColumn fx:id="supplierIDColumn" prefWidth="81.0" text="供应商编号" />
