@@ -48,7 +48,9 @@ public class CheckCashController implements StageSetableController {
     @FXML private void okButtonPressed()
     {
         model = new CashInformationModel<>(tableView);
-        String date = "2016-11-5";
+        //String date = "2016-11-5";
+        String date = LocalDate.now().toString();
+
         ConsoleLog.print("Button pressed");
 
         if (isDouble(employ_idText.getText()) && isDouble(moneyINText.getText())

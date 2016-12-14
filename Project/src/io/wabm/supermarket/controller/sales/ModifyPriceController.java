@@ -3,8 +3,10 @@ package io.wabm.supermarket.controller.sales;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.pojo.CommodityPriceInformation;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.model.sales.CommodityPriceInformationModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -30,10 +32,15 @@ public class ModifyPriceController implements StageSetableController {
         if (check())
         {
             commodityPriceInformation.setPrice(BigDecimal.valueOf(Double.valueOf(newPriceText.getText())));
+            CommodityPriceInformationModel<CommodityPriceInformation> model = new CommodityPriceInformationModel<>(new TableView());
+            model.update(commodityPriceInformation,isSuccess -> {
+                ConsoleLog.print("update is " + (isSuccess ? "success" : "failed"));
+                return null;
+            });
             stage.close();
         }
     }
-    public void setStage(Stage stage){
+    @Override public void setStage(Stage stage){
         this.stage = stage;
     }
     public void setData(CommodityPriceInformation commodityPriceInformation){

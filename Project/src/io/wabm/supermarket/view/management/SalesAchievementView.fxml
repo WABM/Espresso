@@ -22,7 +22,7 @@
                               <NumberAxis label="销售额" side="LEFT" />
                            </yAxis>
                         </BarChart>
-                        <ToolBar prefHeight="47.0" prefWidth="669.0">
+                        <ToolBar prefHeight="47.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <items>
                               <ComboBox fx:id="year" prefHeight="35.0" prefWidth="100.0" />
                               <Label text="年" />

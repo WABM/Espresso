@@ -1,6 +1,6 @@
 package io.wabm.supermarket.controller;
 
-import io.wabm.supermarket.protocol.StatusReflectCallbackProtocol;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;

@@ -17,6 +17,7 @@ import java.util.List;
 public class CommodityPriceInformationModel<T> extends TableViewModel<T>{
     private final String KSelectAll="select c.commodity_id,c.bar_code,c.name,cl.name,c.specification,c.unit,c.price_db from commodity c,classification cl where c.classification_id=cl.classification_id";
     private final String KSelectsome="select c.commodity_id,c.bar_code,c.name,cl.name,c.specification,c.unit,c.price_db from commodity c,classification cl where c.classification_id=cl.classification_id and cl.name = ?";
+    private final String Kupdate="update commodity set price_db=? where commodity_id=?";
 
     public CommodityPriceInformationModel(TableView tableView){
         super(tableView);
@@ -55,7 +56,7 @@ public class CommodityPriceInformationModel<T> extends TableViewModel<T>{
 
     };  // end of fetchData
     public void choose(String name,Callback<Boolean, Void> callback){
-        new WABMThread().run((_void) -> {
+        new WABMThread().run((Void) -> {
             try {
                 List<CommodityPriceInformation> templist = jdbcOperations.query(KSelectsome,
                         (ResultSet resultSet, int i) -> {
@@ -80,6 +81,21 @@ public class CommodityPriceInformationModel<T> extends TableViewModel<T>{
 
             // Return callback with isfetchSuccess flag;
             // TODO:
+            callback.call(true);
+            return null;
+        });
+    }
+    public void update(CommodityPriceInformation commodityPriceInformation,Callback<Boolean, Void> callback){
+        ConsoleLog.print("update…");
+
+        new WABMThread().run((Void)->{
+            try {
+                jdbcOperations.update(Kupdate,
+                        commodityPriceInformation.getPrice(),
+                        commodityPriceInformation.getCommodityID());
+            }catch (DataAccessException e){
+                e.printStackTrace();
+            }
             callback.call(true);
             return null;
         });

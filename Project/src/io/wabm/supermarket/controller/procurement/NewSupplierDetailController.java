@@ -1,13 +1,21 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
+import io.wabm.supermarket.misc.pojo.Commodity;
+import io.wabm.supermarket.misc.pojo.CommodityPriceInformation;
+import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.util.ConsoleLog;
+import io.wabm.supermarket.model.procurement.SupplyGoodsModel;
+import io.wabm.supermarket.model.sales.CommodityPriceInformationModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
@@ -16,66 +24,81 @@ import org.springframework.dao.DuplicateKeyException;
 /**
  * Created by 14580 on 2016/12/11 0011.
  */
-public class NewSupplierDetailController implements StageSetableController,CallbackAcceptableProtocol<SupplyGoods, DataAccessException> {
-
-    private Callback<SupplyGoods, DataAccessException> callback = null;
+public class NewSupplierDetailController implements StageSetableController {
+    private CommodityPriceInformationModel<CommodityPriceInformation> model;
+    private SupplyGoodsModel<SupplyGoods> supplyGoodsModel;
+    private Supplier supplier;
+    private TableView supplyTableView;
 
     @FXML Stage stage;
-    @FXML TextField commodityIDTextField;
-    @FXML TextField commodityNameTextField;
-    @FXML TextField priceTextField;
-    @FXML TextField deliveryTimeTextField;
+    @FXML TableView<CommodityPriceInformation> tableView;
+    @FXML TableColumn<CommodityPriceInformation,String> commodityID;
+    @FXML TableColumn<CommodityPriceInformation,String> barcode;
+    @FXML TableColumn<CommodityPriceInformation,String> commodityName;
+    @FXML TableColumn<CommodityPriceInformation,String> className;
+    @FXML TableColumn<CommodityPriceInformation,String> specification;
+    @FXML TableColumn<CommodityPriceInformation,String> unit;
 
     @FXML Button comfirmButton;
     @FXML Button cancelButton;
 
+    @FXML public void initialize(){
+        setupControl();
+        setupModel();
+        setupTableView();
+        setupTableViewColumn();
+    }
     @Override public void setStage(Stage stage) {
         this.stage = stage;
     }
-    @Override public void set (Callback < SupplyGoods, DataAccessException > callback){
-        this.callback = callback;
-    }
 
     @FXML private void setComfirmButtonPressed() {
-
-        ConsoleLog.print("Button pressed");
-        if (callback == null) {
-            ConsoleLog.print("Callback not set");
-            return;
-        }
-        SupplyGoods supplyGoods = new SupplyGoods(
-                commodityIDTextField.getText(),
-                commodityNameTextField.getText(),
-                Double.parseDouble(priceTextField.getText()),
-                deliveryTimeTextField.getText()
-        );
-
-        DataAccessException exception =null;
-
-        if (null!= (exception = callback.call(supplyGoods)))
-        {
-            if (exception instanceof DuplicateKeyException) {
-                String message = exception.getLocalizedMessage();
-
-                if (message.contains("UNIQUE")) {
-                    new SimpleErrorAlert("数据库更新出现错误", "请检查输入条形码", "该条形码在数据库中已存在").show();
-                } else if (message.contains("PRIMARY")) {
-                    new SimpleErrorAlert("数据库更新出现错误", "请检查输入供应商编号", "该供应商编码在数据库中已存在").show();
-                } else {
-                    new SimpleErrorAlert("", "", message).show();
-                }
-            } else {
-                new SimpleErrorAlert("数据库更新出现错误", "请检查输入字段并重试", exception.getLocalizedMessage()).show();
-            }   // end if (exception instanceof …)
-
-        } else {
-            stage.close();
-        }
+        CommodityPriceInformation commodityPriceInformation = tableView.getSelectionModel().getSelectedItem();
+        System.out.println(supplier.getSupplierID());
+        supplyGoodsModel = new SupplyGoodsModel<SupplyGoods>(supplyTableView);
+        supplyGoodsModel.add(String.valueOf(supplier.getSupplierID()),commodityPriceInformation.getCommodityID(),
+                isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+        supplyGoodsModel.fetchData(supplier.getSupplierID(),isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+        stage.close();
     }
     @FXML private void setCancelButtonPressed () {
         ConsoleLog.print("Button pressed");
         stage.close();
     }
-
-
+    private void setupControl(){
+        comfirmButton.setDisable(true);
+    }
+    private void setupTableView() {
+        tableView.setEditable(true);
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> comfirmButton.setDisable(newValue == null)
+        );
+    }
+    private void setupModel(){
+        model = new CommodityPriceInformationModel<>(tableView);
+        model.fetchData(isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+    }
+    private void setupTableViewColumn(){
+        commodityID.setCellValueFactory(new PropertyValueFactory<CommodityPriceInformation, String>("commodityID"));
+        barcode.setCellValueFactory(new PropertyValueFactory<CommodityPriceInformation, String>("barcode"));
+        commodityName.setCellValueFactory(new PropertyValueFactory<CommodityPriceInformation, String>("commodityName"));
+        className.setCellValueFactory(new PropertyValueFactory<CommodityPriceInformation, String>("className"));
+        specification.setCellValueFactory(new PropertyValueFactory<CommodityPriceInformation, String>("specification"));
+        unit.setCellValueFactory(new PropertyValueFactory<CommodityPriceInformation, String>("unit"));
+    }
+    public void setSupplier(Supplier supplier){
+        this.supplier = supplier;
+    }
+    public void setTableView(TableView tableView){
+        this.supplyTableView = tableView;
+    }
 }
