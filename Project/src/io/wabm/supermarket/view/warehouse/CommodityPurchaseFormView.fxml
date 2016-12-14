@@ -28,12 +28,7 @@
             </TableView>
             <HBox>
                <children>
-                  <VBox alignment="CENTER_LEFT">
-                     <children>
-                        <Label text="总计: 9 件" />
-                        <Label text="选中: 0 件" />
-                     </children>
-                  </VBox>
+                  <VBox alignment="CENTER_LEFT" />
                   <HBox alignment="CENTER_RIGHT" spacing="8.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelButtonPressed" text="取消" />

@@ -48,6 +48,7 @@ public class CommodityStockManagementController {
     @FXML Button orderReceiveButton;
 
     @FXML Button searchButton;
+    @FXML Button rejectButton;
 
     @FXML private void purchaseFormButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -185,10 +186,46 @@ public class CommodityStockManagementController {
         }
     }
 
+    @FXML private void rejectButtonPressed() {
+        ConsoleLog.print("button pressed");
+
+        Commodity commodity = tableView.getSelectionModel().getSelectedItem();
+        ConsoleLog.print("" + commodity.getName());
+
+        try {
+            // Load view
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("warehouse/RejectCommodityView.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Create the popup Stage.
+            Stage stage = new Stage();
+            stage.setTitle("报废商品");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Pass the info into the controller.
+            StageSetableController controller = loader.getController();
+            ((RejectCommodityController) controller).set(commodity);
+            controller.setStage(stage);
+
+
+            // Show the dialog and wait until the user closes it.
+            // (This event thread is blocked until close)
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML public void initialize() {
         ConsoleLog.print("CommodityStockManagementController init");
 
         setupModel();
+        setupTable();
         setupTableViewColumn();
         setupControl();
     }
@@ -212,6 +249,14 @@ public class CommodityStockManagementController {
 
         refetchPurchase();
         refetchOrder();
+    }
+
+    private void setupTable() {
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    rejectButton.setDisable(newValue == null);
+                }
+        );
     }
 
     private void refetchPurchase() {
@@ -264,7 +309,7 @@ public class CommodityStockManagementController {
 
         actionColumn.setCellValueFactory(cellData -> {
 
-            return new SimpleObjectProperty<>(new Hyperlink("报废"));
+            return new SimpleObjectProperty<>(new Hyperlink("采购"));
         });
     }
 
@@ -284,12 +329,12 @@ public class CommodityStockManagementController {
                     try {
                         // Load view
                         FXMLLoader loader = new FXMLLoader();
-                        loader.setLocation(ViewPathHelper.class.getResource("warehouse/RejectCommodityView.fxml"));
+                        loader.setLocation(ViewPathHelper.class.getResource("warehouse/PurchaseCommodityView.fxml"));
                         AnchorPane pane = loader.load();
 
                         // Create the popup Stage.
                         Stage stage = new Stage();
-                        stage.setTitle("报废商品");
+                        stage.setTitle("采购需求");
                         stage.initModality(Modality.APPLICATION_MODAL);
 
                         Scene scene = new Scene(pane);
@@ -297,7 +342,7 @@ public class CommodityStockManagementController {
 
                         // Pass the info into the controller.
                         StageSetableController controller = loader.getController();
-                        ((RejectCommodityController) controller).set(commodity);
+                        ((PurchaseCommodityController) controller).set(commodity);
                         controller.setStage(stage);
 
 
@@ -316,5 +361,6 @@ public class CommodityStockManagementController {
 
     private void setupControl() {
         searchButton.setDisable(true);
+        rejectButton.setDisable(true);
     }
 }

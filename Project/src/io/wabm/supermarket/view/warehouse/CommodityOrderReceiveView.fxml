@@ -8,7 +8,7 @@
    <children>
       <VBox alignment="TOP_CENTER" layoutX="300.0" layoutY="137.0" spacing="8.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
-            <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <TableView fx:id="tableView" stylesheets="@../../misc/css/HyperlinkCellReadable.css" VBox.vgrow="ALWAYS">
               <columns>
                   <TableColumn fx:id="idColumn" prefWidth="75.0" text="订单号" />
                   <TableColumn fx:id="supplierColumn" prefWidth="75.0" text="供货商" />

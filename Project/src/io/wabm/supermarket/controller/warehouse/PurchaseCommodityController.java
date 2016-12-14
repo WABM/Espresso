@@ -1,22 +1,27 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
+import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
+import io.wabm.supermarket.model.warehouse.PurchaseCommodityModel;
 import io.wabm.supermarket.model.warehouse.RejectCommodityModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
  * Created by MainasuK on 2016-11-28.
  */
-public class RejectCommodityController implements StageSetableController {
+public class PurchaseCommodityController implements StageSetableController {
 
-    private RejectCommodityModel<Commodity> model;
+    private PurchaseCommodityModel<Commodity> model;
     private Commodity commodity;
     private int orderDetailID = -1;
 
@@ -26,7 +31,7 @@ public class RejectCommodityController implements StageSetableController {
     @FXML Label idLabel;
     @FXML Label  barCodeLabel;
     @FXML Label nameLabel;
-    @FXML Label storageQuantityLabel;
+    @FXML Label deliverySpecificationLabel;
     @FXML TextField rejectQuantityTextField;
 
     @FXML Button confirmButton;
@@ -39,22 +44,15 @@ public class RejectCommodityController implements StageSetableController {
             return ;
         }
 
-        int rejectQuantity = Integer.parseInt(rejectQuantityTextField.getText());
-        int remainsQuantity = commodity.getStorage() - rejectQuantity;
+        int purchaseQuantity = Integer.parseInt(rejectQuantityTextField.getText()) * commodity.getDeliverySpecification();
 
-        if (remainsQuantity < 0) {
-            new SimpleErrorAlert("输入数据无效", "报废商品数量不得大于库存数量", "请检查报废数量").show();
-            return ;
-        }
-
-        model.reject(commodity, rejectQuantity, exception -> {
+        model.purchase(commodity, purchaseQuantity, exception -> {
 
             if (null != exception) {
                 new SimpleErrorAlert("数据库更新出现错误", "请检查输入字段并重试","").show();
             } else {
-                commodity.setStorage(remainsQuantity);
-
                 Platform.runLater(() -> {
+                    new SimpleSuccessAlert("采购成功", "已生成采购需求", "采购 " + purchaseQuantity + commodity.getUnit()).show();
                     stage.close();
                 });
             }   // end if
@@ -77,14 +75,14 @@ public class RejectCommodityController implements StageSetableController {
     @FXML public void initialize() {
         ConsoleLog.print("ModifyCommodityController init");
 
-        model = new RejectCommodityModel<>();
+        model = new PurchaseCommodityModel<>();
     }
 
     private void resetControl(Commodity commodity) {
         idLabel.setText(commodity.getCommodityID());
         barCodeLabel.setText(commodity.getBarcode());
         nameLabel.setText(commodity.getName());
-        storageQuantityLabel.setText(commodity.getStorage()+"");
+        deliverySpecificationLabel.setText(commodity.getDeliverySpecification()+" "+commodity.getUnit());
     }
 
     // MARK: Public config method

@@ -17,13 +17,13 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 /**
  * Created by MainasuK on 2016-12-14.
  */
-public class RjectCommodityModel<T> {
+public class RejectCommodityModel<T> {
 
     private JdbcOperations jdbcOperations = Main.getJdbcOperations();
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
 
     public void reject(Commodity commodity, int rejectQuantity, Callback<DataAccessException, Void> callback) {
-        ConsoleLog.print("reject commodity with quantity: " + rejectQuantity);
+        ConsoleLog.print("purchase commodity with quantity: " + rejectQuantity);
 
         int employeeID = SingleLogin.getInstance().getEmployee().getEmployeeID();
 
