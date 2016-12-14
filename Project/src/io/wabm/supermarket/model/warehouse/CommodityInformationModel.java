@@ -29,8 +29,8 @@ import java.util.function.Predicate;
 public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
-    private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification, sales_avg) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     private final String kDeleteSQLWithID = "DELETE FROM wabm.commodity WHERE wabm.commodity.commodity_id = ?;";
     private final String kUpdateValidWithID = "UPDATE wabm.commodity SET valid = ? WHERE commodity_id = ?";
 
@@ -109,8 +109,8 @@ public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
                         commodity.getSpecification(),
                         commodity.getUnit(),
                         commodity.getPrice(),
-                        commodity.getDeliverySpecification(),
-                        0); // New commodity has 0 sales avg
+                        commodity.getDeliverySpecification()
+                );
             } else {
                 jdbcOperations.update(kInsertSQL,
                         commodity.getCommodityID(),
@@ -121,8 +121,8 @@ public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
                         commodity.getSpecification(),
                         commodity.getUnit(),
                         commodity.getPrice(),
-                        commodity.getDeliverySpecification(),
-                        0); // New commodity has 0 sales avg
+                        commodity.getDeliverySpecification()
+                );
             }
 
             // No error

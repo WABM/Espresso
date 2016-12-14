@@ -111,12 +111,12 @@ public class CashInformationModel<T> extends TableViewModel<T> {
                 list.addAll((T[]) templist.toArray());
 
             }catch (DataAccessException e){
+                e.printStackTrace();
                 Platform.runLater(()->{
                     SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("核算失败","",
                             "该收银员今日无销售记录");
                     simpleErrorAlert.show();
                 });
-                e.printStackTrace();
             }
 
             callback.call(true);
