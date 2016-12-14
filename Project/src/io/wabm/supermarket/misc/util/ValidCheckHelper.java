@@ -36,6 +36,21 @@ public class ValidCheckHelper {
         return error;
     }
 
+    public String checkTypeAndLengthForIntegerNotZero(TextField textField, String fieldName, int length) {
+        String error = checkTypeAndLength(textField, fieldName, length);
+        if (error == "") {
+            try {
+                int num = Integer.parseInt(textField.getText());
+                if (num <= 0) {
+                    error += fieldName + "需为正整数\n";
+                }
+            } catch (NumberFormatException e) {
+                error += fieldName + "需为整数\n";
+            }
+        }
+        return error;
+    }
+
     public Boolean isTooLongData(String text, int ofLength) {
         return (text.length() > ofLength);
     }

@@ -27,8 +27,6 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#deleteButtonPressed" text="删除" />
-            <Button fx:id="addButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#addButtonPressed" text="新建" />
             <Pane HBox.hgrow="ALWAYS" />
          </items>
       </ToolBar>

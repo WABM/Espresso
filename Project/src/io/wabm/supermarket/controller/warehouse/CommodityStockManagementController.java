@@ -1,14 +1,19 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
+import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
+import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -245,6 +250,9 @@ public class CommodityStockManagementController {
     }
 
     private void setupTableViewColumn() {
+        // Setup cell factory
+        actionColumn.setCellFactory(actionColumnSetupCallback);
+
         // Setup cell value factory
         idColumn.setCellValueFactory(cellData -> cellData.getValue().commodityIDProperty());
         barcodeColumn.setCellValueFactory(cellData -> cellData.getValue().barcodeProperty());
@@ -254,8 +262,57 @@ public class CommodityStockManagementController {
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
         storageColumn.setCellValueFactory(cellData -> cellData.getValue().storageProperty().asObject());
 
-        // TODO: actionColumn
+        actionColumn.setCellValueFactory(cellData -> {
+
+            return new SimpleObjectProperty<>(new Hyperlink("报废"));
+        });
     }
+
+    private CellFactorySetupCallbackProtocol<Commodity, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
+        @Override
+        protected void updateItem(Hyperlink item, boolean empty) {
+            super.updateItem(item, empty);
+
+            setAlignment(Pos.CENTER);
+
+            // Check empty first
+            if (!empty) {
+                item.setOnAction(event -> {
+                    Commodity commodity = (Commodity) getTableRow().getItem();
+                    ConsoleLog.print("" + commodity.getName());
+
+                    try {
+                        // Load view
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(ViewPathHelper.class.getResource("warehouse/RejectCommodityView.fxml"));
+                        AnchorPane pane = loader.load();
+
+                        // Create the popup Stage.
+                        Stage stage = new Stage();
+                        stage.setTitle("报废商品");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+
+                        Scene scene = new Scene(pane);
+                        stage.setScene(scene);
+
+                        // Pass the info into the controller.
+                        StageSetableController controller = loader.getController();
+                        ((RejectCommodityController) controller).set(commodity);
+                        controller.setStage(stage);
+
+
+                        // Show the dialog and wait until the user closes it.
+                        // (This event thread is blocked until close)
+                        stage.showAndWait();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+            }
+        }
+    };
 
     private void setupControl() {
         searchButton.setDisable(true);

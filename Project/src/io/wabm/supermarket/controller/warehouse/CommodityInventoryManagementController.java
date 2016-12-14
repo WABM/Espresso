@@ -40,54 +40,6 @@ public class CommodityInventoryManagementController {
     @FXML TableColumn<Inventory, String> statusColumn;
     @FXML TableColumn<Inventory, Hyperlink> actionColumn;
 
-    @FXML Button addButton;
-    @FXML Button deleteButton;
-
-    @FXML private void addButtonPressed() {
-        ConsoleLog.print("Button pressed");
-
-        try {
-            // Load view
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ViewPathHelper.class.getResource("warehouse/AddInventoryListView.fxml"));
-            AnchorPane pane = loader.load();
-
-            // Create the popup Stage.
-            Stage stage = new Stage();
-            stage.setTitle("新建盘点清单");
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            Scene scene = new Scene(pane);
-            stage.setScene(scene);
-
-            // Pass the info into the controller.
-            StageSetableController controller = loader.getController();
-            controller.setStage(stage);
-
-            // Show the dialog and wait until the user closes it.
-            // (This event thread is blocked until close)
-            stage.showAndWait();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML private void deleteButtonPressed() {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete");
-        alert.setHeaderText("确认删除");
-        alert.setContentText("删除 " + "ABC");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-//            personTableView.getItems().remove(index);
-        } else {
-            // Cancel
-        }
-    }
-
     @FXML private void initialize() {
         ConsoleLog.print("CommodityInventoryManagementController init");
 

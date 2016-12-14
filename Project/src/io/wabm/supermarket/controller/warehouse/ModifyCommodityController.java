@@ -203,7 +203,7 @@ public class ModifyCommodityController implements StageSetableController, Callba
         errorMessage += helper.checkTypeAndLength(nameTextField, "商品名称", 45);
         errorMessage += helper.checkTypeAndLength(specificationTextField, "商品规格", 45);
         errorMessage += helper.checkTypeAndLength(unitTextField, "商品单位", 45);
-        errorMessage += helper.checkTypeAndLengthForInteger(deliverySpecificationTextField, "配送规格", 11);
+        errorMessage += helper.checkTypeAndLengthForIntegerNotZero(deliverySpecificationTextField, "配送规格", 11);
 //        errorMessage += helper.checkTypeAndLengthForInteger(shelfLifeTextField, "保质期", 11);
 
         ConsoleLog.print(errorMessage);

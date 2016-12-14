@@ -38,7 +38,7 @@
                   <Label text="保质期：" GridPane.rowIndex="7" />
 
                   <TextField fx:id="idTextField" promptText="8 位商品编码" GridPane.columnIndex="1" />
-                  <TextField fx:id="barCodeTextField" promptText="13 位条形码" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="barCodeTextField" promptText="条形码" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="nameTextField" promptText="商品名称" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="specificationTextField" promptText="100g／1L／250ml" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="unitTextField" promptText="瓶／盒／袋" GridPane.columnIndex="1" GridPane.rowIndex="5" />

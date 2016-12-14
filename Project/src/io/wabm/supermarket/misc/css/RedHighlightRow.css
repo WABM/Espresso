@@ -1,0 +1,9 @@
+/*noinspection CssInvalidPseudoSelector*/
+.table-row-cell:yellow-highlight-row .table-cell {
+    -fx-text-fill: red;
+}
+
+/*noinspection CssInvalidPseudoSelector*/
+.table-row-cell:yellow-highlight-row:selected .table-cell {
+    -fx-text-fill: #fcff15;
+}

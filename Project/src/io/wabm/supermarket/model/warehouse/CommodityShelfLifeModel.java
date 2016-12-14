@@ -1,5 +1,6 @@
 package io.wabm.supermarket.model.warehouse;
 
+import io.wabm.supermarket.misc.enums.StorageChangeEnum;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.ShelfLifeCommodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class CommodityShelfLifeModel<T> extends TableViewModel<T> {
 
-    private final String kSelectSQL = "SELECT co.*, cl.name classificationName, od.production_date FROM order_detail od JOIN commodity co ON od.commodity_id = co.commodity_id JOIN classification cl ON co.classification_id = cl.classification_id WHERE od.production_date IS NOT NULL;";
+    private final String kSelectSQL = "SELECT co.*, cl.name classificationName, od.order_detail_id, od.production_date FROM order_detail od JOIN commodity co ON od.commodity_id = co.commodity_id JOIN classification cl ON co.classification_id = cl.classification_id WHERE od.production_date IS NOT NULL AND od.reject <> 1;";
 
     public CommodityShelfLifeModel(TableView<T> tableView) {
         super(tableView);
@@ -31,13 +32,14 @@ public class CommodityShelfLifeModel<T> extends TableViewModel<T> {
 
             try {
                 List<ShelfLifeCommodity> tempList = jdbcOperations.query(kSelectSQL, (resultSet, i) -> {
-                    Commodity commodity = new Commodity(resultSet);
-                    commodity.setClassificationName(resultSet.getString("classificationName"));
-
-                    return new ShelfLifeCommodity(
-                            commodity,
-                            resultSet.getDate("production_date").toLocalDate()
+                    ShelfLifeCommodity c = new ShelfLifeCommodity(
+                            resultSet.getDate("production_date").toLocalDate(),
+                            resultSet.getInt("order_detail_id"),
+                            resultSet
                     );
+                    c.setClassificationName(resultSet.getString("classificationName"));
+
+                    return c;
                 });
 
                 list.clear();

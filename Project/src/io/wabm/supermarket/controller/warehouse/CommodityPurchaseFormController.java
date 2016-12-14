@@ -98,8 +98,14 @@ public class CommodityPurchaseFormController implements StageSetableController {
 
                 @Override
                 public void updateItem(Integer item, boolean empty) {
+                    if (!empty) {
+                        int ds = getTableView().getItems().get(getIndex()).getDeliverySpecification();
+                        if (ds == 0) { ds = 1; }
+                        boolean hasMode = ((item - item / ds * ds) > 0);
+                        item = (item / ds) * ds + ((hasMode) ? ds : 0);
+                    }
                     super.updateItem(item, empty);
-//                    setStyle("-fx-background-color: -fx-control-inner-background-alt");
+
                 }
             };
 
