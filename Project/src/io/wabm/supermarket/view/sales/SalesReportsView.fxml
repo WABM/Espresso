@@ -16,9 +16,9 @@
                      <children>
                         <ToolBar prefHeight="40.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                              <ComboBox prefHeight="32.0" prefWidth="121.0" />
+                              <ComboBox prefWidth="121.0" />
                               <Label text="年" />
-                              <ComboBox prefHeight="32.0" prefWidth="100.0" />
+                              <ComboBox prefWidth="100.0" />
                               <Label text="月" />
                             <Button mnemonicParsing="false" text="查看" />
                           </items>
@@ -39,9 +39,9 @@
                      <children>
                         <ToolBar prefHeight="46.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <items>
-                              <ComboBox fx:id="yearBox" prefHeight="32.0" prefWidth="115.0" />
+                              <ComboBox fx:id="yearBox" prefWidth="115.0" />
                               <Label text="年" />
-                              <ComboBox fx:id="monthBox" prefHeight="32.0" prefWidth="106.0" />
+                              <ComboBox fx:id="monthBox" prefWidth="106.0" />
                               <Label text="月" />
                             <Button fx:id="lookButton" mnemonicParsing="false" onAction="#lookButtomPressed" text="查看" />
                           </items>

@@ -40,7 +40,7 @@
                               <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                  <items>
                                     <Label text="类别" />
-                                    <ComboBox fx:id="classButton" prefHeight="32.0" prefWidth="131.0" />
+                                    <ComboBox fx:id="classButton" prefWidth="131.0" />
                                     <Button fx:id="queryButton" mnemonicParsing="false" onAction="#queryButtonPressed" text="查询" />
                                     <Pane HBox.hgrow="ALWAYS" />
                                     <Button fx:id="modify" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#modifyButtonPressed" text="修改" />
@@ -77,9 +77,9 @@
                               <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                                  <items>
                                     <Label text="类别" />
-                                    <ComboBox fx:id="classButtonC" prefHeight="32.0" prefWidth="142.0" />
+                                    <ComboBox fx:id="classButtonC" prefWidth="142.0" />
                                     <Label text="商品编号" />
-                                    <TextField prefHeight="32.0" prefWidth="114.0" />
+                                    <TextField prefWidth="114.0" />
                                     <Button fx:id="queryButtonC" mnemonicParsing="false" onAction="#queryButtonPressedC" text="查询" />
                                     <Pane HBox.hgrow="ALWAYS" />
                                     <Button fx:id="modifyC" mnemonicParsing="false" onAction="#modifyButtonPressedC" text="修改" />

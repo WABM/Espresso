@@ -1,11 +1,11 @@
 package io.wabm.supermarket.controller;
 
-import io.wabm.supermarket.misc.pojo.Employee;
-import io.wabm.supermarket.misc.util.ConsoleLog;
-import io.wabm.supermarket.misc.util.SingleLogin;
+import io.wabm.supermarket.protocol.StatusReflectCallbackProtocol;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
 
 
 /**
@@ -17,6 +17,9 @@ public abstract class AbstractMasterDetailController {
      * The pane to contain view for present detail infomations.
      */
     @FXML AnchorPane detailView;
+
+    @FXML Label leftStatus;
+    @FXML Label rightStatus;
 
     /**
      * The controller to control multi-scenes
@@ -46,4 +49,13 @@ public abstract class AbstractMasterDetailController {
         AnchorPane.setLeftAnchor(scenesController, 0.0);
         AnchorPane.setRightAnchor(scenesController, 0.0);
     }
+
+    protected void setLeftStatusText(String statusText) {
+        leftStatus.setText(statusText);
+    }
+
+    protected void setRightStatusText(String statusText) {
+        rightStatus.setText(statusText);
+    }
+
 }

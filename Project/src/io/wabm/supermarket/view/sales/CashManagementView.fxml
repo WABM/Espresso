@@ -21,9 +21,9 @@
       </TableView>
    </center>
    <top>
-      <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button fx:id="accountingButton" mnemonicParsing="false" onAction="#accountingPressed" prefHeight="32.0" prefWidth="156.0" text="核算今日现金" />
+            <Button fx:id="accountingButton" mnemonicParsing="false" onAction="#accountingPressed" text="核算今日现金" />
          </items></ToolBar>
    </top>
 </BorderPane>
