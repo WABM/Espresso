@@ -57,7 +57,7 @@ public class ModifySupplierController implements StageSetableController, Callbac
         setupControl();
     }
     private void setupModel() {}
-    private void setupControl(){}
+    private void setupControl(){supplierIDText.setDisable(true);}
 
     public void setSupplier(Supplier supplier) {
         ConsoleLog.print("Set supplier: " + supplier.getSupplierName());

@@ -30,6 +30,7 @@ import java.util.Optional;
 public class SupplyGoodsController  extends SceneController {
 
     private SupplyGoodsModel<SupplyGoods> model;
+    private boolean isSearching = false;
     @FXML
     private TableView<SupplyGoods> tableView;
 
@@ -52,7 +53,7 @@ public class SupplyGoodsController  extends SceneController {
     @FXML
     Button modifyButton;
     @FXML
-    Button searchButton;
+    Button queryButton;
 
     @FXML
     public void initialize() {
@@ -102,7 +103,8 @@ public class SupplyGoodsController  extends SceneController {
         );
     }
 
-   @FXML private void setAddButtonPressed() {
+    @FXML
+    private void setAddButtonPressed() {
         ConsoleLog.print("button pressed");
 
         try {
@@ -140,11 +142,13 @@ public class SupplyGoodsController  extends SceneController {
                 return e[0];
             });
             stage.showAndWait();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-   }
-    @FXML private void setRemoveButtonPressed() {
+    }
+
+    @FXML
+    private void setRemoveButtonPressed() {
         ConsoleLog.print("button pressed");
 
         SupplyGoods supplyGoods = tableView.getSelectionModel().getSelectedItem();
@@ -171,5 +175,111 @@ public class SupplyGoodsController  extends SceneController {
         }
     }
 
+    @FXML
+    private void setModifyButtonPressed() {
+        ConsoleLog.print("Button pressed");
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("procurement/ModifySupplierDetail.fxml"));
+            AnchorPane pane = loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("修改供应商品信息");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            ModifySupplyDetailController controller = loader.getController();
+            controller.setStage(stage);
+
+            ((ModifySupplyDetailController) controller).setSupplyGoods(tableView.getSelectionModel().getSelectedItem());
+            ((CallbackAcceptableProtocol<SupplyGoods, DataAccessException>) controller).set((supplyGoods) -> {
+                ConsoleLog.print("modify SupplyGoods callback called");
+                final DataAccessException[] e = {null};
+
+                model.update(supplyGoods, (exception) -> {
+                    e[0] = exception;
+                    if (null != exception) {
+                        exception.printStackTrace();
+                    } else {
+                        tableView.refresh();
+                        ConsoleLog.print("update supplyGoods success");
+                    }
+
+                    return null;
+                });
+
+                return e[0];
+            });
+
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    @FXML private void setQueryButtonPressed(){
+        ConsoleLog.print("Button pressed");
+
+        if (isSearching) {
+            isSearching = !isSearching;
+            queryButton.setText("查询");
+            model.setPredicate(supplyGoods -> true);
+
+            return ;
+        }
+
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("procurement/QuerySupplierDetail.fxml"));
+            AnchorPane pane=loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("查找供应商品");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene=new Scene(pane);
+            stage.setScene(scene);
+
+            StageSetableController controller=loader.getController();
+            controller.setStage(stage);
+
+            ((CallbackAcceptableProtocol<String[], Void>) controller).set((strings) -> {
+                ConsoleLog.print("filter supplyGoods callback called");
+                if ((strings[0] == null || "".equals(strings[0])) &&
+                        (strings[1] == null || "".equals(strings[1])) &&
+                        (strings[2] == null || "".equals(strings[2])) &&
+                        (strings[3] == null || "".equals(strings[3]))) {
+                    model.setPredicate(supplier -> true);
+                    return null;
+                }
+                queryButton.setText("重置");
+                isSearching = true;
+
+                model.setPredicate(supplyGoods -> {
+                    boolean hasID, hasName, hasPrice, hasTime;
+
+                    hasID = ("" + supplyGoods.getCommodityID()).contains(strings[0]);
+                    hasName = supplyGoods.getCommodityName().contains(strings[1]);
+                    //hasPrice = supplyGoods.getPrice_db().contains(strings[2]);
+                    hasTime = supplyGoods.getDelivery_time_cost().contains(strings[3]);
+
+                    // Debug
+
+                    return hasID && hasName &&  hasTime;
+                });
+
+                return null;
+            });
+
+            stage.showAndWait();
+
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
 
 }
+

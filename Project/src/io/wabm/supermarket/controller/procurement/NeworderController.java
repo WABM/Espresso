@@ -17,7 +17,7 @@ public class NeworderController implements StageSetableController {
     public  void setStage(Stage stage){
         this.stage=stage;
     }
-    @FXML private void comfirmButtonPressed(){
+    @FXML private void setComfirmButtonPressed(){
         ConsoleLog.print("Button pressed");
         stage.close();
     }

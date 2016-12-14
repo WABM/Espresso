@@ -26,12 +26,12 @@ import org.springframework.dao.DataAccessException;
  */
 public class SelectSupplierController implements StageSetableController,CallbackAcceptableProtocol<CommoditySupplyDemand, DataAccessException> {
     private Callback<CommoditySupplyDemand, DataAccessException> callback = null;
-    @FXML Stage stage;
-
     private SelectSupplierModel<SelectSupplier> model;
-    @FXML private TableView<SelectSupplier> tableView;
 
-    @FXML private TableColumn<SelectSupplier,Integer> supplieridColumn;
+    @FXML Stage stage;
+    @FXML private TableView<SelectSupplier> tableView;
+    @FXML private TableColumn<SelectSupplier,String> commodityIDColumn;
+    @FXML private TableColumn<SelectSupplier,Integer> supplierIDColumn;
     @FXML private TableColumn<SelectSupplier, String> supplierNameColumn;
     @FXML private TableColumn<SelectSupplier, Double> priceColumn;
     @FXML private TableColumn<SelectSupplier,String> deliveryTimeCostColumn;
@@ -64,22 +64,28 @@ public class SelectSupplierController implements StageSetableController,Callback
     }
     private void setupTableView() {}
     private void setupTableViewColumn() {
-        supplieridColumn.setCellValueFactory(cellData -> cellData.getValue().supplieridProperty().asObject());
+        commodityIDColumn.setCellValueFactory(cellData -> cellData.getValue().commodityidProperty());
+        supplierIDColumn.setCellValueFactory(cellData -> cellData.getValue().supplieridProperty().asObject());
         supplierNameColumn.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         deliveryTimeCostColumn.setCellValueFactory(cellData -> cellData.getValue().deliveryTimeCostProperty());
     }
-    public void fetchWith(String commodityid) {
 
-        this.model.fetchData(commodityid,
+    public void fetchWith(String commodityID) {
+
+        this.model.fetchData(commodityID,
                 (isSuccess) -> {
                     ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
                     return null;
                 }
         );
     }
-    @FXML private void selectButtonPressed(){}
-    @FXML private void cancelButtonPressed () {
+
+    @FXML private void setSelectButtonPressed(){
+        ConsoleLog.print("Button pressed");
+        stage.close();
+    }
+    @FXML private void setCancelButtonPressed () {
         ConsoleLog.print("Button pressed");
         stage.close();
     }

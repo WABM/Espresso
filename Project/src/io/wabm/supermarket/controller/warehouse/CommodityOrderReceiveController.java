@@ -95,7 +95,6 @@ public class CommodityOrderReceiveController implements StageSetableController {
             super.updateItem(item, empty);
 
             setAlignment(Pos.CENTER);
-
             if (!empty){
                 item.setOnAction(event -> {
                     Order order = (Order) getTableRow().getItem();
@@ -129,6 +128,7 @@ public class CommodityOrderReceiveController implements StageSetableController {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
 
                 }); // end item.setOnAction(…)
             }   // end if (!empty) …

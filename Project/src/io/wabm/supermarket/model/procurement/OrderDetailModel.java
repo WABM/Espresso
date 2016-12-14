@@ -2,6 +2,7 @@ package io.wabm.supermarket.model.procurement;
 
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.OrderDetail;
+import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
@@ -9,6 +10,7 @@ import io.wabm.supermarket.model.TableViewModel;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.QueryTimeoutException;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
@@ -24,7 +26,7 @@ import java.util.List;
 public class OrderDetailModel<T> extends TableViewModel<T> {
 
     private final String kSelectAll ="select order_detail.order_id, commodity.name,order_detail.quantity,order_detail.price_db, order_detail.production_date FROM wabm.order_detail ,wabm.commodity WHERE order_detail.commodity_id=commodity.commodity_id and order_id = ?";
-
+    private final String  kDeleteSQLWithID = "DELETE  from wabm.order_detail where order_id = ? ";
     private int orderID;
 
     public OrderDetailModel(TableView tableView){
@@ -65,6 +67,36 @@ public class OrderDetailModel<T> extends TableViewModel<T> {
 
             return null;
         });
+
+    }
+
+    public void delete(OrderDetail orderDetail, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("remove supplier: " + orderDetail.getOrderID());
+        Assert.notNull(jdbcOperations);
+        try {
+            jdbcOperations.update(kDeleteSQLWithID, orderDetail.getOrderID());
+            delete((T) orderDetail);
+            callback.call(null);
+        } catch (QueryTimeoutException timeoutException) {
+            callback.call(timeoutException);
+        } catch (DataAccessException dataAccessException) {
+            callback.call(dataAccessException);
+        }
+    }
+
+    public void update(OrderDetail orderDetail, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("modify orderDetail: " + orderDetail.getOrderID());
+        Assert.notNull(jdbcOperations);
+
+        try {
+            jdbcOperations.update("UPDATE wabm.order_detail SET quantity=? WHERE order_id=?",
+                    orderDetail.getQuantity(),
+                    orderDetail.getOrderID()
+            );
+            callback.call(null);
+        } catch (DataAccessException exception) {
+            callback.call(exception);
+        }
 
     }
 }

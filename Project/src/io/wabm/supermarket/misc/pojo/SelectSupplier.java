@@ -6,16 +6,29 @@ import javafx.beans.property.*;
  * Created by 14580 on 2016/12/9 0009.
  */
 public class SelectSupplier {
+    private StringProperty commodityid;
     private IntegerProperty supplierid;
     private StringProperty supplierName;
     private DoubleProperty price;
     private StringProperty deliveryTimeCost;
 
-    public SelectSupplier(int supplierid ,String supplierName,Double  price,String deliveryTimeCost){
+    public SelectSupplier(String commodityid,int supplierid ,String supplierName,Double  price,String deliveryTimeCost){
+        this.commodityid = new SimpleStringProperty(commodityid);
         this.supplierid = new SimpleIntegerProperty(supplierid);
         this.supplierName = new SimpleStringProperty(supplierName);
         this.price = new SimpleDoubleProperty(price);
         this.deliveryTimeCost = new SimpleStringProperty(deliveryTimeCost);
+    }
+    public String getCommodityid() {
+        return commodityid.get();
+    }
+
+    public StringProperty commodityidProperty() {
+        return commodityid;
+    }
+
+    public void setCommodityid(String commodityid) {
+        this.commodityid.set(commodityid);
     }
 
     public double getPrice() {

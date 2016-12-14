@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.OrderDetailController">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.OrderDetailController">
    <center>
       <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
          <columns>
@@ -26,8 +26,8 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button fx:id="modifyButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="修改" />
-            <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false"  text="移除" />
+            <Button fx:id="modifyButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setModifyButtonPressed" text="修改" />
+            <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" onAction="#setDeleteButtonPressed" text="移除" />
             <Pane HBox.hgrow="ALWAYS" />
             <Button fx:id="backButton" mnemonicParsing="false" onAction="#backButtonPressed" text="返回" />
          </items>

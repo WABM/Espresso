@@ -26,8 +26,8 @@
    <top>
       <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
-            <Button fx:id="searchButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="查询" />
-            <Button fx:id="modifyButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" text="修改" />
+            <Button fx:id="queryButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setQueryButtonPressed" text="查询" />
+            <Button fx:id="modifyButton" layoutX="10.0" layoutY="11.0" mnemonicParsing="false" onAction="#setModifyButtonPressed" text="修改" />
             <Button fx:id="deleteButton" layoutX="58.0" layoutY="11.0" mnemonicParsing="false" onAction="#setRemoveButtonPressed" text="移除" />
             <Button fx:id="addButton" layoutX="106.0" layoutY="11.0" mnemonicParsing="false" onAction="#setAddButtonPressed" text="添加" />
             <Pane HBox.hgrow="ALWAYS">

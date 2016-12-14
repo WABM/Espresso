@@ -12,24 +12,23 @@ import javafx.util.Callback;
 /**
  * Created by 14580 on 2016/12/13 0013.
  */
-public class QuerySupplierController implements StageSetableController, CallbackAcceptableProtocol<String[], Void> {
+public class QuerySupplyDetailController implements StageSetableController, CallbackAcceptableProtocol<String[], Void> {
 
     @FXML Stage stage;
 
     private Callback<String[], Void> callback = null;
-
     private String[] filter = new String[4];
 
-    @FXML TextField idTextField ;
-    @FXML TextField nameTextField ;
-    @FXML TextField linkmanTextField ;
-    @FXML TextField phoneTextField ;
+    @FXML TextField commodityIDTextField ;
+    @FXML TextField commodityNameTextField ;
+    @FXML TextField priceTextField ;
+    @FXML TextField deliveryTimeTextField ;
 
     @FXML Button comfirmButton;
     @FXML Button cancelButton;
 
     @FXML public void initialize() {
-        ConsoleLog.print("QuerySupplierController init");
+        ConsoleLog.print("QuerySupplyDetailController init");
     }
     @Override
     public  void setStage(Stage stage){
@@ -40,17 +39,14 @@ public class QuerySupplierController implements StageSetableController, Callback
     public void set(Callback<String[], Void> callback) {
         this.callback = callback;
     }
-
-
-
     @FXML private void setComfirmButtonPressed(){
         ConsoleLog.print("Button pressed");
 
-        filter[0] = idTextField.getText().trim();
+        filter[0] = commodityIDTextField.getText().trim();
 
-        filter[1] = nameTextField.getText().trim();
-        filter[2] = linkmanTextField.getText().trim();
-        filter[3] = phoneTextField.getText().trim();
+        filter[1] = commodityNameTextField.getText().trim();
+        filter[2] = priceTextField.getText().trim();
+        filter[3] = deliveryTimeTextField.getText().trim();
 
         for (String s : filter) {
             ConsoleLog.print(s);

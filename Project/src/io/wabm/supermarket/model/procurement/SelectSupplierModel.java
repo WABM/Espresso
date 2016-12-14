@@ -24,6 +24,7 @@ import java.util.List;
 public class SelectSupplierModel<T> extends TableViewModel<T> {
 
     private final String kSelectAll ="select\n" +
+            "  commodity.commodity_id,\n" +
             "  supplier.supplier_id, \n" +
             "  supplier.name,\n" +
             "  commodity.price_db,\n" +
@@ -31,16 +32,17 @@ public class SelectSupplierModel<T> extends TableViewModel<T> {
             "from wabm.supply_detail,wabm.supplier,wabm.commodity\n" +
             "WHERE supply_detail.commodity_id=commodity.commodity_id\n" +
             "and supplier.supplier_id=supply_detail.supplier_id and commodity.commodity_id=?";
-    private String commodityid;
+
+    private String commodityID;
 
     public SelectSupplierModel(TableView tableView){
 
         super(tableView);
     }
 
-    public  void fetchData(String commodityid, Callback<Boolean, Void> callback) {
-        ConsoleLog.print("fetching data with id: " + commodityid+"…");
-        this.commodityid = commodityid;
+    public  void fetchData(String commodityID, Callback<Boolean, Void> callback) {
+        ConsoleLog.print("fetching data with id: " + commodityID+"…");
+        this.commodityID = commodityID;
         Assert.notNull(jdbcOperations);
 
         new WABMThread().run((_void) -> {
@@ -50,13 +52,14 @@ public class SelectSupplierModel<T> extends TableViewModel<T> {
                 List<SelectSupplier> templist = jdbcOperations.query(kSelectAll, (ResultSet resultSet, int i) -> {
                     SelectSupplier selectSupplier;
                     selectSupplier = new SelectSupplier(
+                            resultSet.getString("commodity.commodity_id"),
                             resultSet.getInt("supplier.supplier_id"),
                             resultSet.getString("supplier.name"),
                             resultSet.getDouble("commodity.price_db"),
                             resultSet.getString("supply_detail.delivery_time_cost")
                     );
                     return selectSupplier;
-                }, commodityid);
+                }, commodityID);
 
                 list.clear();
                 list.addAll((T[]) templist.toArray());

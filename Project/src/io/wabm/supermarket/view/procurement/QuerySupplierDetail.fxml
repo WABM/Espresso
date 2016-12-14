@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.ModifySupplyDetailController">
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.procurement.QuerySupplyDetailController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="14.0" layoutY="21.0" spacing="8.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -43,7 +43,7 @@
             <HBox alignment="CENTER_RIGHT" cache="true" spacing="8.0" HBox.hgrow="ALWAYS">
                <children>
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#setCancelButtonPressed" text="取消" />
-                  <Button fx:id="comfirmButton" mnemonicParsing="false" onAction="#setComfirmButtonPressed" text="修改" />
+                  <Button fx:id="comfirmButton" mnemonicParsing="false" onAction="#setComfirmButtonPressed" text="查找" />
                </children>
             </HBox>
          </children>

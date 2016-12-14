@@ -1,6 +1,7 @@
 package io.wabm.supermarket.model.procurement;
 
 import io.wabm.supermarket.misc.enums.OrderStatusEnum;
+import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Order;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
@@ -23,12 +24,46 @@ public class CommodityOrderModel<T> extends TableViewModel<T> {
             "  order.status\n" +
             "from    wabm.order , wabm.supplier\n" +
             "where   order.supplier_id = supplier.supplier_id and supplier.valid=1";
-
+    private String KSelectone = "SELECT\n" +
+            "  order.order_id,\n" +
+            "  supplier.name,\n" +
+            "  order.create_timestamp,\n" +
+            "  order.status\n" +
+            "from    wabm.order , wabm.supplier\n" +
+            "where   order.supplier_id = supplier.supplier_id and supplier.valid=1 and order.status=?";
     public CommodityOrderModel(TableView<T> tableView) {
         super(tableView);
         ConsoleLog.print("CommodityOrderModel init");
     }
+    public void Choose(Integer status,Callback<Boolean, Void> callback) {
+        ConsoleLog.print("fetching data…");
 
+        new WABMThread().run((_void) -> {
+            try {
+                List<Order> templist = jdbcOperations.query(KSelectone, (ResultSet resultSet, int i) -> {
+                            Order order= new Order(
+                                    resultSet.getInt("order.order_id"),
+                                    resultSet.getString("supplier.name"),
+                                    resultSet.getString("order.create_timestamp"),
+                                    OrderStatusEnum.values()[resultSet.getInt("order.status")]
+                            );
+                            return order;
+                        }
+                ,status);
+
+                list.clear();
+                list.addAll((T[]) templist.toArray());
+            }catch (DataAccessException e){
+                e.printStackTrace();
+            }
+
+
+            // TODO:
+            callback.call(true);
+            return null;
+        });
+
+    }
     public void fetchData(Callback<Boolean, Void> callback) {
         ConsoleLog.print("fetching data…");
         Assert.notNull(jdbcOperations);

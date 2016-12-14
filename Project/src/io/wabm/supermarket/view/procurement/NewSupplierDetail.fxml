@@ -30,10 +30,10 @@
                   <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                   <Label text="商品名称：" GridPane.rowIndex="1" />
+                   <Label text="商品编号：" GridPane.rowIndex="1" />
                   <Label text="商品名称：" GridPane.rowIndex="2" />
-                  <Label  text="送达期限：" GridPane.rowIndex="3" />
-                  <Label text="进价：" GridPane.rowIndex="4" />
+                  <Label  text="商品进价：" GridPane.rowIndex="3" />
+                  <Label text="送达期限：" GridPane.rowIndex="4" />
                    <TextField fx:id="commodityIDTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="commodityNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="priceTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />

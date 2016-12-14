@@ -5,6 +5,7 @@ import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Order;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommodityOrderModel;
+import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,6 +17,8 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.io.IOException;
+
 
 /**
  * Created by liu on 2016-10-25 .
@@ -23,6 +26,7 @@ import javafx.scene.control.TableView;
 public class CommodityOrderManagementController extends SceneController {
 
     private CommodityOrderModel<Order> model;
+    Integer status;
 
     @FXML TableView<Order> tableView;
     @FXML TableColumn<Order, Integer> idColumn;
@@ -31,7 +35,7 @@ public class CommodityOrderManagementController extends SceneController {
     @FXML TableColumn<Order, String> statusColumn;
     @FXML TableColumn<Order, Hyperlink> actionColumn;
 
-    @FXML Button unpaymentButton;
+    @FXML Button noncheckedButton;
     @FXML Button waitButton;
     @FXML Button completeButton;
 
@@ -100,6 +104,7 @@ public class CommodityOrderManagementController extends SceneController {
                         }
                         return null;
                     });
+                    ConsoleLog.print("" + order.getOrderID());
 
                     orderDetailController.fetchWith(order.getOrderID());
 
@@ -108,70 +113,33 @@ public class CommodityOrderManagementController extends SceneController {
         }
     };
 
-//    @FXML private void unpaymentPressed(){
-//        ConsoleLog.print("Button pressed");
-//        try{
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(ViewPathHelper.class.getResource("management/Add employee.fxml"));
-//            AnchorPane pane=loader.load();
-//
-//            Stage stage = new Stage();
-//            stage.setTitle("待审核订单");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//
-//            Scene scene=new Scene(pane);
-//            stage.setScene(scene);
-//
-//            StageSetableController contoller=loader.getController();
-//            contoller.setStage(stage);
-//
-//            stage.showAndWait();
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//    }
-//    @FXML private void waitButtonPressed(){
-//        ConsoleLog.print("Button pressed");
-//        try{
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(ViewPathHelper.class.getResource("management/Modify employee.fxml"));
-//            AnchorPane pane=loader.load();
-//
-//            Stage stage = new Stage();
-//            stage.setTitle("待收货订单");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//
-//            Scene scene=new Scene(pane);
-//            stage.setScene(scene);
-//
-//            StageSetableController contoller=loader.getController();
-//            contoller.setStage(stage);
-//
-//            stage.showAndWait();
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//    }
-//    @FXML private void completeButtonPressed(){
-//        ConsoleLog.print("Button pressed");
-//        try{
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(ViewPathHelper.class.getResource("management/Query employee information.fxml"));
-//            AnchorPane pane=loader.load();
-//
-//            Stage stage = new Stage();
-//            stage.setTitle("已完成订单");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//
-//            Scene scene=new Scene(pane);
-//            stage.setScene(scene);
-//
-//            StageSetableController contoller=loader.getController();
-//            contoller.setStage(stage);
-//
-//            stage.showAndWait();
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//    }
+    @FXML private void noncheckedButtonPressed(){
+        ConsoleLog.print("Button pressed");
+
+        status = 1;
+        model.Choose(status, isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+
+    }
+
+   @FXML private void waitButtonPressed(){
+        ConsoleLog.print("Button pressed");
+
+        status = 2;
+        model.Choose(status, isSuccess -> {
+           ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+           return null;
+       });
+   }
+    @FXML private void completeButtonPressed(){
+        ConsoleLog.print("Button pressed");
+
+        status = 3;
+        model.Choose(status, isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+    }
 }

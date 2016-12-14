@@ -8,7 +8,7 @@ import java.math.BigDecimal;
  * Created by 14580 on 2016/12/8 0008.
  */
 public class CommoditySupplyDemand {
-    private StringProperty commodityid;
+    private StringProperty commodityID;
     private StringProperty barcode;
     private StringProperty commodityname;
     private StringProperty classification;
@@ -17,11 +17,11 @@ public class CommoditySupplyDemand {
     private StringProperty unit;
     private IntegerProperty quantity;
     private ObjectProperty<BigDecimal> price;
-    private StringProperty supplier;
+    //private StringProperty supplier;
 
-    public CommoditySupplyDemand(String commodityid,String barcode,String commodityname, String classification, String specification,int deliveryspecification,String unit,int quantity,BigDecimal price,String supplier)
+    public CommoditySupplyDemand(String commodityID,String barcode,String commodityname, String classification, String specification,int deliveryspecification,String unit,int quantity,BigDecimal price)
     {
-        this.commodityid = new SimpleStringProperty(commodityid);
+        this.commodityID = new SimpleStringProperty(commodityID);
         this.barcode = new SimpleStringProperty(barcode);
         this.commodityname = new SimpleStringProperty(commodityname);
         this.classification = new SimpleStringProperty(classification);
@@ -30,19 +30,19 @@ public class CommoditySupplyDemand {
         this.unit = new SimpleStringProperty(unit);
         this.quantity = new SimpleIntegerProperty(quantity);
         this.price = new SimpleObjectProperty<>(price);
-        this.supplier = new SimpleStringProperty(supplier);
+        //this.supplier = new SimpleStringProperty(supplier);
 
     }
-    public String getCommodityid() {
-        return commodityid.get();
+    public String getCommodityID() {
+        return commodityID.get();
     }
 
-    public StringProperty commodityidProperty() {
-        return commodityid;
+    public StringProperty commodityIDProperty() {
+        return commodityID;
     }
 
-    public void setCommodityid(String commodityid) {
-        this.commodityid.set(commodityid);
+    public void setCommodityID(String commodityID) {
+        this.commodityID.set(commodityID);
     }
 
 
@@ -148,16 +148,16 @@ public class CommoditySupplyDemand {
     }
 
 
-    public String getsupplier() {
-        return supplier.get();
-    }
-
-    public StringProperty supplierProperty() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier.set(supplier);
-    }
+//    public String getsupplier() {
+//        return supplier.get();
+//    }
+//
+//    public StringProperty supplierProperty() {
+//        return supplier;
+//    }
+//
+//    public void setSupplier(String supplier) {
+//        this.supplier.set(supplier);
+//    }
 
 }

@@ -18,21 +18,20 @@ import java.util.List;
 public class CommoditySupplyDemandModel<T> extends TableViewModel<T> {
 
     private final String kSelectSQL ="select\n" +
-            "  commodity.commodity_id,\n" +
-            "  commodity.bar_code,\n" +
-            "  commodity.name,\n" +
-            "  classification.name,\n" +
-            "  commodity.specification,\n" +
-            "  commodity.delivery_specification,\n" +
-            "  commodity.unit,\n" +
-            "  procurement_requirement.quantity,\n" +
-            "  commodity.price_db ,\n" +
-            "  supplier.name\n" +
-            "  from wabm.procurement_requirement ,wabm.commodity ,wabm.classification,wabm.supplier, wabm.order,wabm.order_detail\n" +
-            "  where procurement_requirement.commodity_id = commodity.commodity_id\n" +
-            "        and classification.classification_id = commodity.classification_id\n" +
-            "        and commodity.commodity_id = order_detail.commodity_id\n" +
-            "        and order.supplier_id = supplier.supplier_id";
+            " commodity.commodity_id,\n" +
+            " bar_code,\n" +
+            " commodity.name,\n" +
+            " classification.name,\n" +
+            " specification,\n" +
+            " delivery_specification,\n" +
+            " unit,\n" +
+            " quantity,\n" +
+            " commodity.price_db\n" +
+            "from procurement_requirement ,commodity ,classification\n" +
+            "\n" +
+            "where procurement_requirement.commodity_id=commodity.commodity_id\n" +
+            "      and classification.classification_id=commodity.classification_id\n" +
+            "      and procurement_requirement.status = 0";
 
 
 
@@ -54,15 +53,14 @@ public class CommoditySupplyDemandModel<T> extends TableViewModel<T> {
                 List<CommoditySupplyDemand> templist = jdbcOperations.query(kSelectSQL, (ResultSet resultSet, int i) -> {
                     CommoditySupplyDemand commoditySupplyDemand = new CommoditySupplyDemand(
                             resultSet.getString("commodity.commodity_id"),
-                            resultSet.getString("commodity.bar_code"),
+                            resultSet.getString("bar_code"),
                             resultSet.getString("commodity.name"),
                             resultSet.getString("classification.name"),
-                            resultSet.getString("commodity.specification"),
-                            resultSet.getInt("commodity.delivery_specification"),
-                            resultSet.getString("commodity.unit"),
-                            resultSet.getInt("procurement_requirement.quantity"),
-                            resultSet.getBigDecimal("commodity.price_db"),
-                            resultSet.getString("supplier.name")
+                            resultSet.getString("specification"),
+                            resultSet.getInt("delivery_specification"),
+                            resultSet.getString("unit"),
+                            resultSet.getInt("quantity"),
+                            resultSet.getBigDecimal("commodity.price_db")
                     );
 
                     return commoditySupplyDemand;

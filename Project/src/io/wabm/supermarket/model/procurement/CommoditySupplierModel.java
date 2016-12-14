@@ -114,7 +114,7 @@ public class  CommoditySupplierModel<T> extends FilteredTableViewModel<T> {
         Assert.notNull(jdbcOperations);
 
         try {
-            jdbcOperations.update("UPDATE wabm.supplier SET name=?, representative_name=?,  phone=?, address=? WHERE suplier_id=?",
+            jdbcOperations.update("UPDATE wabm.supplier SET name=?, representative_name=?,  phone=?, address=? WHERE supplier_id=?",
                     // supplier.getSupplierID(),
                     supplier.getSupplierName(),
                     supplier.getLinkman(),

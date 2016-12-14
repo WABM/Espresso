@@ -1,10 +1,12 @@
 package io.wabm.supermarket.model.procurement;
 
 import io.wabm.supermarket.misc.config.DBConfig;
+import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.pojo.TransactionRecordDetail;
 import io.wabm.supermarket.misc.util.WABMThread;
+import io.wabm.supermarket.model.FilteredTableViewModel;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
@@ -20,13 +22,14 @@ import org.springframework.util.Assert;
 
 import java.sql.ResultSet;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Created by 14580 on 2016/12/5 0005.
  */
 @Repository
 @ContextConfiguration(classes = DBConfig.class)
-public class SupplyGoodsModel<T> extends TableViewModel<T> {
+public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAll = "select commodity.commodity_id,commodity.name,supply_detail.price_db,supply_detail.delivery_time_cost\n" +
             "FROM wabm.supply_detail,wabm.commodity\n" +
@@ -112,6 +115,27 @@ public class SupplyGoodsModel<T> extends TableViewModel<T> {
         } catch (DataAccessException dataAccessException) {
             callback.call(dataAccessException);
         }
+    }
+    public void update(SupplyGoods supplyGoods, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("modify supplyGoods: " + supplyGoods.getCommodityName());
+        Assert.notNull(jdbcOperations);
+
+        try {
+            jdbcOperations.update("UPDATE wabm.supply_detail SET price_db=?, delivery_time_cost=? WHERE commodity_id=?",
+                    supplyGoods.getCommodityName(),
+                    supplyGoods.getPrice_db(),
+                    supplyGoods.getDelivery_time_cost(),
+                    supplyGoods.getCommodityID()
+            );
+            callback.call(null);
+        } catch (DataAccessException exception) {
+            callback.call(exception);
+        }
+
+    }
+    public void setFilter(Predicate<T> predicate) {
+        ConsoleLog.print("set predicate");
+        setPredicate(predicate);
     }
 
 }
