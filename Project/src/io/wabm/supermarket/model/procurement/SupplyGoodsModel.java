@@ -35,6 +35,7 @@ public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
             "FROM wabm.supply_detail,wabm.commodity\n" +
             "WHERE  supply_detail.commodity_id=commodity.commodity_id and supplier_id=?\n";
     private final String kRmoveSQLWithID = "UPDATE wabm.supply_detail SET valid=0 WHERE wabm.supply_detail.commodity_id = ?;";
+    private final String kInsert = "insert into supply_detail(supplier_id,commodity_id,price_db,delivery_time_cost) values(?,?,0.00,6)";
 
 //    private final String kInsertSQLAutoIncrease = " insert into  commodity.name,supply_detail.price_db,supply_detail.delivery_time_cost\n" +
 //            "\" +\n" +
@@ -83,25 +84,18 @@ public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
 
     }
 
-    public void add(SupplyGoods supplyGoods, Callback<DataAccessException, Void> callback) {
-//        ConsoleLog.print("Add supplier: " + supplyGoods.getCommodityName());
-//        Assert.notNull(jdbcOperations);
-//        try {
-//
-//        jdbcOperations.update(kInsertSQLAutoIncrease,
-//        supplyGoods.getCommodityName(),
-//        supplyGoods.getPrice_db(),
-//        supplyGoods.getDelivery_time_cost()
-//        );
-//        SqlRowSet rowSet = jdbcOperations.queryForRowSet("select LAST_INSERT_ID() AS id;");
-//        }
-//        add((T) supplyGoods);
-//        callback.call(null);
-//        } catch (QueryTimeoutException timeoutException) {
-//        callback.call(timeoutException);
-//        } catch (DataAccessException dataAccessException) {
-//        callback.call(dataAccessException);
-//        }
+    public void add(String SupplierID,String CommodityID, Callback<Boolean, Void> callback) {
+        Assert.notNull(jdbcOperations);
+        try {
+            jdbcOperations.update(kInsert,
+                    SupplierID, CommodityID
+            );
+        } catch (QueryTimeoutException timeoutException) {
+            timeoutException.printStackTrace();
+        } catch (DataAccessException dataAccessException) {
+            dataAccessException.printStackTrace();
+        }
+        callback.call(true);
     }
     public void delete(SupplyGoods supplyGoods, Callback<DataAccessException, Void> callback) {
         ConsoleLog.print("remove supplyGoods: " + supplyGoods.getCommodityName());
@@ -139,3 +133,4 @@ public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
     }
 
 }
+

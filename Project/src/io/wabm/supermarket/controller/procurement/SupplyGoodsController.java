@@ -31,6 +31,7 @@ public class SupplyGoodsController  extends SceneController {
 
     private SupplyGoodsModel<SupplyGoods> model;
     private boolean isSearching = false;
+    private Supplier supplier;
     @FXML
     private TableView<SupplyGoods> tableView;
 
@@ -122,25 +123,12 @@ public class SupplyGoodsController  extends SceneController {
             stage.setScene(scene);
 
             // Pass the info into the controller.
-            StageSetableController controller = loader.getController();
+            NewSupplierDetailController controller = loader.getController();
             controller.setStage(stage);
+            controller.setSupplier(supplier);
+            controller.setTableView(tableView);
 
-            ((CallbackAcceptableProtocol<SupplyGoods, DataAccessException>) controller).set((supplyGoods) -> {
-                ConsoleLog.print("Add supplyGoods callback called");
-                final DataAccessException[] e = {null};
 
-                model.add(supplyGoods, (exception) -> {
-                    e[0] = exception;
-                    if (null != exception) {
-                        exception.printStackTrace();
-                    } else {
-                        ConsoleLog.print("Insert supplyGoods success");
-                    }
-
-                    return null;
-                });
-                return e[0];
-            });
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
@@ -281,5 +269,8 @@ public class SupplyGoodsController  extends SceneController {
         }
     }
 
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
 }
 

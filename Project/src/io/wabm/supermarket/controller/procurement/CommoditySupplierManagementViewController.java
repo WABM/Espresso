@@ -108,7 +108,7 @@ public class CommoditySupplierManagementViewController extends SceneController {
 
                     // Then dispatch the task to controller you hold.
                     supplyGoodsController.fetchWith(supplier.getSupplierID());
-                    supplyGoodsController.setSupply(supplier);
+                    supplyGoodsController.setSupplier(supplier);
                 });
             }
         }
