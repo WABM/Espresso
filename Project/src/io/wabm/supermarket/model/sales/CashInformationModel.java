@@ -27,8 +27,6 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/11/20 0020.
  */
-@Repository
-@ContextConfiguration(classes = DBConfig.class)
 public class CashInformationModel<T> extends TableViewModel<T> {
 
     private final String kSelectAll = "SELECT c.*,e.name FROM wabm.change_record c,wabm.employee e where c.employee_id=e.employee_id";

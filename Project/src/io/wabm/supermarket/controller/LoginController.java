@@ -139,12 +139,13 @@ public class LoginController {
                 setEmployee(employee);
                 ConsoleLog.print(SingleLogin.getInstance().getEmployee().getName());
 
-                if (employee.getDepartmentString() !="收银员" && fxml.equals("CashierMain.fxml")) {
+                if (employee.getDepartmentString() !="收银员" && fxml.equals("CashierMain.fxml")
+                        && employee.isValid()) {
                     Platform.runLater(() -> {
                         SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("错误","请与管理员联系","没有权限！");
                         simpleErrorAlert.show();
                     });
-                } else {
+                } else if (employee.isValid()){
                     Platform.runLater(() -> {
                         try {
                             FXMLLoader loader = new FXMLLoader();

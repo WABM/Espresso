@@ -78,8 +78,6 @@
                                  <items>
                                     <Label text="类别" />
                                     <ComboBox fx:id="classButtonC" prefHeight="32.0" prefWidth="142.0" />
-                                    <Label text="商品编号" />
-                                    <TextField prefWidth="114.0" />
                                     <Button fx:id="queryButtonC" mnemonicParsing="false" onAction="#queryButtonPressedC" text="查询" />
                                     <Pane HBox.hgrow="ALWAYS" />
                                     <Button fx:id="modifyC" mnemonicParsing="false" onAction="#modifyButtonPressedC" text="修改" />

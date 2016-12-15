@@ -19,8 +19,6 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/11/28 0028.
  */
-@Repository
-@ContextConfiguration(classes = DBConfig.class)
 public class TransationRecordDetailModel<T> extends TableViewModel<T> {
 
     private final String kSelectAll = "select sales_record_detail.sales_record_id,sales_record_detail.quantity,commodity.* from commodity,sales_record,sales_record_detail where sales_record_detail.sales_record_id = sales_record.sales_record_id and commodity.commodity_id = sales_record_detail.commodity_id and sales_record.sales_record_id = ?";

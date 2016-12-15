@@ -107,9 +107,11 @@ public class CommodityPriceManagementController extends SceneController {
     private void setupControl(){
         boxModel = new ClassComboBoxModel<>(classButton);
         modify.setDisable(true);
+        classButton.setPromptText("全部");
 
         modifyC.setDisable(true);
         classButtonC.setItems(boxModel.getList());
+        classButtonC.setPromptText("全部");
     }
     private void setupModel(){
         Classmodel = new SaleClassificationInformationModel<>(tableView);
