@@ -64,7 +64,7 @@ public class CommodityOrderManagementController extends SceneController {
     }
 
     private void setupControl() {
-
+        passButton.setVisible(true);
     }
 
 
@@ -118,6 +118,7 @@ public class CommodityOrderManagementController extends SceneController {
     @FXML private void noncheckedButtonPressed(){
         ConsoleLog.print("Button pressed");
 
+        passButton.setVisible(true);
         status = 1;
         model.Choose(status, isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
@@ -129,6 +130,7 @@ public class CommodityOrderManagementController extends SceneController {
    @FXML private void waitButtonPressed(){
         ConsoleLog.print("Button pressed");
 
+       passButton.setVisible(false);
         status = 2;
         model.Choose(status, isSuccess -> {
            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
@@ -138,6 +140,7 @@ public class CommodityOrderManagementController extends SceneController {
     @FXML private void completeButtonPressed(){
         ConsoleLog.print("Button pressed");
 
+        passButton.setVisible(false);
         status = 3;
         model.Choose(status, isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));

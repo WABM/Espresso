@@ -34,9 +34,8 @@ public class CashierMain extends Application {
         primaryStage.setTitle("超市收银系统");
 
         // Set min windows size
-
-        //initRootlayout();
-       initRootlayoutWithoutLogin();
+        initRootlayout();
+//       initRootlayoutWithoutLogin();
     }
 
     private void initRootlayout() {
