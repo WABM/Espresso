@@ -44,6 +44,7 @@ public class ModifySupplyDetailController implements StageSetableController, Cal
     public void set(Callback<SupplyGoods, DataAccessException> callback) {
         this.callback = callback;
     }
+
     @FXML
     public void initialize() {
         ConsoleLog.print("ModifySupplyDetailController init");

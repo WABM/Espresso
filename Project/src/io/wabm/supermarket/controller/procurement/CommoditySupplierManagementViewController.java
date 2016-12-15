@@ -64,8 +64,19 @@ public class CommoditySupplierManagementViewController extends SceneController {
             return null;
         });
     }
-    private void setupTableView() {}
-    private void setupControl() {}
+    private void setupTableView() {
+        tableView.setEditable(true);
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
+        );
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> modifyButton.setDisable(newValue == null)
+        );
+    }
+    private void setupControl() {
+        deleteButton.setDisable(true);
+        modifyButton.setDisable(true);
+    }
     private void setupTableViewColumn() {
         actionColumn.setCellFactory(actionColumnSetupCallback);
 

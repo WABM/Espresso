@@ -1,10 +1,7 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
-import io.wabm.supermarket.misc.pojo.CommoditySupplyDemand;
-import io.wabm.supermarket.misc.pojo.SelectSupplier;
-import io.wabm.supermarket.misc.pojo.Supplier;
-import io.wabm.supermarket.misc.pojo.SupplyGoods;
+import io.wabm.supermarket.misc.pojo.*;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplyDemandModel;
 import io.wabm.supermarket.model.procurement.SelectSupplierModel;
@@ -27,6 +24,8 @@ import org.springframework.dao.DataAccessException;
 public class SelectSupplierController implements StageSetableController,CallbackAcceptableProtocol<CommoditySupplyDemand, DataAccessException> {
     private Callback<CommoditySupplyDemand, DataAccessException> callback = null;
     private SelectSupplierModel<SelectSupplier> model;
+    private CommoditySupplyDemand commoditySupplyDemand;
+    private TableView supplierTableView;
 
     @FXML Stage stage;
     @FXML private TableView<SelectSupplier> tableView;
@@ -43,6 +42,7 @@ public class SelectSupplierController implements StageSetableController,Callback
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
     @Override
     public void set (Callback<CommoditySupplyDemand, DataAccessException > callback){
         this.callback = callback;
@@ -58,11 +58,21 @@ public class SelectSupplierController implements StageSetableController,Callback
         setupTableViewColumn();
     }
 
-    private void setupControl() {}
+    private void setupControl() {
+        selectButton.setDisable(true);
+    }
+
     private void setupModel() {
         model = new SelectSupplierModel<>(tableView);
     }
-    private void setupTableView() {}
+
+    private void setupTableView() {
+        tableView.setEditable(true);
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> selectButton.setDisable(newValue == null)
+        );
+    }
+
     private void setupTableViewColumn() {
         commodityIDColumn.setCellValueFactory(cellData -> cellData.getValue().commodityidProperty());
         supplierIDColumn.setCellValueFactory(cellData -> cellData.getValue().supplieridProperty().asObject());
@@ -80,11 +90,27 @@ public class SelectSupplierController implements StageSetableController,Callback
                 }
         );
     }
+    public void setTableView(TableView tableView){
+        this.supplierTableView = tableView;
+    }
 
     @FXML private void setSelectButtonPressed(){
-        ConsoleLog.print("Button pressed");
-        stage.close();
+
+//        CommodityPriceInformation commodityPriceInformation = tableView.getSelectionModel().getSelectedItem();
+//        System.out.println(commoditySupplyDemand.getSupplierID());
+//        orderModel = new SupplyGoodsModel<SupplyGoods>(supplierTableView);
+//        orderModel.add(String.valueOf(commoditySupplyDemand.getSupplierID()),commodityPriceInformation.getCommodityID(),
+//                isSuccess -> {
+//                    ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+//                    return null;
+//                });
+//        supplyGoodsModel.fetchData(supplier.getSupplierID(),isSuccess -> {
+//            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+//            return null;
+//        });
+//        stage.close();
     }
+
     @FXML private void setCancelButtonPressed () {
         ConsoleLog.print("Button pressed");
         stage.close();

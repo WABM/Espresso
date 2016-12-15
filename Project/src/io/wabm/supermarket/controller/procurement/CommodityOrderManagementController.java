@@ -1,6 +1,7 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
+import io.wabm.supermarket.misc.enums.OrderStatusEnum;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
@@ -20,6 +21,8 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.util.Optional;
 
+import static io.wabm.supermarket.misc.enums.OrderStatusEnum.pending;
+
 
 /**
  * Created by liu on 2016-10-25 .
@@ -28,6 +31,7 @@ public class CommodityOrderManagementController extends SceneController {
 
     private CommodityOrderModel<Order> model;
     Integer status;
+    OrderStatusEnum abc;
 
     @FXML TableView<Order> tableView;
     @FXML TableColumn<Order, Integer> idColumn;
@@ -52,6 +56,10 @@ public class CommodityOrderManagementController extends SceneController {
     }
 
     private void setupTableView() {
+        tableView.setEditable(true);
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> passButton.setDisable(newValue == null)
+        );
 
     }
 
@@ -64,7 +72,8 @@ public class CommodityOrderManagementController extends SceneController {
     }
 
     private void setupControl() {
-        passButton.setVisible(true);
+        passButton.setVisible(false);
+        passButton.setDisable(true);
     }
 
 
@@ -109,6 +118,14 @@ public class CommodityOrderManagementController extends SceneController {
                     ConsoleLog.print("" + order.getOrderID());
 
                     orderDetailController.fetchWith(order.getOrderID());
+                    abc = order.getStatus();
+                    if(abc == pending){
+                        orderDetailController.deleteButton.setVisible(true);
+                        orderDetailController.modifyButton.setVisible(true);
+                    }else {
+                        orderDetailController.deleteButton.setVisible(false);
+                        orderDetailController.modifyButton.setVisible(false);
+                    }
 
                 });
             }

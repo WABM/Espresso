@@ -33,7 +33,7 @@ public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAll = "select commodity.commodity_id,commodity.name,supply_detail.price_db,supply_detail.delivery_time_cost\n" +
             "FROM wabm.supply_detail,wabm.commodity\n" +
-            "WHERE  supply_detail.commodity_id=commodity.commodity_id and supplier_id=?\n";
+            "WHERE  supply_detail.commodity_id=commodity.commodity_id and supply_detail.valid = 1 and supplier_id=?\n";
     private final String kRmoveSQLWithID = "UPDATE wabm.supply_detail SET valid=0 WHERE wabm.supply_detail.commodity_id = ?;";
     private final String kInsert = "insert into supply_detail(supplier_id,commodity_id,price_db,delivery_time_cost) values(?,?,0.00,6)";
 
@@ -116,7 +116,7 @@ public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
 
         try {
             jdbcOperations.update("UPDATE wabm.supply_detail SET price_db=?, delivery_time_cost=? WHERE commodity_id=?",
-                    supplyGoods.getCommodityName(),
+                    //supplyGoods.getCommodityName(),
                     supplyGoods.getPrice_db(),
                     supplyGoods.getDelivery_time_cost(),
                     supplyGoods.getCommodityID()

@@ -27,11 +27,12 @@ public class SelectSupplierModel<T> extends TableViewModel<T> {
             "  commodity.commodity_id,\n" +
             "  supplier.supplier_id, \n" +
             "  supplier.name,\n" +
-            "  commodity.price_db,\n" +
+            "  supply_detail.price_db,\n" +
             "  supply_detail.delivery_time_cost\n" +
             "from wabm.supply_detail,wabm.supplier,wabm.commodity\n" +
             "WHERE supply_detail.commodity_id=commodity.commodity_id\n" +
             "and supplier.supplier_id=supply_detail.supplier_id and commodity.commodity_id=?";
+    private final String kInsert = "insert into supply_detail(supplier_id,commodity_id,price_db,delivery_time_cost) values(?,?,0.00,6)";
 
     private String commodityID;
 
@@ -55,7 +56,7 @@ public class SelectSupplierModel<T> extends TableViewModel<T> {
                             resultSet.getString("commodity.commodity_id"),
                             resultSet.getInt("supplier.supplier_id"),
                             resultSet.getString("supplier.name"),
-                            resultSet.getDouble("commodity.price_db"),
+                            resultSet.getDouble("supply_detail.price_db"),
                             resultSet.getString("supply_detail.delivery_time_cost")
                     );
                     return selectSupplier;
