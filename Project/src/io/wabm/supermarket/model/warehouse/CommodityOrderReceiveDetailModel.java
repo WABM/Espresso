@@ -6,6 +6,11 @@ import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
@@ -29,6 +34,7 @@ import java.util.stream.Collectors;
 public class CommodityOrderReceiveDetailModel<T> extends TableViewModel<T> {
 
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
+    private StringProperty totalPrice = new SimpleStringProperty();
 
     private final String kSelectOrderDetailAndCommodityWithOrderID = "SELECT co.*, od.order_id, od.order_detail_id, od.quantity, od.price_db purchase_price, od.production_date FROM order_detail od JOIN `order` o ON od.order_id = o.order_id JOIN commodity co ON od.commodity_id = co.commodity_id WHERE o.order_id = ?;";
 
@@ -128,5 +134,27 @@ public class CommodityOrderReceiveDetailModel<T> extends TableViewModel<T> {
 
             return null;
         });
+    }
+
+    public String getTotalPrice() {
+        return totalPrice.get();
+    }
+
+    public StringProperty totalPriceProperty() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(String totalPrice) {
+        this.totalPrice.set(totalPrice);
+    }
+
+    public void calculate() {
+        double totoal = list.parallelStream()
+                .filter(od -> od instanceof CMKOrderDetail)
+                .map(od -> (CMKOrderDetail) od)
+                .mapToDouble(od -> od.getPurchasePrice().doubleValue() * od.getActualQuantity())
+                .sum();
+
+        setTotalPrice(String.format("%.2f", totoal));
     }
 }

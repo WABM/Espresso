@@ -9,11 +9,10 @@ import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityOrderReceiveDetailModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -39,6 +38,8 @@ public class CommodityOrderReceiveDetailController implements StageSetableContro
     @FXML TableColumn<CMKOrderDetail, LocalDate> productionDateColumn;
 
     @FXML Stage stage;
+
+    @FXML Label totalPriceLabel;
 
     @FXML Button confirmButton;
     @FXML Button cancelButton;
@@ -72,6 +73,7 @@ public class CommodityOrderReceiveDetailController implements StageSetableContro
         setupModel();
         setupTableView();
         setupTableColumn();
+        setupControl();
     }
 
     private void setupModel() {
@@ -104,6 +106,8 @@ public class CommodityOrderReceiveDetailController implements StageSetableContro
                 @Override
                 public void updateItem(Integer item, boolean empty) {
                     super.updateItem(item, empty);
+
+                    model.calculate();
                 }
             };
 
@@ -119,6 +123,10 @@ public class CommodityOrderReceiveDetailController implements StageSetableContro
         actualQuntityColumn.setCellValueFactory(param -> param.getValue().actualQuantityProperty().asObject());
         productionDateColumn.setCellValueFactory(param -> param.getValue().productionDateProperty());
 
+    }
+
+    private void setupControl() {
+        totalPriceLabel.textProperty().bind(model.totalPriceProperty());
     }
 
     private void fetch() {

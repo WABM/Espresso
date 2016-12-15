@@ -24,6 +24,12 @@
             </TableView>
             <HBox>
                <children>
+                  <HBox alignment="CENTER_LEFT">
+                     <children>
+                        <Label text="总价：" />
+                        <Label fx:id="totalPriceLabel" text="0.00" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER_RIGHT" spacing="8.0" HBox.hgrow="ALWAYS">
                      <children>
                         <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelButtonPressed" text="关闭" />
