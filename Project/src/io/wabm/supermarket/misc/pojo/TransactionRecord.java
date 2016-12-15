@@ -1,41 +1,28 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+
+import java.time.LocalDate;
 
 /**
- * Created by Administrator on 2016/11/19 0019.
+ * Created by Administrator on 2016/11/28 0028.
  */
 public class TransactionRecord {
     private StringProperty recordID;
-    private StringProperty commodityID;
-    private StringProperty barcode;
-    private StringProperty name;
-    private IntegerProperty classificationID;
-    private StringProperty specification;
-    private StringProperty unit;
-    private IntegerProperty quantity;
-    private StringProperty price;
-    private StringProperty totalPrice;
+    private StringProperty emploee_ID;
+    private DoubleProperty totalprice;
+    //private ObjectProperty<LocalDate> date;
+    private StringProperty date;
 
-    public TransactionRecord(String recordID,String commodityID,
-                             String barcode,String name,
-                             int classificationID,String specification,
-                             String unit,int quantity,
-                             String price,String totalPrice){
+    private BooleanProperty choose;
+
+    public TransactionRecord(String recordID, String emploee_ID, Double totalprice,String date) {
         this.recordID = new SimpleStringProperty(recordID);
-        this.commodityID = new SimpleStringProperty(commodityID);
-        this.barcode = new SimpleStringProperty(barcode);
-        this.name = new SimpleStringProperty(name);
-        this.classificationID = new SimpleIntegerProperty(classificationID);
-        this.specification = new SimpleStringProperty(specification);
-        this.unit = new SimpleStringProperty(unit);
-        this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleStringProperty(price);
-        this.totalPrice = new SimpleStringProperty(totalPrice);
+        this.emploee_ID = new SimpleStringProperty(emploee_ID);
+        this.totalprice = new SimpleDoubleProperty(totalprice);
+        this.date = new SimpleStringProperty(date);
     }
+
     public String getRecordID() {
         return recordID.get();
     }
@@ -48,111 +35,51 @@ public class TransactionRecord {
         this.recordID.set(recordID);
     }
 
-    public String getCommodityID() {
-        return commodityID.get();
+    public String getEmploee_ID() {
+        return emploee_ID.get();
     }
 
-    public StringProperty commodityIDProperty() {
-        return commodityID;
+    public StringProperty emploee_IDProperty() {
+        return emploee_ID;
     }
 
-    public void setCommodityID(String commodityID) {
-        this.commodityID.set(commodityID);
+    public void setEmploee_ID(String emploee_ID) {
+        this.emploee_ID.set(emploee_ID);
     }
 
-    public String getBarcode() {
-        return barcode.get();
+    public double getTotalprice() {
+        return totalprice.get();
     }
 
-    public StringProperty barcodeProperty() {
-        return barcode;
+    public DoubleProperty totalpriceProperty() {
+        return totalprice;
     }
 
-    public void setBarcode(String barcode) {
-        this.barcode.set(barcode);
+    public void setTotalprice(double totalprice) {
+        this.totalprice.set(totalprice);
     }
 
-    public String getName() {
-        return name.get();
+    public String getDate() {
+        return date.get();
     }
 
-    public StringProperty nameProperty() {
-        return name;
+    public StringProperty dateProperty() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name.set(name);
+    public void setDate(String date) {
+        this.date.set(date);
     }
 
-    public int getClassificationID() {
-        return classificationID.get();
+    public boolean isChoose() {
+        return choose.get();
     }
 
-    public IntegerProperty classificationIDProperty() {
-        return classificationID;
+    public BooleanProperty chooseProperty() {
+        return choose;
     }
 
-    public void setClassificationID(int classificationID) {
-        this.classificationID.set(classificationID);
+    public void setChoose(boolean choose) {
+        this.choose.set(choose);
     }
-
-    public String getSpecification() {
-        return specification.get();
-    }
-
-    public StringProperty specificationProperty() {
-        return specification;
-    }
-
-    public void setSpecification(String specification) {
-        this.specification.set(specification);
-    }
-
-    public String getUnit() {
-        return unit.get();
-    }
-
-    public StringProperty unitProperty() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit.set(unit);
-    }
-
-    public int getQuantity() {
-        return quantity.get();
-    }
-
-    public IntegerProperty quantityProperty() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
-    }
-
-    public String getPrice() {
-        return price.get();
-    }
-
-    public StringProperty priceProperty() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price.set(price);
-    }
-
-    public String getTotalPrice() {
-        return totalPrice.get();
-    }
-
-    public StringProperty totalPriceProperty() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(String totalPrice) {
-        this.totalPrice.set(totalPrice);
-    }
- }
+}

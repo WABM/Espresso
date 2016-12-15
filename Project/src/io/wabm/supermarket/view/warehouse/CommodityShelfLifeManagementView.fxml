@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.geometry.*?>
@@ -24,9 +25,12 @@
             <TableColumn fx:id="productionDateColumn" prefWidth="75.0" text="生产日期" />
             <TableColumn fx:id="expirationDateColumn" prefWidth="75.0" text="过保日期" />
             <TableColumn fx:id="shelfLifeColumn" prefWidth="75.0" text="保质期" />
-            <TableColumn fx:id="explanationColumn" prefWidth="75.0" text="说明" />
             <TableColumn fx:id="actionColumn" prefWidth="75.0" text="操作" />
          </columns>
+         <stylesheets>
+            <URL value="@../../misc/css/RedHighlightRow.css" />
+            <URL value="@../../misc/css/HyperlinkCellReadable.css" />
+         </stylesheets>
       </TableView>
    </center>
    <top>

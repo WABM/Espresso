@@ -21,59 +21,51 @@ public class HotsaleController extends SceneController {
 
     private HotsaleModel<Hotsale> model;
 
-    @FXML
-    private Button queryButton;
-    @FXML
-    private DatePicker datePicker;
+    @FXML private Button queryButton;
+    @FXML private DatePicker datePicker;
 
-    @FXML
-    private TableView<Hotsale> tableView;
-    @FXML
-    private TableColumn<Hotsale, String> top;
-    @FXML
-    private TableColumn<Hotsale, String> commodityID;
-    @FXML
-    private TableColumn<Hotsale, String> barcode;
-    @FXML
-    private TableColumn<Hotsale, String> name;
-    @FXML
-    private TableColumn<Hotsale, Integer> classificationID;
-    @FXML
-    private TableColumn<Hotsale, String> specification;
-    @FXML
-    private TableColumn<Hotsale, String> unit;
-    @FXML
-    private TableColumn<Hotsale, Integer> quantity;
-    @FXML
-    private TableColumn<Hotsale, String> price;
-    @FXML
-    private TableColumn<Hotsale, String> totalPrice;
+    @FXML private TableView<Hotsale> tableView;
+    @FXML private TableColumn<Hotsale, String> top;
+    @FXML private TableColumn<Hotsale, String> commodityID;
+    @FXML private TableColumn<Hotsale, String> barcode;
+    @FXML private TableColumn<Hotsale, String> name;
+    @FXML private TableColumn<Hotsale, Integer> classificationID;
+    @FXML private TableColumn<Hotsale, String> specification;
+    @FXML private TableColumn<Hotsale, String> unit;
+    @FXML private TableColumn<Hotsale, Integer> quantity;
+    @FXML private TableColumn<Hotsale, String> price;
+    @FXML private TableColumn<Hotsale, String> totalPrice;
 
-    @FXML
-    public void initialize() {
+    @FXML public void initialize() {
         ConsoleLog.print("HotsaleController init");
         setupControl();
         setupModel();
         setupTableView();
         setupTableViewColumn();
-        test();
-
-        for (int i = 0; i < 10; i += 2) {
-            model.add(new Hotsale(1+i+"","0","0000","可口可乐",0,"500ml","瓶",150,"2.00","300.00"));
-            model.add(new Hotsale(2+i+"","1","0001","百事可乐",0,"500ml","瓶",130,"2.00","260.00"));
-        }
     }
 
     @FXML public void queryButtonPressed() {
         ConsoleLog.print("queryButton pressed");
-        System.out.println(datePicker.getValue());
+        String year = String.valueOf(datePicker.getValue().getYear());
+        String month = String.valueOf(datePicker.getValue().getMonthValue());
+        model.fetchData(year,month,isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupControl() {
+        test();
     }
 
     private void setupModel() {
+        String year = String.valueOf(datePicker.getValue().getYear());
+        String month = String.valueOf(datePicker.getValue().getMonthValue());
         model = new HotsaleModel<>(tableView);
+        model.fetchData(year,month,isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
     }
 
     private void setupTableView() {
@@ -92,6 +84,7 @@ public class HotsaleController extends SceneController {
         price.setCellValueFactory(new PropertyValueFactory<Hotsale, String>("price"));
         totalPrice.setCellValueFactory(new PropertyValueFactory<Hotsale, String>("totalPrice"));
     }
+
     private void test(){
         final String pattern = "yyyy-MM";
         StringConverter converter = new StringConverter<LocalDate>() {
@@ -113,7 +106,7 @@ public class HotsaleController extends SceneController {
                     return null;
             }
         };
-
+        datePicker.setValue(LocalDate.now().minusMonths(1));
         datePicker.setConverter(converter);
         datePicker.setPromptText(pattern.toLowerCase());
         datePicker.requestFocus();

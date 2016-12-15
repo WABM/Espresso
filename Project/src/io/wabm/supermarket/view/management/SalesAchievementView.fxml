@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
+<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.SalesAchievementviewController">
-   <top>
-      <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="47.0" prefWidth="729.0" BorderPane.alignment="CENTER">
-         <items>
-            <Label text="日期" />
-            <ChoiceBox />
-            <Label text="年" />
-            <ChoiceBox />
-            <Label text="月" />
-            <Button layoutX="10.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="112.0" text="查询热销排行" fx:id="hotgoodsButton" onAction="#hotgoodsButtonPressed"/>
-            <Button layoutX="212.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="104.0" text="查看盈亏报表" />
-            <Button layoutX="278.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="95.0" text="查看同比增长" />
-            <Button layoutX="344.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="查看销售额度" />
-         </items>
-      </ToolBar>
-   </top>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+         <tabs>
+            <Tab text="销售额报表">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <BarChart fx:id="barchart" layoutX="51.0" layoutY="64.0" prefHeight="469.0" prefWidth="669.0" title="销售柱状图" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+                           <xAxis>
+                              <CategoryAxis label="日期" side="BOTTOM" fx:id="xAxis" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis label="销售额" side="LEFT" />
+                           </yAxis>
+                        </BarChart>
+                        <ToolBar prefHeight="47.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <ComboBox fx:id="year" prefHeight="35.0" prefWidth="100.0" />
+                              <Label text="年" />
+                              <ComboBox fx:id="month" prefHeight="35.0" prefWidth="100.0" />
+                              <Label text="月" />
+                              <Button fx:id="lookButton2" mnemonicParsing="false" onAction="#lookButtonPressed" text="查看" />
+                           </items>
+                        </ToolBar>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+   </center>
 </BorderPane>

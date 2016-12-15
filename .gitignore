@@ -26,6 +26,7 @@
 
 # IntelliJ
 /Project/out/
+/Project/.idea/dataSources
 
 # mpeltonen/sbt-idea plugin
 **/.idea_modules/

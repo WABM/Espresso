@@ -6,7 +6,7 @@ import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityClassificationInformationModel;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
-import io.wabm.supermarket.protocol.StageSetableContoller;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
@@ -33,10 +33,6 @@ public class CommodityClassificationInformationManagementController extends Scen
     @FXML private TableColumn<Classification, Integer> hasNumColumn;
     @FXML private TableColumn<Classification, Hyperlink> actionColumn;
 
-
-    @FXML Button addButton;
-    @FXML Button deleteButton;
-
     @FXML public void initialize() {
         ConsoleLog.print("CommodityClassificationInformationManagementController init");
 
@@ -46,58 +42,9 @@ public class CommodityClassificationInformationManagementController extends Scen
         setupTableViewColumn();
     }
 
-
-    @FXML private void addButtonPressed() {
-        ConsoleLog.print("Button pressed");
-
-        try {
-            // Load view
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ViewPathHelper.class.getResource("warehouse/AddCommodityClassificationView.fxml"));
-            AnchorPane pane = loader.load();
-
-            // Create the popup Stage.
-            Stage stage = new Stage();
-            stage.setTitle("添加商品分类");
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            Scene scene = new Scene(pane);
-            stage.setScene(scene);
-
-            // Pass the info into the controller.
-            StageSetableContoller controller = loader.getController();
-            controller.setStage(stage);
-
-            // Show the dialog and wait until the user closes it.
-            // (This event thread is blocked until close)
-            stage.showAndWait();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML private void deleteButtonPressed() {
-        final String name = tableView.getSelectionModel().getSelectedItem().getName();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("删除分类");
-        alert.setHeaderText("确认删除");
-        alert.setContentText("删除 " + name);
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-
-        } else {
-
-        }
-    }
-
     // MARK: Setup method
 
     private void setupControl() {
-        deleteButton.setDisable(true);
     }
 
     private void setupModel() {
@@ -113,11 +60,6 @@ public class CommodityClassificationInformationManagementController extends Scen
     private void setupTableView() {
         // Set editable on
         tableView.setEditable(true);
-
-        // Set tableView select event listener
-        tableView.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
-        );
     }
 
     private void setupTableViewColumn() {
@@ -133,17 +75,6 @@ public class CommodityClassificationInformationManagementController extends Scen
             return new SimpleObjectProperty<>(new Hyperlink("查看"));
         });
 
-        // Just for test
-//        actionColumn.setCellFactory(column -> new CheckBoxTableCell<>());
-//        actionColumn.setCellValueFactory(cellData -> {
-//            Classification classification = cellData.getValue();
-//            BooleanProperty property = classification.choosedProperty();
-//
-//            // Add listener for handler change
-//            property.addListener((observable, oldValue, newValue) -> classification.setChoosed(newValue));
-//
-//            return property;
-//        });
     }
 
     private CommodityInformationController commodityInformationController;
@@ -165,7 +96,7 @@ public class CommodityClassificationInformationManagementController extends Scen
                     loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityInformationManagementView.fxml"));
 
                     // Bind controller when you first call it.
-                    navigationTo(loder, controller -> {
+                        navigationTo(loder, controller -> {
 
                         if (commodityInformationController == null) {
                             ConsoleLog.print("Bind controller success");

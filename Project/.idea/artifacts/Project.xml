@@ -1,0 +1,25 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="Project">
+    <output-path>$PROJECT_DIR$/out/artifacts/Project</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="io.wabm.supermarket.application.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="exe" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="Project.jar">
+        <element id="module-output" name="Project" />
+      </element>
+      <element id="library" level="project" name="de.saxsys:jfx-testrunner:1.2" />
+      <element id="library" level="project" name="mysql:mysql-connector-java:6.0.5" />
+      <element id="library" level="project" name="org.apache.commons:commons-dbcp2:2.1.1" />
+      <element id="library" level="project" name="Spring-4.3.4.RELEASE" />
+    </root>
+  </artifact>
+</component>

@@ -1,13 +1,19 @@
 package io.wabm.supermarket.controller.warehouse;
 
+import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.Classification;
-import io.wabm.supermarket.misc.pojo.StorageCommodity;
+import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
-import io.wabm.supermarket.protocol.StageSetableContoller;
+import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
+import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
+import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -16,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
 
@@ -24,21 +31,24 @@ import java.io.IOException;
  */
 public class CommodityStockManagementController {
 
-    private CommodityStorageModel<StorageCommodity> model;
+    private CommodityStorageModel<Commodity> model;
+    private boolean isSearching = false;
 
-
-    @FXML TableView<StorageCommodity> tableView;
-    @FXML TableColumn<StorageCommodity, String> idColumn;
-    @FXML TableColumn<StorageCommodity, String> barcodeColumn;
-    @FXML TableColumn<StorageCommodity, String> nameColumn;
-    @FXML TableColumn<StorageCommodity, Integer> classificationColumn;      // FIXME: classification should be String
-    @FXML TableColumn<StorageCommodity, String> specificationColumn;
-    @FXML TableColumn<StorageCommodity, String> unitColumn;
-    @FXML TableColumn<StorageCommodity, Integer> storageColumn;
-    @FXML TableColumn<StorageCommodity, Hyperlink> actionColumn;
+    @FXML TableView<Commodity> tableView;
+    @FXML TableColumn<Commodity, String> idColumn;
+    @FXML TableColumn<Commodity, String> barcodeColumn;
+    @FXML TableColumn<Commodity, String> nameColumn;
+    @FXML TableColumn<Commodity, String> classificationColumn;
+    @FXML TableColumn<Commodity, String> specificationColumn;
+    @FXML TableColumn<Commodity, String> unitColumn;
+    @FXML TableColumn<Commodity, Integer> storageColumn;
+    @FXML TableColumn<Commodity, Hyperlink> actionColumn;
 
     @FXML Button purchaseFormButton;
     @FXML Button orderReceiveButton;
+
+    @FXML Button searchButton;
+    @FXML Button rejectButton;
 
     @FXML private void purchaseFormButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -58,13 +68,14 @@ public class CommodityStockManagementController {
             stage.setScene(scene);
 
             // Pass the info into the controller.
-            StageSetableContoller controller = loader.getController();
+            StageSetableController controller = loader.getController();
             controller.setStage(stage);
 
             // Show the dialog and wait until the user closes it.
             // (This event thread is blocked until close)
             stage.showAndWait();
 
+            refetchPurchase();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -96,6 +107,114 @@ public class CommodityStockManagementController {
             // (This event thread is blocked until close)
             stage.showAndWait();
 
+            refetchOrder();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML private void searchButtonPressed() {
+        ConsoleLog.print("button pressed");
+
+        if (isSearching) {
+            isSearching = !isSearching;
+            searchButton.setText("查询");
+            model.setPredicate(commodity -> true);
+
+            return ;
+        }
+
+        try {
+            // Load view
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("warehouse/FilterCommodityWithClassificationView.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Create the popup Stage.
+            Stage stage = new Stage();
+            stage.setTitle("查询商品");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Pass the info into the controller.
+            StageSetableController controller = loader.getController();
+            controller.setStage(stage);
+
+            ((CallbackAcceptableProtocol<String[], Void>) controller).set((strings) -> {
+                ConsoleLog.print("filter commodity callback called");
+
+                // Check input first
+                if (    (strings[0] == null || "".equals(strings[0])) &&
+                        (strings[1] == null || "".equals(strings[1])) &&
+                        (strings[2] == null || "".equals(strings[2])) &&
+                        (strings[3] == null || "".equals(strings[3]))) {
+                    model.setPredicate(commodity -> true);
+                    return null;
+                }
+
+                searchButton.setText("重置");
+                isSearching = true;
+                model.setPredicate(commodity -> {
+                    boolean hasID, hasBarCode, hasName, hasClassificationID;
+
+                    hasID = commodity.getCommodityID().contains(strings[0]);
+                    hasBarCode = commodity.getBarcode().contains(strings[1]);
+                    hasName = commodity.getName().contains(strings[2]);
+                    if (strings[3] == null) {
+                        hasClassificationID = true;
+                    } else {
+                        hasClassificationID = (commodity.getClassificationID() + "").equals(strings[3]);
+                    }
+
+                    // Debug
+                    // ConsoleLog.print(hasID+ " " + hasBarCode + " " + hasName + " " + hasClassificationID);
+                    return  hasID && hasBarCode && hasName && hasClassificationID;
+                });
+
+                return null;
+            });
+
+            // Show the dialog and wait until the user closes it.
+            // (This event thread is blocked until close)
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML private void rejectButtonPressed() {
+        ConsoleLog.print("button pressed");
+
+        Commodity commodity = tableView.getSelectionModel().getSelectedItem();
+        ConsoleLog.print("" + commodity.getName());
+
+        try {
+            // Load view
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("warehouse/RejectCommodityView.fxml"));
+            AnchorPane pane = loader.load();
+
+            // Create the popup Stage.
+            Stage stage = new Stage();
+            stage.setTitle("报废商品");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene = new Scene(pane);
+            stage.setScene(scene);
+
+            // Pass the info into the controller.
+            StageSetableController controller = loader.getController();
+            ((RejectCommodityController) controller).set(commodity);
+            controller.setStage(stage);
+
+
+            // Show the dialog and wait until the user closes it.
+            // (This event thread is blocked until close)
+            stage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,12 +225,9 @@ public class CommodityStockManagementController {
         ConsoleLog.print("CommodityStockManagementController init");
 
         setupModel();
+        setupTable();
         setupTableViewColumn();
-
-        model.add(new StorageCommodity("TD1324", 1, "6570234145436", "来一桶老坛酸菜牛肉面", "300g", "桶", 20, 73));
-        model.add(new StorageCommodity("TD1322", 1, "6570234145435", "来两桶老坛酸菜牛肉面", "300g*2", "桶", 20, 113));
-        model.add(new StorageCommodity("TD1323", 1, "6570234145431", "来三桶老坛酸菜牛肉面", "300g*3", "桶", 20, 273));
-        model.add(new StorageCommodity("TD1321", 1, "6570234145433", "来四桶老坛酸菜牛肉面", "300g*4", "桶", 20, 373));
+        setupControl();
     }
 
 
@@ -119,18 +235,132 @@ public class CommodityStockManagementController {
 
     private void setupModel() {
         model = new CommodityStorageModel<>(tableView);
+        model.fetchAllData(exception -> {
+            ConsoleLog.print("Fetch has: " + exception);
+
+            if (exception != null) {
+                return null;
+            }
+
+            searchButton.setDisable(false);
+
+            return null;
+        });
+
+        refetchPurchase();
+        refetchOrder();
+    }
+
+    private void setupTable() {
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    rejectButton.setDisable(newValue == null);
+                }
+        );
+    }
+
+    private void refetchPurchase() {
+        ConsoleLog.print("refetching…");
+        purchaseFormButton.setDisable(true);
+        model.fetchNeedsProcurementCount(num -> {
+            if (num == null) {
+                ConsoleLog.print("fetch needs procurement commodity count get error");
+                return null;
+            }
+
+            Platform.runLater(() -> {
+                purchaseFormButton.setText("需补货商品("+ num +")");
+                purchaseFormButton.setDisable(num == 0);
+            });
+
+            return null;
+        });
+    }
+
+    private void refetchOrder() {
+        orderReceiveButton.setDisable(true);
+        model.fetchTransportingOrderCount(num -> {
+            if (num == null) {
+                ConsoleLog.print("fetch transporting order count get error");
+                return null;
+            }
+
+            Platform.runLater(() -> {
+                orderReceiveButton.setText("待收货订单("+ num +")");
+                orderReceiveButton.setDisable(num == 0);
+            });
+
+            return null;
+        });
     }
 
     private void setupTableViewColumn() {
+        // Setup cell factory
+        actionColumn.setCellFactory(actionColumnSetupCallback);
+
         // Setup cell value factory
-        idColumn.setCellValueFactory(cellData -> cellData.getValue().storageCommodityIDProperty());
+        idColumn.setCellValueFactory(cellData -> cellData.getValue().commodityIDProperty());
         barcodeColumn.setCellValueFactory(cellData -> cellData.getValue().barcodeProperty());
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().nameProperty());
-        classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationIDProperty().asObject());
+        classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationNameProperty());
         specificationColumn.setCellValueFactory(cellData -> cellData.getValue().specificationProperty());
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
         storageColumn.setCellValueFactory(cellData -> cellData.getValue().storageProperty().asObject());
 
-        // TODO: actionColumn
+        actionColumn.setCellValueFactory(cellData -> {
+
+            return new SimpleObjectProperty<>(new Hyperlink("采购"));
+        });
+    }
+
+    private CellFactorySetupCallbackProtocol<Commodity, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
+        @Override
+        protected void updateItem(Hyperlink item, boolean empty) {
+            super.updateItem(item, empty);
+
+            setAlignment(Pos.CENTER);
+
+            // Check empty first
+            if (!empty) {
+                item.setOnAction(event -> {
+                    Commodity commodity = (Commodity) getTableRow().getItem();
+                    ConsoleLog.print("" + commodity.getName());
+
+                    try {
+                        // Load view
+                        FXMLLoader loader = new FXMLLoader();
+                        loader.setLocation(ViewPathHelper.class.getResource("warehouse/PurchaseCommodityView.fxml"));
+                        AnchorPane pane = loader.load();
+
+                        // Create the popup Stage.
+                        Stage stage = new Stage();
+                        stage.setTitle("采购需求");
+                        stage.initModality(Modality.APPLICATION_MODAL);
+
+                        Scene scene = new Scene(pane);
+                        stage.setScene(scene);
+
+                        // Pass the info into the controller.
+                        StageSetableController controller = loader.getController();
+                        ((PurchaseCommodityController) controller).set(commodity);
+                        controller.setStage(stage);
+
+
+                        // Show the dialog and wait until the user closes it.
+                        // (This event thread is blocked until close)
+                        stage.showAndWait();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+            }
+        }
+    };
+
+    private void setupControl() {
+        searchButton.setDisable(true);
+        rejectButton.setDisable(true);
     }
 }

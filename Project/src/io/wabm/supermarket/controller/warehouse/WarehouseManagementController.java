@@ -23,6 +23,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         FXMLLoader loder = new FXMLLoader();
         loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityStockManagementView.fxml"));
         setDetailViewFrom(loder);
+        setRightStatusText("商品库存管理");
     }
 
     @FXML private void commodityStockManagementButtonPressed() {
@@ -31,6 +32,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         FXMLLoader loder = new FXMLLoader();
         loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityStockManagementView.fxml"));
         setDetailViewFrom(loder);
+        setRightStatusText("商品库存管理");
     }
 
     @FXML private void commodityClassificationInfomationManagementButtonPressed() {
@@ -39,6 +41,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         FXMLLoader loder = new FXMLLoader();
         loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityClassificationInformationManagementView.fxml"));
         setDetailViewFrom(loder);
+        setRightStatusText("商品信息管理");
     }
     @FXML private void commodityClassificationBatchManagementButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -46,6 +49,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         FXMLLoader loder = new FXMLLoader();
         loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityShelfLifeManagementView.fxml"));
         setDetailViewFrom(loder);
+        setRightStatusText("商品保质期管理");
     }
     @FXML private void commodityInventoryManagementButtonPressed() {
         ConsoleLog.print("Button pressed");
@@ -53,5 +57,7 @@ public class WarehouseManagementController extends AbstractMasterDetailControlle
         FXMLLoader loder = new FXMLLoader();
         loder.setLocation(ViewPathHelper.class.getResource("warehouse/CommodityInventoryManagementView.fxml"));
         setDetailViewFrom(loder);
+        setRightStatusText("盘点管理");
     }
+
 }

@@ -21,8 +21,6 @@ import java.util.List;
 /**
  * Created by MainasuK on 2016-11-14.
  */
-@Repository
-@ContextConfiguration(classes = DBConfig.class)
 public class CommodityClassificationInformationModel<T> extends TableViewModel<T> {
 
     private final String kSelectAll = "SELECT cl.*, COUNT(co.commodity_id) num FROM classification cl JOIN commodity co ON cl.classification_id = co.classification_id GROUP BY cl.classification_id;";

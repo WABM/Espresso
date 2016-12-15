@@ -14,9 +14,11 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -56,7 +58,7 @@ public class WarehouseTest {
     }
 
     @Test
-    public void testWithoutFXThread() throws Exception {
+    public void testAddCommodity() throws Exception {
         TableView<Commodity> tableView = new TableView<>();
         CommodityInformationModel<Commodity> model = new CommodityInformationModel<>(tableView);
 
@@ -77,6 +79,34 @@ public class WarehouseTest {
         for (Commodity item : list) {
             System.out.println(item.getName());
         }
+    }
+
+    @Test
+    public void testDeleteCommodity() throws DataAccessException, Exception {
+        TableView<Commodity> tableView = new TableView<>();
+        CommodityInformationModel<Commodity> model = new CommodityInformationModel<>(tableView);
+
+        CompletableFuture future = new CompletableFuture<>();
+
+        BigDecimal price = new BigDecimal(14.50);
+        price.setScale(2);
+
+        Commodity commodity = new Commodity("WABM00000001", 0, "6934665087752", "蒙牛冠益乳原味", "450g", "瓶", price, 20, 21, 10, true);
+        model.delete(commodity, (exception) -> {
+
+            future.complete(exception);
+            return null;
+        });
+
+        Assert.assertEquals(null, (DataAccessException) future.get());
+
+        List<Commodity> list = tableView.getItems();
+        System.out.println(list.size());
+
+        for (Commodity item : list) {
+            System.out.println(item.getName());
+        }
+
     }
 
 }

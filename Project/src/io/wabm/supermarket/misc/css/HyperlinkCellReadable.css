@@ -1,0 +1,7 @@
+.table-row-cell:selected .table-cell .hyperlink {
+    -fx-text-fill: -fx-text-background-color ;
+}
+
+.table-row-cell:selected .table-cell .hyperlink:visited {
+    -fx-text-fill: black;
+}
