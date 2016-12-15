@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
@@ -52,7 +53,7 @@ public class CashManagementController extends SceneController {
             AnchorPane pane = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("修改价格");
+            stage.setTitle("核算现金");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene = new Scene(pane);

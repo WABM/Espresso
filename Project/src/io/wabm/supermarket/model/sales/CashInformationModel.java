@@ -31,9 +31,9 @@ import java.util.List;
 @ContextConfiguration(classes = DBConfig.class)
 public class CashInformationModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll = "SELECT c.*,e.name FROM change_record c,employee e where c.employee_id=e.employee_id";
+    private final String kSelectAll = "SELECT c.*,e.name FROM wabm.change_record c,wabm.employee e where c.employee_id=e.employee_id";
     private final String InsertAll = "insert into change_record(employee_id,money_in_db,money_out_db,money_should_out_db,date) values(?,?,?,?,?)";
-    private final String kSelectAllPrice = "select e.employee_id,e.name,sum(all_price_db) from employee e,sales_record s where e.employee_id=s.employee_id and timestamp=? and e.employee_id=? group by e.employee_id";
+    private final String kSelectAllPrice = "select e.employee_id,e.name,sum(all_price_db) from employee e,sales_record s where e.employee_id=s.employee_id and DATE(timestamp)=? and e.employee_id=? group by e.employee_id";
     private Service<Void> backgroundThread;
 
     public CashInformationModel(TableView tableView){
@@ -65,30 +65,29 @@ public class CashInformationModel<T> extends TableViewModel<T> {
             CashInformation cashInformation;
             EmployeeDailySales employeeDailySales;
             try {
-                employeeDailySales=jdbcOperations.queryForObject(kSelectAllPrice,(resultSet,i)->new EmployeeDailySales(
+                employeeDailySales = jdbcOperations.queryForObject(kSelectAllPrice, (resultSet, i) -> new EmployeeDailySales(
                         resultSet.getString("employee_id"),
                         resultSet.getString("name"),
                         resultSet.getBigDecimal("sum(all_price_db)")
-                ),date,employeeid);
+                ), date, employeeid);
 
                 Double allprice = employeeDailySales.getDailySales().doubleValue();
-                BigDecimal moneyShould = new BigDecimal(moneyIN.doubleValue()+allprice);
+                BigDecimal moneyShould = new BigDecimal(moneyIN.doubleValue() + allprice);
 
-                if (allprice!=(moneyOUT.doubleValue()-moneyIN.doubleValue())) {
-                    Platform.runLater(()->{
-                        SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("核算错误","应收金额为："+moneyShould.doubleValue(),
-                                "错误金额为："+(moneyOUT.doubleValue()-moneyShould.doubleValue()));
+                if (allprice != (moneyOUT.doubleValue() - moneyIN.doubleValue())) {
+                    Platform.runLater(() -> {
+                        SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("核算错误", "应收金额为：" + moneyShould.doubleValue(),
+                                "错误金额为：" + (moneyOUT.doubleValue() - moneyShould.doubleValue()));
                         simpleErrorAlert.show();
                     });
-                }
-                else {
+                } else {
                     Platform.runLater(() -> {
                         SimpleSuccessAlert simpleSuccessAlert = new SimpleSuccessAlert("核算正确",
                                 "应收金额为：" + moneyShould.doubleValue(), "实收金额为：" + moneyOUT.doubleValue());
                         simpleSuccessAlert.show();
                     });
                 }
-                cashInformation = new CashInformation(employeeid,employeeDailySales.getName(),moneyIN,moneyOUT,moneyShould, LocalDate.now().toString());
+                cashInformation = new CashInformation(employeeid, employeeDailySales.getName(), moneyIN, moneyOUT, moneyShould, LocalDate.now().toString());
                 jdbcOperations.update(InsertAll,
                         cashInformation.getEmployeeID(),
                         cashInformation.getMoneyIN(),
@@ -109,7 +108,6 @@ public class CashInformationModel<T> extends TableViewModel<T> {
                 );
                 list.clear();
                 list.addAll((T[]) templist.toArray());
-
             }catch (DataAccessException e){
                 e.printStackTrace();
                 Platform.runLater(()->{
@@ -132,8 +130,9 @@ public class CashInformationModel<T> extends TableViewModel<T> {
             protected Task<Void> createTask() {
                 return new Task<Void>() {
                     @Override
-                    protected Void call() throws Exception {
+                    protected Void call() {
                     try {
+
                         List<CashInformation> templist;
                         templist = jdbcOperations.query(kSelectAll,
                                 (resultSet, i) -> new CashInformation(
@@ -145,6 +144,7 @@ public class CashInformationModel<T> extends TableViewModel<T> {
                                         resultSet.getString("date")
                                 )
                         );
+
                         list.clear();
                         list.addAll((T[]) templist.toArray());
 
@@ -153,6 +153,10 @@ public class CashInformationModel<T> extends TableViewModel<T> {
                         callback.call(true);
                     }catch (DataAccessException e){
                         e.printStackTrace();
+                        callback.call(false);
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                        callback.call(false);
                     }
 
                         return null;

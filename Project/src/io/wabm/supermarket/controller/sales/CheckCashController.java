@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 /**
@@ -59,6 +60,7 @@ public class CheckCashController implements StageSetableController {
             BigDecimal out = new BigDecimal(Double.valueOf(moneyOUTText.getText()));
             model.checkAllPriceData(employ_idText.getText(), in,
                     out, date, isSuccess -> {
+                        ConsoleLog.print("CheckCash is " + (isSuccess ? "success" : "failed"));
                         return null;
                     });
             stage.close();
