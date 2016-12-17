@@ -43,7 +43,7 @@ import java.util.Optional;
 public class CashierModel<T> extends TableViewModel<T> {
 
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
-    private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.valid = 1 AND (co.bar_code = ? OR co.commodity_id = ?) LIMIT 1;";
+    private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.valid = 1 AND (binary co.bar_code = ? OR binary co.commodity_id = ?) LIMIT 1;";
     private final String kInsertSalesRecordWIthAutoIncr = "INSERT INTO sales_record (employee_id, all_price_db) VALUES (?, ?)";
 
     private StringProperty status;
