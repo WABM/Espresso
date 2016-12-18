@@ -22,6 +22,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.Assert;
 
+import static com.mysql.cj.core.MysqlType.NULL;
+
 /**
  * Created by liu on 2016-10-25 .
  */
@@ -216,11 +218,37 @@ public class ModifyEmployeeController implements StageSetableController, Callbac
         if (phoneTextField.getText().length() != 7 && phoneTextField.getText().length() !=11 ) {
             errorMessage += "电话号码为：11 位或者7位\n";
         }
+        if (nameTextField.getText().length() == 0)
+        {
+            errorMessage += "姓名不能为空\n";
+        }
+        if (entryTextField.getText().length() == 0)
+        {
+            errorMessage += "入职日期不能为空\n";
+        }
+        if (birthTextField.getText().length() == 0)
+        {
+            errorMessage += "出生日期不能为空\n";
+        }
+        if (userTextField.getText().length() == 0)
+        {
+            errorMessage += "帐户名不能为空\n";
+        }
+        if (passwordTextField.getText().length() == 0)
+        {
+            errorMessage += "密码不能为空\n";
+        }
+
+
+
+
         errorMessage += helper.checkTypeAndLength(idTextField, "员工号", 20);
         errorMessage += helper.checkTypeAndLength(nameTextField, "姓名", 20);
         errorMessage += helper.checkTypeAndLength(phoneTextField, "电话号码", 11);
         errorMessage += helper.checkTypeAndLength(birthTextField, "出生日期", 14);
         errorMessage += helper.checkTypeAndLength(entryTextField, "入职日期", 14);
+        errorMessage += helper.checkTypeAndLength(userTextField, "帐户名", 14);
+        errorMessage += helper.checkTypeAndLength(passwordTextField, "密码", 14);
 
 
         ConsoleLog.print(errorMessage);
