@@ -93,35 +93,6 @@ public class CommodityInventoryDetailController implements StageSetableControlle
     }
 
     private void setupTableColumn() {
-        if (stocktakingflag) {
-            actualQuntityColumn.setCellFactory(column -> {
-                StringConverter<Integer> converter = new StringConverter<Integer>() {
-                    @Override
-                    public String toString(Integer object) {
-                        return object.toString();
-                    }
-
-                    @Override
-                    public Integer fromString(String string) {
-                        try {
-                            int quantity = Integer.parseInt(string);
-                            return (quantity < 0) ? 0 : quantity;
-                        } catch (NumberFormatException exception) {
-                            return 0;
-                        }
-                    }
-                };
-                TextFieldTableCell cell = new TextFieldTableCell<PurchaseCommodity, Integer>(converter) {
-                    @Override
-                    public void updateItem(Integer item, boolean empty) {
-                        super.updateItem(item, empty);
-                    }
-                };
-
-                return cell;
-            });
-        }
-
 
         idColumn.setCellValueFactory(param -> param.getValue().commodityIDProperty());
         barCodeColumn.setCellValueFactory(param -> param.getValue().barcodeProperty());
@@ -174,7 +145,35 @@ public class CommodityInventoryDetailController implements StageSetableControlle
 
             fetchInventory(inventoryID);
         } else {
+            actualQuntityColumn.setCellFactory(column -> {
+                StringConverter<Integer> converter = new StringConverter<Integer>() {
+                    @Override
+                    public String toString(Integer object) {
+                        return object.toString();
+                    }
+
+                    @Override
+                    public Integer fromString(String string) {
+                        try {
+                            int quantity = Integer.parseInt(string);
+                            return (quantity < 0) ? 0 : quantity;
+                        } catch (NumberFormatException exception) {
+                            return 0;
+                        }
+                    }
+                };
+                TextFieldTableCell cell = new TextFieldTableCell<PurchaseCommodity, Integer>(converter) {
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+                    }
+                };
+
+                return cell;
+            });
+
             fetch();
         }
+        
     }
 }
