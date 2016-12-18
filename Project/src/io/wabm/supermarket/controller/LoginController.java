@@ -31,7 +31,7 @@ import java.util.List;
 public class LoginController {
     private Stage stage;
     private JdbcOperations jdbcOperations;
-    private final String kSelectUser = "SELECT f.* FROM wabm.employee f WHERE username = ? AND password = ? LIMIT 1;";
+    private final String kSelectUser = "SELECT f.* FROM wabm.employee f WHERE username = ? AND password = ? and valid=1 LIMIT 1;";
     private List<Employee> templist;
     private Parent root = null;
     private String fxml;

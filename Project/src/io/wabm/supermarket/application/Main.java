@@ -31,8 +31,8 @@ public class Main extends Application {
         primaryStage.setTitle("超市管理系统");
 
         // Set min windows size
-//        initRootlayout();
-        initRootlayoutWithoutLogin();
+        initRootlayout();
+//        initRootlayoutWithoutLogin();
     }
 
 
