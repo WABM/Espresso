@@ -93,32 +93,34 @@ public class CommodityInventoryDetailController implements StageSetableControlle
     }
 
     private void setupTableColumn() {
-        actualQuntityColumn.setCellFactory(column -> {
-            StringConverter<Integer> converter = new StringConverter<Integer>() {
-                @Override
-                public String toString(Integer object) {
-                    return object.toString();
-                }
-
-                @Override
-                public Integer fromString(String string) {
-                    try {
-                        int quantity = Integer.parseInt(string);
-                        return (quantity < 0) ? 0 : quantity;
-                    } catch (NumberFormatException exception) {
-                        return 0;
+        if (stocktakingflag) {
+            actualQuntityColumn.setCellFactory(column -> {
+                StringConverter<Integer> converter = new StringConverter<Integer>() {
+                    @Override
+                    public String toString(Integer object) {
+                        return object.toString();
                     }
-                }
-            };
-            TextFieldTableCell cell = new TextFieldTableCell<PurchaseCommodity, Integer>(converter) {
-                @Override
-                public void updateItem(Integer item, boolean empty) {
-                    super.updateItem(item, empty);
-                }
-            };
 
-            return cell;
-        });
+                    @Override
+                    public Integer fromString(String string) {
+                        try {
+                            int quantity = Integer.parseInt(string);
+                            return (quantity < 0) ? 0 : quantity;
+                        } catch (NumberFormatException exception) {
+                            return 0;
+                        }
+                    }
+                };
+                TextFieldTableCell cell = new TextFieldTableCell<PurchaseCommodity, Integer>(converter) {
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+                    }
+                };
+
+                return cell;
+            });
+        }
 
 
         idColumn.setCellValueFactory(param -> param.getValue().commodityIDProperty());
@@ -143,6 +145,17 @@ public class CommodityInventoryDetailController implements StageSetableControlle
         });
     }
 
+    private void fetchInventory(int inventoryID) {
+        model.fetchInventoryDetailWith(inventoryID, exception -> {
+            if (exception != null) {
+                exception.printStackTrace();
+                return null;
+            }
+
+            return null;
+        });
+    }
+
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -155,10 +168,13 @@ public class CommodityInventoryDetailController implements StageSetableControlle
 
         if (!stocktakingflag) {
             ConsoleLog.print("change button visible…");
+
             cancelButton.setVisible(false);
             confirmButton.setText("关闭");
-        }
 
-        fetch();
+            fetchInventory(inventoryID);
+        } else {
+            fetch();
+        }
     }
 }

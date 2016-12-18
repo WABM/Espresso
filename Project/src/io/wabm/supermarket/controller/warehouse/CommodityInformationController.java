@@ -299,8 +299,8 @@ public class CommodityInformationController extends SceneController {
 
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    removeButton.setDisable(newValue == null);
-                    modifyButton.setDisable(newValue == null);
+                    removeButton.setDisable(newValue == null || !newValue.isValid());
+                    modifyButton.setDisable(newValue == null || !newValue.isValid());
                 }
         );
     }

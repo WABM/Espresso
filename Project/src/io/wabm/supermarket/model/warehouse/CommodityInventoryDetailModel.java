@@ -34,6 +34,7 @@ public class CommodityInventoryDetailModel<T> extends TableViewModel<T> {
 
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
     private final String kSelectSQL = "SELECT co.* FROM commodity co WHERE co.classification_id = ?";
+    private final String kSelectWithInventoryIDSQL = "SELECT co.*, ind.quantity '_quantity', ind.should_have_quantity '_should_have_quantity' FROM commodity co JOIN inventory_detail ind ON co.commodity_id = ind.commodity_id WHERE ind.inventory_id = ?";
 
     public CommodityInventoryDetailModel(TableView<T> tableView) {
         super(tableView);
@@ -47,6 +48,38 @@ public class CommodityInventoryDetailModel<T> extends TableViewModel<T> {
             try {
 
                 List<CMKInventoryDetail> tempList = jdbcOperations.query(kSelectSQL, (resultSet, i) -> new CMKInventoryDetail(resultSet), classificationID);
+
+                list.clear();
+                list.addAll((T[]) tempList.toArray());
+
+                callback.call(null);
+
+            } catch (DataAccessException exception) {
+                callback.call(exception);
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                callback.call(new DataAccessResourceFailureException("Unknown error"));
+                exception.printStackTrace();
+            }
+
+            return null;
+        });
+
+    }
+
+    public void fetchInventoryDetailWith(int inventoryID, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("fetching…");
+
+        new WABMThread().run(_void -> {
+
+            try {
+
+                List<CMKInventoryDetail> tempList = jdbcOperations.query(kSelectWithInventoryIDSQL, (resultSet, i) -> {
+                    CMKInventoryDetail detail = new CMKInventoryDetail(resultSet);
+                    detail.setActualQuantity(resultSet.getInt("_quantity"));
+                    detail.setStorage(resultSet.getInt("_should_have_quantity"));
+                    return detail;
+                }, inventoryID);
 
                 list.clear();
                 list.addAll((T[]) tempList.toArray());
