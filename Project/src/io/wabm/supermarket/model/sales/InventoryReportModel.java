@@ -17,6 +17,7 @@ import java.util.List;
  */
 public class InventoryReportModel<T> extends TableViewModel<T> {
     private final String KselectAll="SELECT s.commodity_id,c.name,s.quantity,s.price_db,s.type,e.name,s.create_timestamp FROM storage_change s,employee e,commodity c where s.commodity_id = c.commodity_id and s.employee_id = e.employee_id";
+    private final String Kselectsome="SELECT s.commodity_id,c.name,s.quantity,s.price_db,s.type,e.name,s.create_timestamp FROM storage_change s,employee e,commodity c where s.commodity_id = c.commodity_id and s.employee_id = e.employee_id and date_format(`create_timestamp`, '%Y') = ? and date_format(`create_timestamp`, '%m') = ?";
 
     public InventoryReportModel(TableView tableView){
         super(tableView);
@@ -43,6 +44,42 @@ public class InventoryReportModel<T> extends TableViewModel<T> {
                     );
                     return inventoryReport;
                 });
+
+                list.clear();
+                list.addAll((T[]) templist.toArray());
+
+                // Return callback with isfetchSuccess flag;
+                // TODO:
+                callback.call(true);
+            } catch (DataAccessException e) {
+                e.printStackTrace();
+                callback.call(false);
+            }
+
+            return null;
+        });
+    }
+    public void ChooseData(String year,String month,Callback<Boolean, Void> callback) {
+        ConsoleLog.print("fetching ...");
+        Assert.notNull(jdbcOperations);
+
+        new WABMThread().run((_void) -> {
+            ConsoleLog.print("Start background task…");
+
+            try {
+                List<InventoryReport> templist = jdbcOperations.query(Kselectsome, (ResultSet resultSet, int i) -> {
+                    InventoryReport inventoryReport;
+                    inventoryReport = new InventoryReport(
+                            resultSet.getString("s.commodity_id"),
+                            resultSet.getString("c.name"),
+                            resultSet.getInt("quantity"),
+                            resultSet.getBigDecimal("price_db"),
+                            resultSet.getInt("type"),
+                            resultSet.getString("e.name"),
+                            resultSet.getString("create_timestamp")   //数据库中取出来是date
+                    );
+                    return inventoryReport;
+                },year,month);
 
                 list.clear();
                 list.addAll((T[]) templist.toArray());

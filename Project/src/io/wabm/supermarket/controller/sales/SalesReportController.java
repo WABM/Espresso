@@ -38,6 +38,10 @@ public class SalesReportController extends SceneController {
     @FXML TableColumn<InventoryReport,String> employeeName;
     @FXML TableColumn<InventoryReport,String> date;
 
+    @FXML ComboBox yearBoxC;
+    @FXML ComboBox monthBoxC;
+    @FXML Button lookButtonC;
+
     @FXML public void initialize(){
         setupControl();
         setupModel();
@@ -55,13 +59,28 @@ public class SalesReportController extends SceneController {
             return null;
         });
     }
+    @FXML private void lookButtomCPressed(){
+        ConsoleLog.print("lookButton pressed");
+
+        String year=yearBoxC.getValue().toString();
+        String month=monthBoxC.getValue().toString();
+
+       reportModel.ChooseData(year,month,isSuccess -> {
+            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+            return null;
+        });
+    }
     private void setupControl(){
         barChart.setAnimated(false);
 
-        for (int i=2016;i<=2030;i++)
+        for (int i=2016;i<=2030;i++) {
             yearBox.getItems().addAll(String.valueOf(i));
-        for (int i=1;i<=12;i++)
+            yearBoxC.getItems().addAll(String.valueOf(i));
+        }
+        for (int i=1;i<=12;i++) {
             monthBox.getItems().addAll(String.valueOf(i));
+            monthBoxC.getItems().addAll(String.valueOf(i));
+        }
     }
     private void setupModel(){
         model= new SalesModel(barChart);
