@@ -22,6 +22,7 @@ public class CommodityPriceInformationModel<T> extends TableViewModel<T>{
     public CommodityPriceInformationModel(TableView tableView){
         super(tableView);
     }
+
     public void fetchData(Callback<Boolean, Void> callback){
         ConsoleLog.print("fetching data…");
 

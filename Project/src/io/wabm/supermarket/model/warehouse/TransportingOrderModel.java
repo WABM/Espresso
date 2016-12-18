@@ -34,6 +34,7 @@ public class TransportingOrderModel<T> extends TableViewModel<T> {
             try {
                 List<Order> templist = jdbcOperations.query(kSelectTransprtingSQL, (resultSet, i) -> new Order(
                         resultSet.getInt("order_id"),
+                        resultSet.getInt("order_id"),
                         resultSet.getString("name"),
                         resultSet.getString("create_timestamp"),
                         OrderStatusEnum.values()[resultSet.getInt("status")])

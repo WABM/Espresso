@@ -5,12 +5,13 @@ import javafx.beans.property.*;
 /**
  * Created by 14580 on 2016/12/9 0009.
  */
-public class SelectSupplier {
+public class SelectSupplier  {
     private StringProperty commodityid;
     private IntegerProperty supplierid;
     private StringProperty supplierName;
     private DoubleProperty price;
     private StringProperty deliveryTimeCost;
+    //private IntegerProperty quantity;
 
     public SelectSupplier(String commodityid,int supplierid ,String supplierName,Double  price,String deliveryTimeCost){
         this.commodityid = new SimpleStringProperty(commodityid);
@@ -18,6 +19,7 @@ public class SelectSupplier {
         this.supplierName = new SimpleStringProperty(supplierName);
         this.price = new SimpleDoubleProperty(price);
         this.deliveryTimeCost = new SimpleStringProperty(deliveryTimeCost);
+        //this.quantity = new SimpleIntegerProperty(quantity);
     }
     public String getCommodityid() {
         return commodityid.get();
@@ -31,7 +33,8 @@ public class SelectSupplier {
         this.commodityid.set(commodityid);
     }
 
-    public double getPrice() {
+
+    public Double getPrice() {
         return price.get();
     }
 
@@ -80,6 +83,19 @@ public class SelectSupplier {
     public void setSupplierid(Integer supplierid) {
         this.supplierid.set(supplierid);
     }
+
+
+//    public Integer getQuantity() {
+//        return quantity.get();
+//    }
+//
+//    public IntegerProperty quantityProperty() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        this.quantity.set(quantity);
+//    }
 
 
 }

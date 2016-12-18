@@ -35,6 +35,7 @@ public class CommodityOrderManagementController extends SceneController {
 
     @FXML TableView<Order> tableView;
     @FXML TableColumn<Order, Integer> idColumn;
+    @FXML TableColumn<Order, Integer> supplierIDColumn;
     @FXML TableColumn<Order, String> supplierNameColumn;
     @FXML TableColumn<Order, String> create_timestampColumn;
     @FXML TableColumn<Order, String> statusColumn;
@@ -43,6 +44,7 @@ public class CommodityOrderManagementController extends SceneController {
     @FXML Button noncheckedButton;
     @FXML Button waitButton;
     @FXML Button completeButton;
+    @FXML Button deleteButton;
     @FXML Button passButton;
 
     @FXML public void initialize() {
@@ -60,20 +62,38 @@ public class CommodityOrderManagementController extends SceneController {
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> passButton.setDisable(newValue == null)
         );
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
+        );
 
     }
 
     private void setupModel() {
         model = new CommodityOrderModel<>(tableView);
-        model.fetchData(isSuccess -> {
-            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+        model.fetchData(
+                (isSuccess)->{
+           ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
             return null;
         });
+
+
     }
+
+//    public void fetchWith(int SupplierID) {
+//
+//        this.model.fetchData(SupplierID,
+//                (isSuccess) -> {
+//                    ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
+//                    return null;
+//                }
+//        );
+//    }
 
     private void setupControl() {
         passButton.setVisible(false);
+        deleteButton.setVisible(false);
         passButton.setDisable(true);
+        deleteButton.setDisable(true);
     }
 
 
@@ -82,6 +102,7 @@ public class CommodityOrderManagementController extends SceneController {
         actionColumn.setCellFactory(actionColumnSetupCallback);
 
         idColumn.setCellValueFactory(cellData -> cellData.getValue().orderIDProperty().asObject());
+        supplierIDColumn.setCellValueFactory(cellData -> cellData.getValue().supplierIDProperty().asObject());
         supplierNameColumn.setCellValueFactory(cellData -> cellData.getValue().supplierNameProperty());
         create_timestampColumn.setCellValueFactory(cellData -> cellData.getValue().create_timestampProperty());
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().statusProperty().asString());
@@ -136,6 +157,7 @@ public class CommodityOrderManagementController extends SceneController {
         ConsoleLog.print("Button pressed");
 
         passButton.setVisible(true);
+        deleteButton.setVisible(true);
         status = 1;
         model.Choose(status, isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
@@ -148,6 +170,7 @@ public class CommodityOrderManagementController extends SceneController {
         ConsoleLog.print("Button pressed");
 
        passButton.setVisible(false);
+       deleteButton.setVisible(false);
         status = 2;
         model.Choose(status, isSuccess -> {
            ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
@@ -158,6 +181,7 @@ public class CommodityOrderManagementController extends SceneController {
         ConsoleLog.print("Button pressed");
 
         passButton.setVisible(false);
+        deleteButton.setVisible(false);
         status = 3;
         model.Choose(status, isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
@@ -188,4 +212,29 @@ public class CommodityOrderManagementController extends SceneController {
             ConsoleLog.print("Pass process cancel");
         }
     }
+    @FXML private void setDeleteButtonPressed(){
+        ConsoleLog.print("DeleteButton pressed");
+        Order order = tableView.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("取消订单");
+        alert.setHeaderText("确认取消该订单");
+        alert.setContentText("取消 " + order.getOrderID());
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            ConsoleLog.print("DeleteOrder " + order.getOrderID() + " …");
+
+            model.delete(order, exception -> {
+                if (null == exception) {
+                    new SimpleSuccessAlert("订单取消成功", "", order.getOrderID() + " 订单取消成功").show();
+                } else {
+                    new SimpleErrorAlert("订单取消失败", "修改数据遇到了错误", "请重试").show();
+                }
+                return null;
+            });
+        } else {
+            ConsoleLog.print("Pass process cancel");
+        }
+    }
+
 }

@@ -83,6 +83,7 @@ public class SupplyGoodsController  extends SceneController {
     }
 
     private void setupModel() {
+
         model = new SupplyGoodsModel<>(tableView);
     }
 

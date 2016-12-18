@@ -82,13 +82,16 @@ public class NewSupplierDetailController implements StageSetableController {
     }
 
     public void setTableView(TableView tableView){
+
         this.supplyTableView = tableView;
     }
 
     @FXML private void setComfirmButtonPressed() {
         CommodityPriceInformation commodityPriceInformation = tableView.getSelectionModel().getSelectedItem();
         System.out.println(supplier.getSupplierID());
+
         supplyGoodsModel = new SupplyGoodsModel<SupplyGoods>(supplyTableView);
+
         supplyGoodsModel.add(String.valueOf(supplier.getSupplierID()),commodityPriceInformation.getCommodityID(),
                 isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
