@@ -3,8 +3,6 @@ package io.wabm.supermarket.model.warehouse;
 import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.misc.enums.StorageChangeEnum;
 import io.wabm.supermarket.misc.pojo.CMKInventoryDetail;
-import io.wabm.supermarket.misc.pojo.CMKOrderDetail;
-import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.misc.util.WABMThread;
@@ -14,16 +12,13 @@ import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

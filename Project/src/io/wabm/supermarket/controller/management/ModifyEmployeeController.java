@@ -2,14 +2,13 @@ package io.wabm.supermarket.controller.management;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.pojo.Employee;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.GenderWrapper;
 import io.wabm.supermarket.misc.util.GenderWrapper1;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
 import io.wabm.supermarket.model.management.EmployeeInformationModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
-import io.wabm.supermarket.misc.util.ConsoleLog;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,8 +20,6 @@ import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.Assert;
-
-import static com.mysql.cj.core.MysqlType.NULL;
 
 /**
  * Created by liu on 2016-10-25 .

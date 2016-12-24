@@ -5,13 +5,11 @@ import io.wabm.supermarket.misc.pojo.Order;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
-import io.wabm.supermarket.model.procurement.CommodityOrderModel;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
 
-import java.sql.ResultSet;
 import java.util.List;
 
 /**

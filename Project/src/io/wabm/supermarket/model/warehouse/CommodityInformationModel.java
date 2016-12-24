@@ -1,21 +1,12 @@
 package io.wabm.supermarket.model.warehouse;
 
-import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.FilteredTableViewModel;
-import io.wabm.supermarket.model.Model;
-import io.wabm.supermarket.model.TableViewModel;
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.QueryTimeoutException;
 import org.springframework.util.Assert;
 
@@ -29,10 +20,10 @@ import java.util.function.Predicate;
 public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id WHERE co.classification_id = ?";
-    private final String kInsertSQL = "INSERT INTO wabm.commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    private final String kDeleteSQLWithID = "DELETE FROM wabm.commodity WHERE wabm.commodity.commodity_id = ?;";
-    private final String kUpdateValidWithID = "UPDATE wabm.commodity SET valid = ? WHERE commodity_id = ?";
+    private final String kInsertSQL = "INSERT INTO commodity (commodity_id, classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO commodity (classification_id, bar_code, name, shelf_life, specification, unit, price_db, delivery_specification) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kDeleteSQLWithID = "DELETE FROM commodity WHERE commodity.commodity_id = ?;";
+    private final String kUpdateValidWithID = "UPDATE commodity SET valid = ? WHERE commodity_id = ?";
 
     private int classificationID;
 
@@ -47,7 +38,7 @@ public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
         return classificationID;
     }
 
-    public void fetchData(int classificationID, Callback<DataAccessException, Void> callback) {     // FIXME: USE Exception not Boolean
+    public void fetchData(int classificationID, Callback<DataAccessException, Void> callback) {
         ConsoleLog.print("fetching data with id: " + classificationID +"…");
 
         this.classificationID = classificationID;
@@ -181,7 +172,7 @@ public class CommodityInformationModel<T> extends FilteredTableViewModel<T> {
         Assert.notNull(jdbcOperations);
 
         try {
-            jdbcOperations.update("UPDATE wabm.commodity SET commodity_id=?, bar_code=?, name=?, classification_id=?, specification=?, unit=?, delivery_specification=?, shelf_life=? WHERE commodity_id=?",
+            jdbcOperations.update("UPDATE commodity SET commodity_id=?, bar_code=?, name=?, classification_id=?, specification=?, unit=?, delivery_specification=?, shelf_life=? WHERE commodity_id=?",
                     commodity.getCommodityID(),
                     commodity.getBarcode(),
                     commodity.getName(),

@@ -5,7 +5,6 @@ import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

@@ -1,24 +1,18 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
-import io.wabm.supermarket.controller.warehouse.CommodityOrderReceiveDetailController;
-import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.CommoditySupplyDemand;
-import io.wabm.supermarket.misc.pojo.Order;
-import io.wabm.supermarket.misc.pojo.SelectSupplier;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplyDemandModel;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
-import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -27,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Created by 14580 on 2016/11/20 0020.

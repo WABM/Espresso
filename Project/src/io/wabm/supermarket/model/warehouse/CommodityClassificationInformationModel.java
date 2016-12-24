@@ -1,18 +1,11 @@
 package io.wabm.supermarket.model.warehouse;
 
-import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcOperations;
-import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.sql.ResultSet;

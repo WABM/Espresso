@@ -1,7 +1,6 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
-import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.ShelfLifeCommodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityShelfLifeModel;
@@ -25,7 +24,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.temporal.TemporalUnit;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 

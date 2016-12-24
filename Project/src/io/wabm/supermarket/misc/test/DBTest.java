@@ -1,13 +1,8 @@
 package io.wabm.supermarket.misc.test;
 
-import static org.junit.Assert.*;
-
 import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.pojo.Classification;
-import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
-import io.wabm.supermarket.model.warehouse.CommodityInformationModel;
-import javafx.scene.control.TableView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +18,8 @@ import org.springframework.util.Assert;
 
 import javax.sql.DataSource;
 import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by MainasuK on 2016-11-21.

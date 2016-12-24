@@ -2,8 +2,6 @@ package io.wabm.supermarket.misc.pojo;
 
 import javafx.beans.property.*;
 
-import java.math.BigDecimal;
-
 /**
  * Created by 14580 on 2016/12/8 0008.
  */

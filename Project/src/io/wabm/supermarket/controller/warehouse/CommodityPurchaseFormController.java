@@ -2,7 +2,6 @@ package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
-import io.wabm.supermarket.misc.pojo.CMKOrderDetail;
 import io.wabm.supermarket.misc.pojo.PurchaseCommodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;

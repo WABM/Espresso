@@ -2,11 +2,8 @@ package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.pojo.OrderDetail;
-import io.wabm.supermarket.misc.pojo.Supplier;
-import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
-import io.wabm.supermarket.model.procurement.CommoditySupplierModel;
 import io.wabm.supermarket.model.procurement.OrderDetailModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;

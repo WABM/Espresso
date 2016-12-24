@@ -7,7 +7,6 @@ import io.wabm.supermarket.model.TableViewModel;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.QueryTimeoutException;
 import org.springframework.util.Assert;
 
 import java.sql.ResultSet;

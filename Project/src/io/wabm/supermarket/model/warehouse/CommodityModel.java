@@ -17,7 +17,7 @@ import java.util.List;
 public class CommodityModel<T> extends ComboBoxModel<T> {
 
     private ComboBox<T> comboBox;
-    private final String kSelectSQL = "SELECT cl.classification_id, cl.name FROM wabm.classification cl;";
+    private final String kSelectSQL = "SELECT cl.classification_id, cl.name FROM classification cl;";
 
     public CommodityModel(ComboBox<T> comboBox) {
         super(comboBox);

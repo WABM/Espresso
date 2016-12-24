@@ -2,13 +2,9 @@ package io.wabm.supermarket.model.warehouse;
 
 import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.misc.pojo.CMKOrderDetail;
-import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.TableViewModel;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.TableView;
@@ -25,8 +21,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Created by MainasuK on 2016-12-12.

@@ -1,6 +1,5 @@
 package io.wabm.supermarket.protocol;
 
-import io.wabm.supermarket.misc.pojo.Supplier;
 import javafx.stage.Stage;
 
 /**

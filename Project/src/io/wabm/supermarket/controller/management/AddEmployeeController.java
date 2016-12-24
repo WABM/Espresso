@@ -1,15 +1,14 @@
 package io.wabm.supermarket.controller.management;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.Employee;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.GenderWrapper;
 import io.wabm.supermarket.misc.util.GenderWrapper1;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
 import io.wabm.supermarket.model.management.AddEmployeeModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

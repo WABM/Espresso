@@ -1,30 +1,17 @@
 package io.wabm.supermarket.model.management;
 
-import io.wabm.supermarket.misc.config.DBConfig;
-import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.FilteredTableViewModel;
-import io.wabm.supermarket.model.Model;
-import io.wabm.supermarket.model.TableViewModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.QueryTimeoutException;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.sql.ResultSet;
-import java.util.Calendar;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -33,11 +20,11 @@ import java.util.function.Predicate;
  */
     public class  EmployeeInformationModel<T> extends FilteredTableViewModel<T> {
 
-    private final String kSelectAll = "SELECT f.* FROM wabm.employee f";
-    private final String kInsertSQL = "INSERT INTO wabm.employee (employee_id, name,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    private final String kInsertSQLAutoIncrease = "INSERT INTO wabm.employee (name, birth_date,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-    private final String kDeleteSQLWithID = "DELETE FROM wabm.employee WHERE wabm.employee.employee_id = ?;";
-    private final String kUpdateValidWithID = "UPDATE wabm.employee SET valid = ? WHERE wabm.employee.employee_id = ?";
+    private final String kSelectAll = "SELECT f.* FROM employee f";
+    private final String kInsertSQL = "INSERT INTO employee (employee_id, name,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kInsertSQLAutoIncrease = "INSERT INTO employee (name, birth_date,sex_status,phone,position_status,entry_date,username,password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private final String kDeleteSQLWithID = "DELETE FROM employee WHERE employee.employee_id = ?;";
+    private final String kUpdateValidWithID = "UPDATE employee SET valid = ? WHERE employee.employee_id = ?";
 
    // private int employeeID;
 
@@ -175,7 +162,7 @@ import java.util.function.Predicate;
         Assert.notNull(jdbcOperations);
 
         try {
-            jdbcOperations.update("UPDATE wabm.employee SET name=?, birth_date=?, sex_status=?, phone=?, position_status=?, entry_date=? ,username=?,password=? WHERE employee_id=?",
+            jdbcOperations.update("UPDATE employee SET name=?, birth_date=?, sex_status=?, phone=?, position_status=?, entry_date=? ,username=?,password=? WHERE employee_id=?",
                    // employee.getEmployeeID(),
                     employee.getName(),
                     employee.getBirthdate(),

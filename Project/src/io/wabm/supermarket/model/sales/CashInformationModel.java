@@ -1,27 +1,21 @@
 package io.wabm.supermarket.model.sales;
 
-import io.wabm.supermarket.misc.config.DBConfig;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.CashInformation;
 import io.wabm.supermarket.misc.pojo.EmployeeDailySales;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
-import io.wabm.supermarket.model.Model;
 import io.wabm.supermarket.model.TableViewModel;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.util.Callback;
 import javafx.scene.control.TableView;
+import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 /**
@@ -29,7 +23,7 @@ import java.util.List;
  */
 public class CashInformationModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll = "SELECT c.*,e.name FROM wabm.change_record c,wabm.employee e where c.employee_id=e.employee_id";
+    private final String kSelectAll = "SELECT c.*,e.name FROM change_record c,wabm.employee e where c.employee_id=e.employee_id";
     private final String InsertAll = "insert into change_record(employee_id,money_in_db,money_out_db,money_should_out_db,date) values(?,?,?,?,?)";
     private final String kSelectAllPrice = "select e.employee_id,e.name,sum(all_price_db) from employee e,sales_record s where e.employee_id=s.employee_id and DATE(timestamp)=? and e.employee_id=? group by e.employee_id";
     private Service<Void> backgroundThread;
