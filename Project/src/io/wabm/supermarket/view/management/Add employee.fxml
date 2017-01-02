@@ -39,8 +39,8 @@
                   <Label text="密码：" GridPane.rowIndex="8" />
                   <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <ComboBox fx:id="sexComboBox" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="birthTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="entryTextField" promptText="选填" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="birthTextField" promptText="必填" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="entryTextField" promptText="必填" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <ComboBox fx:id="departmentComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <TextField fx:id="phoneTextField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                   <TextField fx:id="userTextField" GridPane.columnIndex="1" GridPane.rowIndex="7" />

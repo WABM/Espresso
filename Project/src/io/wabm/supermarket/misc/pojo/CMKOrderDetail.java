@@ -1,6 +1,5 @@
 package io.wabm.supermarket.misc.pojo;
 
-import io.wabm.supermarket.protocol.DateGetable;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;

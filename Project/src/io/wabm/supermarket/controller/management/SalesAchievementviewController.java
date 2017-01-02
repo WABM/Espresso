@@ -1,27 +1,13 @@
 package io.wabm.supermarket.controller.management;
 
 import io.wabm.supermarket.controller.SceneController;
-import io.wabm.supermarket.misc.pojo.Hotsale;
-import io.wabm.supermarket.model.management.SalesModel;
-import io.wabm.supermarket.model.sales.HotsaleModel;
-import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.misc.util.ConsoleLog;
-import io.wabm.supermarket.view.ViewPathHelper;
+import io.wabm.supermarket.model.management.SalesModel;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.util.StringConverter;
-
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 
 /**
  * Created by liu on 2016-10-25 .

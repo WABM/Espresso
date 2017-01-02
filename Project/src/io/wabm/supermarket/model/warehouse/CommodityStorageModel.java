@@ -18,7 +18,17 @@ import java.util.List;
 public class CommodityStorageModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAllSQL = "SELECT co.*, cl.name classification_name FROM commodity co JOIN classification cl ON co.classification_id=cl.classification_id;";
-    private final String kSelectNeedsProcurementSQL = "SELECT count(*) num FROM needs_procurement_commodity LIMIT 1;";
+    private final String kSelectNeedsProcurementSQL = "SELECT count(*) \n" +
+            "FROM needs_procurement_commodity npc JOIN classification cl ON cl.classification_id = npc.classification_id\n" +
+            "WHERE npc.commodity_id NOT IN (\n" +
+            "SELECT p.commodity_id\n" +
+            "FROM procurement_requirement p\n" +
+            "WHERE p.status = 0\n" +
+            "UNION\n" +
+            "SELECT od.commodity_id\n" +
+            "FROM order_detail od, `order` o\n" +
+            "WHERE od.order_id = o.order_id AND o.`status` <> 3\n" +
+            ");";
     private final String kSelectTransportingOrderCountSQL = "SELECT count(*) num FROM `order` o WHERE o.status = 2 LIMIT 1;";
 
     public CommodityStorageModel(TableView<T> tableView) {

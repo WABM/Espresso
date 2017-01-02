@@ -1,11 +1,8 @@
 package io.wabm.supermarket.controller;
 
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.protocol.SceneControllerProtocol;
 import javafx.fxml.FXMLLoader;
 import javafx.util.Callback;
-
-import java.io.IOException;
 
 /**
  * Created by MainasuK on 2016-11-16.

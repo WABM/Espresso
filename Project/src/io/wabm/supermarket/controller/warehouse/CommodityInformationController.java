@@ -9,8 +9,6 @@ import io.wabm.supermarket.model.warehouse.CommodityInformationModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -36,11 +34,12 @@ public class CommodityInformationController extends SceneController {
     @FXML TableColumn<Commodity, String> idColumn;
     @FXML TableColumn<Commodity, String> barCodeColumn;
     @FXML TableColumn<Commodity, String> nameColumn;
-    @FXML TableColumn<Commodity, String> classificationColumn;     // FIXME: classification should be String type
+    @FXML TableColumn<Commodity, String> classificationColumn;
     @FXML TableColumn<Commodity, String> specificationColumn;
     @FXML TableColumn<Commodity, String> unitColumn;
     @FXML TableColumn<Commodity, BigDecimal> priceColumn;
     @FXML TableColumn<Commodity, Integer> deliverySpecificationColumn;
+    @FXML TableColumn<Commodity, Integer> shelfLifeColumn;
 
     @FXML Button backButton;
     @FXML Button addButton;
@@ -299,8 +298,8 @@ public class CommodityInformationController extends SceneController {
 
         tableView.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
-                    removeButton.setDisable(newValue == null);
-                    modifyButton.setDisable(newValue == null);
+                    removeButton.setDisable(newValue == null || !newValue.isValid());
+                    modifyButton.setDisable(newValue == null || !newValue.isValid());
                 }
         );
     }
@@ -315,6 +314,7 @@ public class CommodityInformationController extends SceneController {
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
         deliverySpecificationColumn.setCellValueFactory(cellData -> cellData.getValue().deliverySpecificationProperty().asObject());
+        shelfLifeColumn.setCellValueFactory(cellData -> cellData.getValue().shelfLifeProperty().asObject());
     }
 
 }

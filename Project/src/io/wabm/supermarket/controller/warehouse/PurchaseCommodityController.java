@@ -6,7 +6,6 @@ import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
 import io.wabm.supermarket.model.warehouse.PurchaseCommodityModel;
-import io.wabm.supermarket.model.warehouse.RejectCommodityModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;

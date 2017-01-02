@@ -14,7 +14,7 @@ import java.util.List;
 
 public class AddEmployeeModel<T> extends ComboBoxModel<T>{
     private ComboBox<T> comboBox;
-    private final String kSelectAll = "SELECT f.* FROM wabm.Employee f";
+    private final String kSelectAll = "SELECT f.* FROM employee f";
 
     public AddEmployeeModel(ComboBox<T> comboBox) {
         super(comboBox);

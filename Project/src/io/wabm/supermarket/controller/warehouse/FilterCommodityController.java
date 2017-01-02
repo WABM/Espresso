@@ -1,7 +1,5 @@
 package io.wabm.supermarket.controller.warehouse;
 
-import io.wabm.supermarket.misc.pojo.Classification;
-import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
@@ -10,8 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
-import java.util.Arrays;
 
 /**
  * Created by MainasuK on 2016-12-10.

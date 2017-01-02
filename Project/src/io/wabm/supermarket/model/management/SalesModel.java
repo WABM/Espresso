@@ -1,7 +1,6 @@
 package io.wabm.supermarket.model.management;
 
 import io.wabm.supermarket.misc.util.ConsoleLog;
-import io.wabm.supermarket.model.TableViewModel;
 import io.wabm.supermarket.model.XYChartModel;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,18 +8,12 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.text.DateFormatSymbols;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by liu on 2016-12-05 .

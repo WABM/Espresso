@@ -3,8 +3,6 @@ package io.wabm.supermarket.model.warehouse;
 import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.misc.enums.StorageChangeEnum;
 import io.wabm.supermarket.misc.pojo.CMKInventoryDetail;
-import io.wabm.supermarket.misc.pojo.CMKOrderDetail;
-import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.misc.util.WABMThread;
@@ -14,16 +12,13 @@ import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +29,7 @@ public class CommodityInventoryDetailModel<T> extends TableViewModel<T> {
 
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
     private final String kSelectSQL = "SELECT co.* FROM commodity co WHERE co.classification_id = ?";
+    private final String kSelectWithInventoryIDSQL = "SELECT co.*, ind.quantity '_quantity', ind.should_have_quantity '_should_have_quantity' FROM commodity co JOIN inventory_detail ind ON co.commodity_id = ind.commodity_id WHERE ind.inventory_id = ?";
 
     public CommodityInventoryDetailModel(TableView<T> tableView) {
         super(tableView);
@@ -47,6 +43,38 @@ public class CommodityInventoryDetailModel<T> extends TableViewModel<T> {
             try {
 
                 List<CMKInventoryDetail> tempList = jdbcOperations.query(kSelectSQL, (resultSet, i) -> new CMKInventoryDetail(resultSet), classificationID);
+
+                list.clear();
+                list.addAll((T[]) tempList.toArray());
+
+                callback.call(null);
+
+            } catch (DataAccessException exception) {
+                callback.call(exception);
+                exception.printStackTrace();
+            } catch (Exception exception) {
+                callback.call(new DataAccessResourceFailureException("Unknown error"));
+                exception.printStackTrace();
+            }
+
+            return null;
+        });
+
+    }
+
+    public void fetchInventoryDetailWith(int inventoryID, Callback<DataAccessException, Void> callback) {
+        ConsoleLog.print("fetching…");
+
+        new WABMThread().run(_void -> {
+
+            try {
+
+                List<CMKInventoryDetail> tempList = jdbcOperations.query(kSelectWithInventoryIDSQL, (resultSet, i) -> {
+                    CMKInventoryDetail detail = new CMKInventoryDetail(resultSet);
+                    detail.setActualQuantity(resultSet.getInt("_quantity"));
+                    detail.setStorage(resultSet.getInt("_should_have_quantity"));
+                    return detail;
+                }, inventoryID);
 
                 list.clear();
                 list.addAll((T[]) tempList.toArray());

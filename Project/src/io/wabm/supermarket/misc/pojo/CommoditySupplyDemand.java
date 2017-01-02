@@ -2,8 +2,6 @@ package io.wabm.supermarket.misc.pojo;
 
 import javafx.beans.property.*;
 
-import java.math.BigDecimal;
-
 /**
  * Created by 14580 on 2016/12/8 0008.
  */
@@ -16,10 +14,10 @@ public class CommoditySupplyDemand {
     private IntegerProperty deliveryspecification;
     private StringProperty unit;
     private IntegerProperty quantity;
-    private ObjectProperty<BigDecimal> price;
+    private DoubleProperty price;
     //private StringProperty supplier;
 
-    public CommoditySupplyDemand(String commodityID,String barcode,String commodityname, String classification, String specification,int deliveryspecification,String unit,int quantity,BigDecimal price)
+    public CommoditySupplyDemand(String commodityID,String barcode,String commodityname, String classification, String specification,int deliveryspecification,String unit,int quantity,Double price)
     {
         this.commodityID = new SimpleStringProperty(commodityID);
         this.barcode = new SimpleStringProperty(barcode);
@@ -29,7 +27,7 @@ public class CommoditySupplyDemand {
         this.deliveryspecification = new SimpleIntegerProperty(deliveryspecification);
         this.unit = new SimpleStringProperty(unit);
         this.quantity = new SimpleIntegerProperty(quantity);
-        this.price = new SimpleObjectProperty<>(price);
+        this.price = new SimpleDoubleProperty(price);
         //this.supplier = new SimpleStringProperty(supplier);
 
     }
@@ -109,7 +107,7 @@ public class CommoditySupplyDemand {
         this.deliveryspecification.set(deliveryspecification);
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity.get();
     }
 
@@ -135,29 +133,18 @@ public class CommoditySupplyDemand {
     }
 
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price.get();
     }
 
-    public ObjectProperty<BigDecimal> priceProperty() {
+    public DoubleProperty priceProperty() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price.set(price);
     }
 
 
-//    public String getsupplier() {
-//        return supplier.get();
-//    }
-//
-//    public StringProperty supplierProperty() {
-//        return supplier;
-//    }
-//
-//    public void setSupplier(String supplier) {
-//        this.supplier.set(supplier);
-//    }
 
 }

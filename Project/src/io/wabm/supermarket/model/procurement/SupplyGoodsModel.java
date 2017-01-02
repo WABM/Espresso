@@ -1,21 +1,14 @@
 package io.wabm.supermarket.model.procurement;
 
 import io.wabm.supermarket.misc.config.DBConfig;
-import io.wabm.supermarket.misc.pojo.Employee;
-import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.pojo.SupplyGoods;
-import io.wabm.supermarket.misc.pojo.TransactionRecordDetail;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.model.FilteredTableViewModel;
-import io.wabm.supermarket.model.TableViewModel;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.QueryTimeoutException;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.util.Assert;
@@ -32,15 +25,13 @@ import java.util.function.Predicate;
 public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
 
     private final String kSelectAll = "select commodity.commodity_id,commodity.name,supply_detail.price_db,supply_detail.delivery_time_cost\n" +
-            "FROM wabm.supply_detail,wabm.commodity\n" +
-            "WHERE  supply_detail.commodity_id=commodity.commodity_id and supplier_id=?\n";
-    private final String kRmoveSQLWithID = "UPDATE wabm.supply_detail SET valid=0 WHERE wabm.supply_detail.commodity_id = ?;";
+            "FROM supply_detail,commodity\n" +
+            "WHERE  supply_detail.commodity_id=commodity.commodity_id and supply_detail.valid = 1 and supplier_id=?\n";
+
+    private final String kRmoveSQLWithID = "UPDATE supply_detail SET valid=0 WHERE supply_detail.commodity_id = ?;";
+
     private final String kInsert = "insert into supply_detail(supplier_id,commodity_id,price_db,delivery_time_cost) values(?,?,0.00,6)";
 
-//    private final String kInsertSQLAutoIncrease = " insert into  commodity.name,supply_detail.price_db,supply_detail.delivery_time_cost\n" +
-//            "\" +\n" +
-//            "            \"FROM wabm.supply_detail,wabm.commodity\n" +
-//            "            \"WHERE  supply_detail.commodity_id=commodity.commodity_id and supplier_id=?\n";
 
     private int SupplierID;
 
@@ -115,8 +106,8 @@ public class SupplyGoodsModel<T> extends FilteredTableViewModel<T> {
         Assert.notNull(jdbcOperations);
 
         try {
-            jdbcOperations.update("UPDATE wabm.supply_detail SET price_db=?, delivery_time_cost=? WHERE commodity_id=?",
-                    supplyGoods.getCommodityName(),
+            jdbcOperations.update("UPDATE supply_detail SET price_db=?, delivery_time_cost=? WHERE commodity_id=?",
+                    //supplyGoods.getCommodityName(),
                     supplyGoods.getPrice_db(),
                     supplyGoods.getDelivery_time_cost(),
                     supplyGoods.getCommodityID()

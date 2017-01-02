@@ -2,8 +2,6 @@ package io.wabm.supermarket.misc.pojo;
 
 import javafx.beans.property.*;
 
-import java.time.LocalDate;
-
 /**
  * Created by Administrator on 2016/11/28 0028.
  */

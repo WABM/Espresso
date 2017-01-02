@@ -77,13 +77,24 @@ public class SupplyGoodsController  extends SceneController {
     }
 
     private void setupControl() {
+        deleteButton.setDisable(true);
+        modifyButton.setDisable(true);
+
     }
 
     private void setupModel() {
+
         model = new SupplyGoodsModel<>(tableView);
     }
 
     private void setupTableView() {
+        tableView.setEditable(true);
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
+        );
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> modifyButton.setDisable(newValue == null)
+        );
     }
 
     private void setupTableViewColumn() {

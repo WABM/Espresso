@@ -22,10 +22,14 @@ import java.util.stream.Collectors;
 public class CommodityPurchaseFormModel<T> extends TableViewModel<T> {
     final private String kSelectNeedsProcurementCommoditySQL = "SELECT *, cl.name classification_name FROM needs_procurement_commodity npc JOIN classification cl ON cl.classification_id = npc.classification_id\n" +
             "WHERE npc.commodity_id NOT IN (\n" +
-            "  SELECT p.commodity_id\n" +
-            "  FROM procurement_requirement p\n" +
-            "  WHERE p.status = 0\n" +
-            ");";
+            "            SELECT p.commodity_id\n" +
+            "            FROM procurement_requirement p\n" +
+            "            WHERE p.status = 0\n" +
+            "            UNION\n" +
+            "            SELECT od.commodity_id\n" +
+            "            FROM order_detail od, `order` o\n" +
+            "            WHERE od.order_id = o.order_id AND o.`status` <> 3\n" +
+            "            );";
     final private String kInsertProcurementSQL = "INSERT INTO procurement_requirement (employee_id, commodity_id, quantity, status) VALUES (?, ?, ?, ?);";
 
     public CommodityPurchaseFormModel(TableView<T> tableView) {

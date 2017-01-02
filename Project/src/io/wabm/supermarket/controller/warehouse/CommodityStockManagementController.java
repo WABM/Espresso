@@ -1,13 +1,12 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
-import io.wabm.supermarket.misc.pojo.Classification;
 import io.wabm.supermarket.misc.pojo.Commodity;
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityStorageModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -22,7 +21,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.springframework.dao.DataAccessException;
 
 import java.io.IOException;
 
