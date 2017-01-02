@@ -1,11 +1,10 @@
 package io.wabm.supermarket.controller.management;
 
+import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
-import io.wabm.supermarket.misc.util.ConsoleLog;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Callback;

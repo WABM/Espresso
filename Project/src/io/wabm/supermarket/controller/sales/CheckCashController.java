@@ -5,10 +5,7 @@ import io.wabm.supermarket.misc.pojo.CashInformation;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.sales.CashInformationModel;
 import io.wabm.supermarket.protocol.StageSetableController;
-import io.wabm.supermarket.view.ViewPathHelper;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -59,6 +56,7 @@ public class CheckCashController implements StageSetableController {
             BigDecimal out = new BigDecimal(Double.valueOf(moneyOUTText.getText()));
             model.checkAllPriceData(employ_idText.getText(), in,
                     out, date, isSuccess -> {
+                        ConsoleLog.print("CheckCash is " + (isSuccess ? "success" : "failed"));
                         return null;
                     });
             stage.close();

@@ -9,17 +9,30 @@ import javafx.beans.property.*;
 public class Order{
 
     private IntegerProperty orderID;
+    private IntegerProperty supplierID;
     private StringProperty supplierName;
     private StringProperty create_timestamp;
     private ObjectProperty<OrderStatusEnum> status;
 
-    public Order(int orderID, String supplierName, String create_timestamp, OrderStatusEnum status)
+    public Order(int orderID,int supplierID, String supplierName, String create_timestamp, OrderStatusEnum status)
     {
         this.orderID = new SimpleIntegerProperty(orderID);
+        this.supplierID = new SimpleIntegerProperty(supplierID);
         this.supplierName = new SimpleStringProperty(supplierName);
         this.create_timestamp = new SimpleStringProperty(create_timestamp);
         this.status = new SimpleObjectProperty<>(status);
     }
+
+    public int  getSupplierID() {return supplierID.get();}
+
+    public IntegerProperty supplierIDProperty() {
+        return supplierID;
+    }
+
+    public void setSupplierID(int supplierID) {
+        this.supplierID.set(supplierID);
+    }
+
 
     public String getSupplierName() {
         return supplierName.get();
@@ -54,6 +67,7 @@ public class Order{
     }
 
     public void setCreate_timestamp(String create_timestamp) {this.create_timestamp.set(create_timestamp);}
+
 
     public OrderStatusEnum getStatus() {
         return status.get();

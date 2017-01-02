@@ -25,8 +25,9 @@ import java.util.List;
 @ContextConfiguration(classes = DBConfig.class)
 public class OrderDetailModel<T> extends TableViewModel<T> {
 
-    private final String kSelectAll ="select order_detail.order_id, commodity.name,order_detail.quantity,order_detail.price_db, order_detail.production_date FROM wabm.order_detail ,wabm.commodity WHERE order_detail.commodity_id=commodity.commodity_id and order_id = ?";
-    private final String  kDeleteSQLWithID = "DELETE  from wabm.order_detail where order_id = ? ";
+    private final String kSelectAll ="select order_detail.order_id, commodity.name,order_detail.quantity,order_detail.price_db, order_detail.production_date FROM order_detail ,commodity WHERE order_detail.commodity_id=commodity.commodity_id and order_id = ?";
+    private final String  kDeleteSQLWithID = "DELETE  from order_detail where order_id = ? ";
+    private final String kOrderDetailInsert = "";
     private int orderID;
 
     public OrderDetailModel(TableView tableView){
@@ -34,6 +35,21 @@ public class OrderDetailModel<T> extends TableViewModel<T> {
         super(tableView);
     }
 
+    public void CreateOrderDetail(String SupplierID, String CommodityID,Callback<Boolean, Void> callback) {
+        ConsoleLog.print("CreateOrderDetailSUPPLIERID" + SupplierID );
+        ConsoleLog.print("CreateOrderDetailSUPPLIERID" + CommodityID );
+        Assert.notNull(jdbcOperations);
+        try {
+            jdbcOperations.update(kOrderDetailInsert,
+                    SupplierID,CommodityID
+            );
+        } catch (QueryTimeoutException timeoutException) {
+            timeoutException.printStackTrace();
+        } catch (DataAccessException dataAccessException) {
+            dataAccessException.printStackTrace();
+        }
+        callback.call(true);
+    }
     public  void fetchData(int orderID, Callback<Boolean, Void> callback) {
         ConsoleLog.print("fetching data with id: " + orderID+"…");
         this.orderID = orderID;
@@ -89,7 +105,7 @@ public class OrderDetailModel<T> extends TableViewModel<T> {
         Assert.notNull(jdbcOperations);
 
         try {
-            jdbcOperations.update("UPDATE wabm.order_detail SET quantity=? WHERE order_id=?",
+            jdbcOperations.update("UPDATE order_detail SET quantity=? WHERE order_id=?",
                     orderDetail.getQuantity(),
                     orderDetail.getOrderID()
             );

@@ -4,11 +4,8 @@ import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.OrderDetail;
-import io.wabm.supermarket.misc.pojo.Supplier;
-import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.OrderDetailModel;
-import io.wabm.supermarket.model.procurement.SupplyGoodsModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.fxml.FXML;
@@ -49,6 +46,8 @@ public class OrderDetailController extends SceneController {
     }
 
     private void setupControl() {
+        deleteButton.setDisable(true);
+        modifyButton.setDisable(true);
     }
 
     private void setupModel() {
@@ -56,6 +55,13 @@ public class OrderDetailController extends SceneController {
     }
 
     private void setupTableView() {
+        tableView.setEditable(true);
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> deleteButton.setDisable(newValue == null)
+        );
+        tableView.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> modifyButton.setDisable(newValue == null)
+        );
     }
 
     private void setupTableViewColumn() {
@@ -112,48 +118,48 @@ public class OrderDetailController extends SceneController {
 
     }
     @FXML private void setModifyButtonPressed(){
-//        ConsoleLog.print("Button pressed");
-//        try{
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(ViewPathHelper.class.getResource("procurement/ModifyOrderDetail.fxml"));
-//            AnchorPane pane=loader.load();
-//
-//            Stage stage = new Stage();
-//            stage.setTitle("修改数量");
-//            stage.initModality(Modality.APPLICATION_MODAL);
-//
-//            Scene scene=new Scene(pane);
-//            stage.setScene(scene);
-//
-//            ModifySupplierController  controller = loader.getController();
-//            controller.setStage(stage);
-//
-//            ((ModifyOrderDetailController) controller).setOer(tableView.getSelectionModel().getSelectedItem());
-//            ((CallbackAcceptableProtocol<Supplier, DataAccessException>) controller).set((supplier) -> {
-//                ConsoleLog.print("modify supplier callback called");
-//                final DataAccessException[] e = {null};
-//
-//                model.update(orderDetail, (exception) -> {
-//                    e[0] = exception;
-//                    if (null != exception) {
-//                        exception.printStackTrace();
-//                    } else {
-//                        tableView.refresh();
-//                        ConsoleLog.print("update supplier success");
-//                    }
-//
-//                    return null;
-//                });
-//
-//                return e[0];
-//            });
-//            stage.showAndWait();
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//
-//
-//
+        ConsoleLog.print("Button pressed");
+        try{
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(ViewPathHelper.class.getResource("procurement/ModifyOrderDetail.fxml"));
+            AnchorPane pane=loader.load();
+
+            Stage stage = new Stage();
+            stage.setTitle("修改数量");
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            Scene scene=new Scene(pane);
+            stage.setScene(scene);
+
+            ModifyOrderDetailController  controller = loader.getController();
+            controller.setStage(stage);
+
+            ((ModifyOrderDetailController) controller).setOrderDetail(tableView.getSelectionModel().getSelectedItem());
+            ((CallbackAcceptableProtocol<OrderDetail, DataAccessException>) controller).set((orderDetail) -> {
+                ConsoleLog.print("modify supplier callback called");
+                final DataAccessException[] e = {null};
+
+                model.update(orderDetail, (exception) -> {
+                    e[0] = exception;
+                    if (null != exception) {
+                        exception.printStackTrace();
+                    } else {
+                        tableView.refresh();
+                        ConsoleLog.print("update supplier success");
+                    }
+
+                    return null;
+                });
+
+                return e[0];
+            });
+            stage.showAndWait();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+
+
     }
 
 

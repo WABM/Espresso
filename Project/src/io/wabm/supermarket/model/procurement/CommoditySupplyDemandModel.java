@@ -33,16 +33,13 @@ public class CommoditySupplyDemandModel<T> extends TableViewModel<T> {
             "      and classification.classification_id=commodity.classification_id\n" +
             "      and procurement_requirement.status = 0";
 
-
-
     public CommoditySupplyDemandModel(TableView<T> tableView) {
         super(tableView);
 
         ConsoleLog.print("CommoditySupplyDemandModel init");
     }
 
-
-    public void fetchData(Callback<DataAccessException, Void> callback) {     // FIXME: USE Exception not Boolean
+    public void fetchData(Callback<Boolean, Void> callback) {     // FIXME: USE Exception not Boolean
         ConsoleLog.print("fetching data ");
         Assert.notNull(jdbcOperations);
 
@@ -60,7 +57,7 @@ public class CommoditySupplyDemandModel<T> extends TableViewModel<T> {
                             resultSet.getInt("delivery_specification"),
                             resultSet.getString("unit"),
                             resultSet.getInt("quantity"),
-                            resultSet.getBigDecimal("commodity.price_db")
+                            resultSet.getDouble("commodity.price_db")
                     );
 
                     return commoditySupplyDemand;
@@ -70,9 +67,11 @@ public class CommoditySupplyDemandModel<T> extends TableViewModel<T> {
                 list.addAll((T[]) templist.toArray());
                 callback.call(null);
             } catch (DataAccessException exception) {
-                callback.call(exception);
+                callback.call(false);
                 exception.printStackTrace();
             }
+
+
 
             return null;
         });

@@ -1,9 +1,11 @@
 package io.wabm.supermarket.misc.pojo;
 
-import javafx.beans.property.*;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 /**
  * Created by Administrator on 2016/11/20 0020.

@@ -1,7 +1,5 @@
 package io.wabm.supermarket.controller.cashier;
 
-import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.javafx.alert.SimpleSuccessAlert;
 import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.SingleLogin;
@@ -9,7 +7,6 @@ import io.wabm.supermarket.model.cashier.CashierModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -26,8 +22,6 @@ import org.springframework.dao.DataAccessException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.EventListener;
-import java.util.Objects;
 import java.util.Optional;
 
 /**

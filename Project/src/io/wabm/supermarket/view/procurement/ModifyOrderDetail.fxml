@@ -27,8 +27,16 @@
                   <RowConstraints vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="数量:" GridPane.rowIndex="1" />
-                  <TextField fx:id="quantityTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="订单编号:" GridPane.rowIndex="1" />
+                   <Label text="商品名称:" GridPane.rowIndex="2" />
+                   <Label text="商品数量:" GridPane.rowIndex="3" />
+                   <Label text="商品进价:" GridPane.rowIndex="4" />
+                   <Label text="生产日期:" GridPane.rowIndex="5" />
+                  <TextField fx:id="orderIDTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                   <TextField fx:id="commodityNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                   <TextField fx:id="quantityTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                   <TextField fx:id="priceTextField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                   <TextField fx:id="productDateTextField" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
                </children>
             </GridPane>
             <HBox alignment="CENTER_RIGHT" cache="true" spacing="8.0" HBox.hgrow="ALWAYS">

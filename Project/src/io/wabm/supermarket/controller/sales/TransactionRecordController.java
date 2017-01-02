@@ -2,19 +2,16 @@ package io.wabm.supermarket.controller.sales;
 
 import io.wabm.supermarket.controller.SceneController;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
+import io.wabm.supermarket.misc.pojo.TransactionRecord;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.sales.TransationRecordModel;
-import io.wabm.supermarket.controller.sales.TransactionRecordDetailController;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
 import io.wabm.supermarket.view.ViewPathHelper;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import io.wabm.supermarket.misc.pojo.TransactionRecord;
-import io.wabm.supermarket.misc.pojo.TransactionRecordDetail;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 

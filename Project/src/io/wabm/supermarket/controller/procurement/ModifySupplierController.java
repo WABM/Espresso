@@ -1,25 +1,20 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
-import io.wabm.supermarket.model.management.EmployeeInformationModel;
 import io.wabm.supermarket.model.procurement.CommoditySupplierModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
-
-import java.util.Optional;
 
 /**
  * Created by 14580 on 2016/11/19 0019.

@@ -1,14 +1,12 @@
 package io.wabm.supermarket.controller;
 
 import io.wabm.supermarket.misc.util.ConsoleLog;
-import io.wabm.supermarket.protocol.SceneControllerProtocol;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.util.Callback;
 
-import java.io.Console;
 import java.util.HashMap;
 
 /**

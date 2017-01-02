@@ -52,7 +52,7 @@ public class CashManagementController extends SceneController {
             AnchorPane pane = loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("修改价格");
+            stage.setTitle("核算现金");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene = new Scene(pane);

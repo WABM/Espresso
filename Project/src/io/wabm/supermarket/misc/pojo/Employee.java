@@ -1,12 +1,9 @@
 package io.wabm.supermarket.misc.pojo;
 
-import io.wabm.supermarket.controller.management.SalesAchievementviewController;
 import javafx.beans.property.*;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 
 /**
  * Created by liu on 2016-11-20 .

@@ -20,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CompletableFuture;
 
 import static org.junit.Assert.assertNotNull;
 

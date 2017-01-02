@@ -1,11 +1,9 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.pojo.SupplyGoods;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.ValidCheckHelper;
-import io.wabm.supermarket.model.management.EmployeeInformationModel;
 import io.wabm.supermarket.model.procurement.SupplyGoodsModel;
 import io.wabm.supermarket.protocol.CallbackAcceptableProtocol;
 import io.wabm.supermarket.protocol.StageSetableController;
@@ -44,6 +42,7 @@ public class ModifySupplyDetailController implements StageSetableController, Cal
     public void set(Callback<SupplyGoods, DataAccessException> callback) {
         this.callback = callback;
     }
+
     @FXML
     public void initialize() {
         ConsoleLog.print("ModifySupplyDetailController init");

@@ -1,6 +1,5 @@
 package io.wabm.supermarket.model.warehouse;
 
-import io.wabm.supermarket.misc.pojo.Commodity;
 import io.wabm.supermarket.misc.pojo.Inventory;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.WABMThread;

@@ -1,22 +1,18 @@
 package io.wabm.supermarket.controller.procurement;
 
 import io.wabm.supermarket.controller.SceneController;
-import io.wabm.supermarket.controller.warehouse.CommodityOrderReceiveDetailController;
-import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
 import io.wabm.supermarket.misc.javafx.tablecell.HyperlinkTableCell;
 import io.wabm.supermarket.misc.pojo.CommoditySupplyDemand;
-import io.wabm.supermarket.misc.pojo.Order;
+import io.wabm.supermarket.misc.pojo.Supplier;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.procurement.CommoditySupplyDemandModel;
 import io.wabm.supermarket.protocol.CellFactorySetupCallbackProtocol;
-import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,7 +21,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 /**
  * Created by 14580 on 2016/11/20 0020.
@@ -33,6 +28,7 @@ import java.math.BigDecimal;
 public class CommoditySupplyDemandViewController extends SceneController {
 
     private CommoditySupplyDemandModel<CommoditySupplyDemand> model;
+    private Supplier supplier;
 
     @FXML
     TableView<CommoditySupplyDemand> tableView;
@@ -54,12 +50,10 @@ public class CommoditySupplyDemandViewController extends SceneController {
     @FXML
     TableColumn<CommoditySupplyDemand, Integer> quantityColumn;
     @FXML
-    TableColumn<CommoditySupplyDemand, BigDecimal> priceColumn;
+    TableColumn<CommoditySupplyDemand, Double> priceColumn;
     @FXML
     private TableColumn<CommoditySupplyDemand, Hyperlink> actionColumn;
 
-    @FXML
-    Button createButton;
 
 
     @FXML
@@ -108,14 +102,12 @@ public class CommoditySupplyDemandViewController extends SceneController {
         deliveryspecificationColumn.setCellValueFactory(cellData -> cellData.getValue().deliveryspecificationProperty().asObject());
         unitColumn.setCellValueFactory(cellData -> cellData.getValue().unitProperty());
         quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
-        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
-        //supplierColumn.setCellValueFactory(cellData -> cellData.getValue().supplierProperty());
+        priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         actionColumn.setCellValueFactory(cellData -> {
             return new SimpleObjectProperty<>(new Hyperlink("选择供应商"));
         });
     }
 
-    private SelectSupplierController selectSupplierController;
     private CellFactorySetupCallbackProtocol<CommoditySupplyDemand, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
         @Override
         protected void updateItem(Hyperlink item, boolean empty) {
@@ -144,6 +136,8 @@ public class CommoditySupplyDemandViewController extends SceneController {
                         // Pass the info into the controller.
                         SelectSupplierController controller = loader.getController();
                         controller.setStage(stage);
+                        controller.setCommoditySupplyDemand(commoditySupplyDemand);
+                        controller.setTableView(tableView);
                         controller.fetchWith(commoditySupplyDemand.getCommodityID());
 
                         // Show the dialog and wait until the user closes it.
@@ -163,26 +157,5 @@ public class CommoditySupplyDemandViewController extends SceneController {
     };
 
 
-    @FXML private void createButtonPressed(){
-        ConsoleLog.print("Button pressed");
-        try{
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(ViewPathHelper.class.getResource("procurement/CreateOrder.fxml"));
-            AnchorPane pane=loader.load();
 
-            Stage stage = new Stage();
-            stage.setTitle("生成订单");
-            stage.initModality(Modality.APPLICATION_MODAL);
-
-            Scene scene=new Scene(pane);
-            stage.setScene(scene);
-
-            StageSetableController contoller=loader.getController();
-            contoller.setStage(stage);
-
-            stage.showAndWait();
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-    }
 }

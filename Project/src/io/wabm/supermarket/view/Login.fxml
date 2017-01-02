@@ -55,7 +55,7 @@
      
      <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="4">
         <children>
-            <Button fx:id="loginButton" onAction="#Login" text="登录" />
+            <Button fx:id="loginButton" defaultButton="true" onAction="#Login" text="登录" />
         </children>
      </HBox>
      

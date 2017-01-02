@@ -9,7 +9,6 @@ import io.wabm.supermarket.misc.util.WABMThread;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
 import javafx.application.Platform;
-import javafx.concurrent.Service;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,7 +30,7 @@ import java.util.List;
 public class LoginController {
     private Stage stage;
     private JdbcOperations jdbcOperations;
-    private final String kSelectUser = "SELECT f.* FROM wabm.employee f WHERE username = ? AND password = ? LIMIT 1;";
+    private final String kSelectUser = "SELECT f.* FROM wabm.employee f WHERE username = ? AND password = ? and valid=1 LIMIT 1;";
     private List<Employee> templist;
     private Parent root = null;
     private String fxml;
@@ -139,12 +138,13 @@ public class LoginController {
                 setEmployee(employee);
                 ConsoleLog.print(SingleLogin.getInstance().getEmployee().getName());
 
-                if (employee.getDepartmentString() !="收银员" && fxml.equals("CashierMain.fxml")) {
+                if (employee.getDepartmentString() !="收银员" && fxml.equals("CashierMain.fxml")
+                        && employee.isValid()) {
                     Platform.runLater(() -> {
                         SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("错误","请与管理员联系","没有权限！");
                         simpleErrorAlert.show();
                     });
-                } else {
+                } else if (employee.isValid()){
                     Platform.runLater(() -> {
                         try {
                             FXMLLoader loader = new FXMLLoader();

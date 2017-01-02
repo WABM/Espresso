@@ -1,13 +1,10 @@
 package io.wabm.supermarket.controller.warehouse;
 
 import io.wabm.supermarket.misc.javafx.alert.SimpleErrorAlert;
-import io.wabm.supermarket.misc.javafx.tablecell.DatePickerCell;
 import io.wabm.supermarket.misc.pojo.CMKInventoryDetail;
-import io.wabm.supermarket.misc.pojo.CMKOrderDetail;
 import io.wabm.supermarket.misc.pojo.PurchaseCommodity;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.warehouse.CommodityInventoryDetailModel;
-import io.wabm.supermarket.model.warehouse.CommodityOrderReceiveDetailModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,9 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 /**
  * Created by MainasuK on 2016-12-12.
@@ -93,33 +87,6 @@ public class CommodityInventoryDetailController implements StageSetableControlle
     }
 
     private void setupTableColumn() {
-        actualQuntityColumn.setCellFactory(column -> {
-            StringConverter<Integer> converter = new StringConverter<Integer>() {
-                @Override
-                public String toString(Integer object) {
-                    return object.toString();
-                }
-
-                @Override
-                public Integer fromString(String string) {
-                    try {
-                        int quantity = Integer.parseInt(string);
-                        return (quantity < 0) ? 0 : quantity;
-                    } catch (NumberFormatException exception) {
-                        return 0;
-                    }
-                }
-            };
-            TextFieldTableCell cell = new TextFieldTableCell<PurchaseCommodity, Integer>(converter) {
-                @Override
-                public void updateItem(Integer item, boolean empty) {
-                    super.updateItem(item, empty);
-                }
-            };
-
-            return cell;
-        });
-
 
         idColumn.setCellValueFactory(param -> param.getValue().commodityIDProperty());
         barCodeColumn.setCellValueFactory(param -> param.getValue().barcodeProperty());
@@ -143,6 +110,17 @@ public class CommodityInventoryDetailController implements StageSetableControlle
         });
     }
 
+    private void fetchInventory(int inventoryID) {
+        model.fetchInventoryDetailWith(inventoryID, exception -> {
+            if (exception != null) {
+                exception.printStackTrace();
+                return null;
+            }
+
+            return null;
+        });
+    }
+
     @Override
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -155,10 +133,41 @@ public class CommodityInventoryDetailController implements StageSetableControlle
 
         if (!stocktakingflag) {
             ConsoleLog.print("change button visible…");
+
             cancelButton.setVisible(false);
             confirmButton.setText("关闭");
-        }
 
-        fetch();
+            fetchInventory(inventoryID);
+        } else {
+            actualQuntityColumn.setCellFactory(column -> {
+                StringConverter<Integer> converter = new StringConverter<Integer>() {
+                    @Override
+                    public String toString(Integer object) {
+                        return object.toString();
+                    }
+
+                    @Override
+                    public Integer fromString(String string) {
+                        try {
+                            int quantity = Integer.parseInt(string);
+                            return (quantity < 0) ? 0 : quantity;
+                        } catch (NumberFormatException exception) {
+                            return 0;
+                        }
+                    }
+                };
+                TextFieldTableCell cell = new TextFieldTableCell<PurchaseCommodity, Integer>(converter) {
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+                    }
+                };
+
+                return cell;
+            });
+
+            fetch();
+        }
+        
     }
 }

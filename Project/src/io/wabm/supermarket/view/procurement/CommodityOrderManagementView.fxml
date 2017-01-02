@@ -16,6 +16,7 @@
          </columnResizePolicy>
          <columns>
             <TableColumn fx:id="idColumn" prefWidth="75.0" text="订单编号" />
+            <TableColumn fx:id="supplierIDColumn" prefWidth="75.0" text="供应商编号" />
             <TableColumn fx:id="supplierNameColumn" prefWidth="75.0" text="供应商" />
             <TableColumn fx:id="create_timestampColumn" prefWidth="75.0" text="订单时间" />
             <TableColumn fx:id="statusColumn" prefWidth="75.0" text="订单状态" />
@@ -29,6 +30,7 @@
             <Pane HBox.hgrow="ALWAYS">
                <children>
                   <Button fx:id="passButton" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#setPassButtonPressed" text="审核通过" />
+                  <Button fx:id="deleteButton" layoutX="71.0" layoutY="4.0" mnemonicParsing="false" onAction="#setDeleteButtonPressed" text="取消订单" />
                </children></Pane>
             <Button fx:id="completeButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#completeButtonPressed" text="已完成订单" />
             <Button fx:id="waitButton" layoutX="543.0" layoutY="10.0" mnemonicParsing="false" onAction="#waitButtonPressed" text="待收货订单" />

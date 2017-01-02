@@ -17,23 +17,17 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import javax.swing.*;
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -43,7 +37,7 @@ import java.util.Optional;
 public class CashierModel<T> extends TableViewModel<T> {
 
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
-    private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.valid = 1 AND (co.bar_code = ? OR co.commodity_id = ?) LIMIT 1;";
+    private final String kSelectCommoditySQL = "SELECT co.* FROM commodity co WHERE co.valid = 1 AND (binary co.bar_code = ? OR binary co.commodity_id = ?) LIMIT 1;";
     private final String kInsertSalesRecordWIthAutoIncr = "INSERT INTO sales_record (employee_id, all_price_db) VALUES (?, ?)";
 
     private StringProperty status;
