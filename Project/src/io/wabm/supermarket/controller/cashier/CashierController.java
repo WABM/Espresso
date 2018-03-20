@@ -1,11 +1,13 @@
 package io.wabm.supermarket.controller.cashier;
 
+import io.wabm.supermarket.application.PrimaryStage;
 import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.misc.util.SingleLogin;
 import io.wabm.supermarket.model.cashier.CashierModel;
 import io.wabm.supermarket.protocol.StageSetableController;
 import io.wabm.supermarket.view.ViewPathHelper;
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +16,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.StringConverter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -28,11 +34,11 @@ import java.util.Optional;
  * Created by MainasuK on 2016-12-2.
  */
 public class CashierController implements StageSetableController {
-
     private Stage primaryStage;
 
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private CashierModel<SalesRecordDetail> model;
+    @FXML Pane pane;
 
     @FXML Label statusLabel;
 
@@ -64,10 +70,10 @@ public class CashierController implements StageSetableController {
 
     @FXML private void initialize() {
         ConsoleLog.print("CashierController init");
-
         setupModel();
         setupTableColumn();
         setupControl();
+        setupShortcut();
     }
 
 
@@ -190,7 +196,7 @@ public class CashierController implements StageSetableController {
             }
         });
 
-        primaryStage.getScene().setOnKeyPressed(event -> {
+        pane.setOnKeyPressed(event -> {
             ConsoleLog.print("Key " + event.getCode() + " pressed in scene");
 
             triggerActionWithKey(event.getCode());

@@ -10,13 +10,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import java.io.IOException;
 
 public class Main extends Application {
+    private PrimaryStage stage;
 
     private Stage primaryStage;
     private static AnnotationConfigApplicationContext databaseContext = new AnnotationConfigApplicationContext(DBConfig.class);
@@ -27,14 +32,15 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
 
+        stage = new PrimaryStage();
+        stage.setPrimaryStage(primaryStage);
         // Set title
         primaryStage.setTitle("超市管理系统");
 
         // Set min windows size
-        initRootlayout();
-//        initRootlayoutWithoutLogin();
+        //initRootlayout();
+        initRootlayoutWithoutLogin();
     }
-
 
     private void initRootlayout() {
         Parent root = null;
@@ -51,9 +57,13 @@ public class Main extends Application {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().add(ViewPathHelper.class.getResource("Login.css").toExternalForm());
+        // Set min windows size
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMinHeight(825);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    //Debug调试 跳过登陆
     private void initRootlayoutWithoutLogin(){
         SingleLogin.getInstance().initEmployee(new Employee(0, "Dev", "2016-1-1", 1, "10000", 0, "2016-1-1", "admin", "admin",true));
         Parent root = null;
@@ -68,7 +78,7 @@ public class Main extends Application {
 
         // Set min windows size
         primaryStage.setMinWidth(1000);
-        primaryStage.setMinHeight(625);
+        primaryStage.setMinHeight(825);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -138,7 +138,7 @@ public class LoginController {
                 setEmployee(employee);
                 ConsoleLog.print(SingleLogin.getInstance().getEmployee().getName());
 
-                if (employee.getDepartmentString() !="收银员" && fxml.equals("CashierMain.fxml")
+                if ((employee.getDepartmentString() !="收银员" && employee.getDepartmentString()!="总管理员") && fxml.equals("CashierMain.fxml")
                         && employee.isValid()) {
                     Platform.runLater(() -> {
                         SimpleErrorAlert simpleErrorAlert = new SimpleErrorAlert("错误","请与管理员联系","没有权限！");

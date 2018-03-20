@@ -10,7 +10,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.MainController">
    <children>
-      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <tabs>
           <Tab fx:id="procurementTab" text="采购管理">
                <content>
@@ -27,10 +27,15 @@
                   <fx:include source="sales/SalesManagement.fxml" />
                </content>
             </Tab>
-            <Tab fx:id="managementTab" text="管理员系统">
+            <Tab fx:id="managementTab" text="员工系统">
                <content>
                   <fx:include source="management/ManagementSystem.fxml" />
                </content>
+            </Tab>
+            <Tab fx:id="cashierTab" text="收银系统">
+                <content>
+                    <fx:include source="CashierMain.fxml" />
+                </content>
             </Tab>
         </tabs>
       </TabPane>

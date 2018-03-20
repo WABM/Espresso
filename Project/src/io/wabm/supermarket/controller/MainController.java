@@ -4,19 +4,23 @@ import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.controller.warehouse.WarehouseManagementController;
 import io.wabm.supermarket.misc.util.SingleLogin;
+import io.wabm.supermarket.protocol.StageSetableController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
+import javafx.stage.Stage;
 
 /**
  * Created by MainasuK on 2016-10-16.
  */
-public class MainController {
+public class MainController implements StageSetableController {
+    private Stage stage;
 
     @FXML WarehouseManagementController tabController;
     @FXML Tab saleTab;
     @FXML Tab procurementTab;
     @FXML Tab managementTab;
     @FXML Tab warehouseTab;
+    @FXML Tab cashierTab;
 
     @FXML public void initialize() {
         ConsoleLog.print("MainController init");
@@ -68,5 +72,14 @@ public class MainController {
             warehouseTab.setDisable(true);
             return false;
         }
+    }
+
+    private void permissionCashier(){
+
+    }
+
+    @Override
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }
