@@ -23,6 +23,9 @@ public class ModifyPriceController implements StageSetableController {
     @FXML TextField oldPriceText;
     @FXML TextField newPriceText;
 
+    @FXML public void initialize() {
+        oldPriceText.setFocusTraversable(false);
+    }
     @FXML private void cancelButtonPressed(){
         ConsoleLog.print("Button pressed");
 

@@ -5,10 +5,7 @@ import io.wabm.supermarket.misc.pojo.Hotsale;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.model.sales.HotsaleModel;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import java.time.LocalDate;
@@ -22,7 +19,9 @@ public class HotsaleController extends SceneController {
     private HotsaleModel<Hotsale> model;
 
     @FXML private Button queryButton;
-    @FXML private DatePicker datePicker;
+    @FXML ComboBox yearBox;
+    @FXML ComboBox monthBox;
+    //@FXML private DatePicker datePicker;
 
     @FXML private TableView<Hotsale> tableView;
     @FXML private TableColumn<Hotsale, String> top;
@@ -46,8 +45,10 @@ public class HotsaleController extends SceneController {
 
     @FXML public void queryButtonPressed() {
         ConsoleLog.print("queryButton pressed");
-        String year = String.valueOf(datePicker.getValue().getYear());
-        String month = String.valueOf(datePicker.getValue().getMonthValue());
+        //String year = String.valueOf(datePicker.getValue().getYear());
+        //String month = String.valueOf(datePicker.getValue().getMonthValue());
+        String year=yearBox.getValue().toString();
+        String month=monthBox.getValue().toString();
         model.fetchData(year,month,isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
             return null;
@@ -55,12 +56,25 @@ public class HotsaleController extends SceneController {
     }
 
     private void setupControl() {
-        test();
+        //test();
+        for (int i=1990;i<=2030;i++) {
+            yearBox.getItems().addAll(String.valueOf(i));
+        }
+        for (int i=1;i<=9;i++) {
+            monthBox.getItems().addAll("0"+i);
+        }
+        for (int i=10;i<=12;i++){
+            monthBox.getItems().addAll(i+"");
+        }
     }
 
     private void setupModel() {
-        String year = String.valueOf(datePicker.getValue().getYear());
-        String month = String.valueOf(datePicker.getValue().getMonthValue());
+        //String year = String.valueOf(datePicker.getValue().getYear());
+        //String month = String.valueOf(datePicker.getValue().getMonthValue());
+        String year=String.valueOf(LocalDate.now().getYear());
+        String month=String.valueOf(LocalDate.now().getMonthValue());
+        yearBox.setValue(year);
+        monthBox.setValue(month);
         model = new HotsaleModel<>(tableView);
         model.fetchData(year,month,isSuccess -> {
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
@@ -85,7 +99,7 @@ public class HotsaleController extends SceneController {
         totalPrice.setCellValueFactory(new PropertyValueFactory<Hotsale, String>("totalPrice"));
     }
 
-    private void test(){
+    /*private void test(){
         final String pattern = "yyyy-MM";
         StringConverter converter = new StringConverter<LocalDate>() {
             DateTimeFormatter dateTimeFormatter =
@@ -110,5 +124,5 @@ public class HotsaleController extends SceneController {
         datePicker.setConverter(converter);
         datePicker.setPromptText(pattern.toLowerCase());
         datePicker.requestFocus();
-    }
+    }*/
 }

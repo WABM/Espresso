@@ -73,7 +73,7 @@ public class SalesModel extends XYChartModel<String, Double> {
                                     (resultSet, i)-> {
                                         Double money = resultSet.getDouble("allmoney");  //取钱
                                         int index = resultSet.getInt("day");  //day是 日
-                                        moneyArray[index] = money;
+                                        moneyArray[index-1] = money;
 
                                         return money;
                                     },a,b);
@@ -82,7 +82,7 @@ public class SalesModel extends XYChartModel<String, Double> {
                             Platform.runLater(() -> {
                                 list.clear();
                                 for (int i = 0; i < moneyArray.length; i++) {
-                                    list.add(new XYChart.Data<>((i + 1)+"", (moneyArray[i] != null) ? moneyArray[i] : new Double(0.0)));
+                                    list.add(new XYChart.Data<>((i+1)+"", (moneyArray[i] != null) ? moneyArray[i] : new Double(0.0)));
                                     ConsoleLog.print("array[" + i + "] = "+ moneyArray[i]);
                                 }
                             });

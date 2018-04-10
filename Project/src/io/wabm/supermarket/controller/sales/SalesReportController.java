@@ -71,15 +71,20 @@ public class SalesReportController extends SceneController {
         });
     }
     private void setupControl(){
-        barChart.setAnimated(false);
-
-        for (int i=2016;i<=2030;i++) {
+        barChart.setAnimated(true);
+        //使柱体居中
+        barChart.setBarGap(0);
+        for (int i=1990;i<=2030;i++) {
             yearBox.getItems().addAll(String.valueOf(i));
             yearBoxC.getItems().addAll(String.valueOf(i));
         }
-        for (int i=1;i<=12;i++) {
-            monthBox.getItems().addAll(String.valueOf(i));
-            monthBoxC.getItems().addAll(String.valueOf(i));
+        for (int i=1;i<=9;i++) {
+            monthBox.getItems().addAll("0"+i);
+            monthBoxC.getItems().addAll("0"+i);
+        }
+        for (int i=10;i<=12;i++){
+            monthBox.getItems().addAll(i+"");
+            monthBoxC.getItems().addAll(i+"");
         }
     }
     private void setupModel(){

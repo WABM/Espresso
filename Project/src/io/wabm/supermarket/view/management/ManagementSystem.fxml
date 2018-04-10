@@ -10,13 +10,13 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.ManagementSystemController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.management.ManagementSystemController">
    <children>
       <VBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <SplitPane dividerPositions="0.2506" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
                <items>
-                  <AnchorPane maxWidth="221.0" minWidth="221.0" prefWidth="221.0">
+                  <AnchorPane maxWidth="241.0" minWidth="221.0" prefHeight="578.0" prefWidth="241.0">
                      <children>
                         <Label alignment="CENTER" layoutX="39.0" minHeight="44.0" minWidth="60.0" style="&#10;" text="管理员系统" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="14.0">
                            <font>
@@ -30,7 +30,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="salesAchievementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#salesAchievementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="查看业绩" GridPane.rowIndex="1">
+                              <Button fx:id="salesAchievementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#salesAchievementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="查看业绩" visible="false" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -40,8 +40,8 @@
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            </columnConstraints>
                            <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="451.0" minHeight="10.0" prefHeight="440.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="247.0" minHeight="10.0" prefHeight="64.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
                      </children>

@@ -259,7 +259,7 @@ public class EmployeeImformationManagementController extends SceneController{
             AnchorPane pane=loader.load();
 
             Stage stage = new Stage();
-            stage.setTitle("我不知道写什么好");
+            stage.setTitle("查询员工");
             stage.initModality(Modality.APPLICATION_MODAL);
 
             Scene scene=new Scene(pane);
