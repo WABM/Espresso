@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.WarehouseManagementController">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.warehouse.WarehouseManagementController">
    <children>
       <VBox prefHeight="600.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <children>
@@ -43,12 +43,12 @@
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="commodityClassificationBatchManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityClassificationBatchManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品保质期管理" GridPane.rowIndex="2">
+                              <Button fx:id="commodityClassificationBatchManagementButton" disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityClassificationBatchManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="商品保质期管理" visible="false" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="commodityInventoryManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityInventoryManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="盘点管理" GridPane.rowIndex="3">
+                              <Button fx:id="commodityInventoryManagementButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#commodityInventoryManagementButtonPressed" prefHeight="88.0" prefWidth="88.0" text="盘点管理" GridPane.rowIndex="2">
                                  <font>
                                     <Font size="18.0" />
                                  </font>

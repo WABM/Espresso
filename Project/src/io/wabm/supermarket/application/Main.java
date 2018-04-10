@@ -21,18 +21,16 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import java.io.IOException;
 
 public class Main extends Application {
-    private PrimaryStage stage;
 
     private Stage primaryStage;
     private static AnnotationConfigApplicationContext databaseContext = new AnnotationConfigApplicationContext(DBConfig.class);
     private static JdbcOperations jdbcOperations = databaseContext.getBean(JdbcOperations.class);
     private static DataSourceTransactionManager transactionManager = databaseContext.getBean(DataSourceTransactionManager.class);
+    private static PrimaryStage stage =databaseContext.getBean(PrimaryStage.class);
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-
-        stage = new PrimaryStage();
         stage.setPrimaryStage(primaryStage);
         // Set title
         primaryStage.setTitle("超市管理系统");
@@ -94,4 +92,6 @@ public class Main extends Application {
     public static DataSourceTransactionManager getTransactionManager() {
         return transactionManager;
     }
+
+    public static PrimaryStage getPrimaryStage() {return stage;}
 }

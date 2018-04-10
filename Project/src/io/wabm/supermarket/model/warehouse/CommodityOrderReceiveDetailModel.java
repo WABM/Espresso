@@ -29,7 +29,7 @@ public class CommodityOrderReceiveDetailModel<T> extends TableViewModel<T> {
 
     private DataSourceTransactionManager transactionManager = Main.getTransactionManager();
     private StringProperty totalPrice = new SimpleStringProperty();
-
+    private CMKOrderDetail detail;
     private final String kSelectOrderDetailAndCommodityWithOrderID = "SELECT co.*, od.order_id, od.order_detail_id, od.quantity, od.price_db purchase_price, od.production_date FROM order_detail od JOIN `order` o ON od.order_id = o.order_id JOIN commodity co ON od.commodity_id = co.commodity_id WHERE o.order_id = ?;";
 
     public CommodityOrderReceiveDetailModel(TableView<T> tableView) {
@@ -90,7 +90,7 @@ public class CommodityOrderReceiveDetailModel<T> extends TableViewModel<T> {
                 BatchPreparedStatementSetter batchPreparedStatementSetter = new BatchPreparedStatementSetter() {
                     @Override
                     public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
-                        CMKOrderDetail detail = ((CMKOrderDetail) list.get(i));
+                        detail = ((CMKOrderDetail) list.get(i));
                         Date date = null;
                         if (detail.getProductionDate() != null) {
                             date = Date.valueOf(detail.getProductionDate());
@@ -109,6 +109,8 @@ public class CommodityOrderReceiveDetailModel<T> extends TableViewModel<T> {
                 jdbcOperations.batchUpdate("UPDATE order_detail od SET od.actual_quantity = ?, od.production_date = ? WHERE od.order_detail_id = ?", batchPreparedStatementSetter);
 
                 jdbcOperations.update("UPDATE `order` o SET o.status = 3 WHERE o.order_id = ?", orderID);
+
+                jdbcOperations.update("UPDATE commodity SET storage = storage+? WHERE commodity_id=?",detail.getQuantity(),detail.getCommodityID());
 
                 transactionManager.commit(status);
                 callback.call(null);
