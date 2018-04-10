@@ -1,5 +1,6 @@
 package io.wabm.supermarket.controller;
 
+import io.wabm.supermarket.controller.cashier.CashierController;
 import io.wabm.supermarket.misc.pojo.Employee;
 import io.wabm.supermarket.misc.util.ConsoleLog;
 import io.wabm.supermarket.controller.warehouse.WarehouseManagementController;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
 public class MainController implements StageSetableController {
     private Stage stage;
 
-    @FXML WarehouseManagementController tabController;
+    @FXML CashierController tabController;
     @FXML Tab saleTab;
     @FXML Tab procurementTab;
     @FXML Tab managementTab;
@@ -29,6 +30,7 @@ public class MainController implements StageSetableController {
         permissionManagement();
         permissionProcurement();
         permissionWarehouse();
+        permissionCashier();
     }
     private boolean permissionSale(){
         Employee employee = SingleLogin.getInstance().getEmployee();
@@ -75,7 +77,7 @@ public class MainController implements StageSetableController {
     }
 
     private void permissionCashier(){
-
+       // tabController.setStage(null);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package io.wabm.supermarket.controller.cashier;
 
+import io.wabm.supermarket.application.Main;
 import io.wabm.supermarket.application.PrimaryStage;
 import io.wabm.supermarket.misc.pojo.SalesRecordDetail;
 import io.wabm.supermarket.misc.util.ConsoleLog;
@@ -195,12 +196,14 @@ public class CashierController implements StageSetableController {
                 triggerActionWithEnter();
             }
         });
+        Scene scene = Main.getPrimaryStage().getPrimaryStage().getScene();
+        if (scene!=null){
+            scene.setOnKeyPressed(event -> {
+                ConsoleLog.print("Key " + event.getCode() + " pressed in scene");
 
-        pane.setOnKeyPressed(event -> {
-            ConsoleLog.print("Key " + event.getCode() + " pressed in scene");
-
-            triggerActionWithKey(event.getCode());
-        });
+                triggerActionWithKey(event.getCode());
+            });
+        }
     }
 
     private void triggerActionWithEnter() {

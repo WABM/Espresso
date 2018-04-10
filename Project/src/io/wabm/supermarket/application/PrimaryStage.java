@@ -19,12 +19,5 @@ public class PrimaryStage {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        SimpleDateFormat format = new SimpleDateFormat();
-        try {
-            format.format();
-            Date
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -1,5 +1,6 @@
 package io.wabm.supermarket.misc.config;
 
+import io.wabm.supermarket.application.PrimaryStage;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -51,4 +52,8 @@ public class DBConfig {
         return new DataSourceTransactionManager(dataSource);
     }
 
+    @Bean
+    public PrimaryStage primaryStage(){
+        return new PrimaryStage();
+    }
 }
