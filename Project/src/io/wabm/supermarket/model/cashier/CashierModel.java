@@ -177,9 +177,26 @@ public class CashierModel<T> extends TableViewModel<T> {
                 }
             };
 
+            BatchPreparedStatementSetter batchCommoditytabel = new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement preparedStatement, int i) throws SQLException {
+                    SalesRecordDetail detail = ((SalesRecordDetail) list.get(i));
+                    preparedStatement.setInt(1,detail.getQuantity());
+                    preparedStatement.setString(2,detail.getCommodity().getCommodityID());
+                }
+
+                @Override
+                public int getBatchSize() {
+                    return list.size();
+                }
+            };
+
             ConsoleLog.print("insert sales record details");
             jdbcOperations.batchUpdate("INSERT INTO sales_record_detail (sales_record_id, commodity_id, quantity, price_db) VALUES (?, ?, ?, ?)", batchPreparedStatementSetter);
 
+            //减少库存
+            jdbcOperations.batchUpdate("UPDATE commodity set storage=storage-? WHERE commodity_id=?",batchCommoditytabel);
+            //提交事务
             transactionManager.commit(status);
             ConsoleLog.print("done");
 
