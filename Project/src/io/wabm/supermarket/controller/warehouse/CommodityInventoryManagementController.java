@@ -67,7 +67,7 @@ public class CommodityInventoryManagementController {
             Calendar calendar = new GregorianCalendar(TimeZone.getTimeZone("CST"));
             calendar.setTimeInMillis(cellData.getValue().getCreateTimestamp().getTime());
 
-            return new SimpleStringProperty(CalendarFormater.toString(calendar, "MM月 月结清单"));
+            return new SimpleStringProperty(CalendarFormater.toString(calendar, "YY年MM月 月结清单"));
         });
         classificationColumn.setCellValueFactory(cellData -> cellData.getValue().classificationNameProperty());
         createDateColumn.setCellValueFactory(cellData -> {
@@ -85,6 +85,7 @@ public class CommodityInventoryManagementController {
 
     }
 
+    @SuppressWarnings("unchecked")
     private CellFactorySetupCallbackProtocol<Inventory, Hyperlink> actionColumnSetupCallback = (column) -> new HyperlinkTableCell() {
         @Override
         protected void updateItem(Hyperlink item, boolean empty) {
