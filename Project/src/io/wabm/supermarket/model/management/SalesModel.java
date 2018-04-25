@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
@@ -48,7 +49,7 @@ public class SalesModel extends XYChartModel<String, Double> {
             return maxDate;
         }
 
-    public void fetchData(String a,String b,Callback<Boolean, Void> callback){
+    public void fetchData(String a, String b, Callback<Boolean, Void> callback, Label allLabel){
         ConsoleLog.print("fetching data…");
         Assert.notNull(jdbcOperations);
 
@@ -81,10 +82,13 @@ public class SalesModel extends XYChartModel<String, Double> {
 
                             Platform.runLater(() -> {
                                 list.clear();
+                                double all =0.0;
                                 for (int i = 0; i < moneyArray.length; i++) {
+                                    all+=moneyArray[i];
                                     list.add(new XYChart.Data<>((i+1)+"", (moneyArray[i] != null) ? moneyArray[i] : new Double(0.0)));
                                     ConsoleLog.print("array[" + i + "] = "+ moneyArray[i]);
                                 }
+                                allLabel.setText(String.format("%.2f",all));
                             });
 
 

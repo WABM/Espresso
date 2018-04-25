@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.sales.SalesReportController">
+<BorderPane prefHeight="578.0" prefWidth="669.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.wabm.supermarket.controller.sales.SalesReportController">
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
          <tabs>
@@ -52,6 +52,8 @@
                               <ComboBox fx:id="monthBox" prefWidth="106.0" />
                               <Label text="月" />
                             <Button fx:id="lookButton" mnemonicParsing="false" onAction="#lookButtomPressed" text="查看" />
+                              <Label text="总销售额：" />
+                              <Label fx:id="all" layoutX="315.0" layoutY="21.0" />
                           </items>
                         </ToolBar>
                         <BarChart fx:id="barChart" layoutX="59.0" layoutY="75.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
@@ -63,6 +65,35 @@
                           </yAxis>
                         </BarChart>
                      </children></AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="利润报表">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ToolBar prefHeight="46.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <items>
+                              <ComboBox fx:id="yearBox1" prefWidth="115.0" />
+                              <Label text="年" />
+                              <Button fx:id="lookButton1" mnemonicParsing="false" onAction="#lookButtomPressed1" text="查看" />
+                              <Label text="支出：" />
+                              <Label fx:id="cost" layoutX="189.0" layoutY="21.0" />
+                              <Label layoutX="224.0" layoutY="21.0" text="收入：" />
+                              <Label fx:id="earn" layoutX="259.0" layoutY="21.0" />
+                              <Label layoutX="294.0" layoutY="21.0" text="利润:" />
+                              <Label fx:id="profit" layoutX="329.0" layoutY="21.0" />
+                           </items>
+                        </ToolBar>
+                        <BarChart fx:id="barChart1" layoutX="59.0" layoutY="75.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="64.0">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" fx:id="xAxis1" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </BarChart>
+                     </children>
+                  </AnchorPane>
                </content>
             </Tab>
          </tabs>

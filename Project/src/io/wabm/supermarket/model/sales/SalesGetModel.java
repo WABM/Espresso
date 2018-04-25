@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.util.Callback;
 import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;
@@ -37,7 +38,7 @@ public class SalesGetModel extends XYChartModel<String,Double> {
         ConsoleLog.print("SalesGetModel init");
     }
 
-    public void fetchData(String year,Callback<Boolean, Void> callback){
+    public void fetchData(String year, Callback<Boolean, Void> callback, Label costLabel,Label earnLabel,Label profitLabel){
         ConsoleLog.print("fetching data…");
         Assert.notNull(jdbcOperations);
 
@@ -76,6 +77,15 @@ public class SalesGetModel extends XYChartModel<String,Double> {
                                     list.add(new XYChart.Data<>((i+1)+"",profitArray[i]-expendArray[i]));
                                     ConsoleLog.print("array[" + i + "] = "+ (profitArray[i]-expendArray[i]));
                                 }
+                                double earn = 0.0;
+                                double cost = 0.0;
+                                for (int i = 0; i < profitArray.length; i++){
+                                    earn += profitArray[i];
+                                    cost += expendArray[i];
+                                }
+                                costLabel.setText(String.format("%.2f",cost));
+                                earnLabel.setText(String.format("%.2f",earn));
+                                profitLabel.setText(String.format("%.2f",earn-cost));
                             });
 
 
