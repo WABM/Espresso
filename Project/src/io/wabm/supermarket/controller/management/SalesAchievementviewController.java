@@ -51,7 +51,7 @@ public class SalesAchievementviewController extends SceneController {
             lookButton2.setDisable(false);
             ConsoleLog.print("Fetch is " + (isSuccess ? "success" : "failed"));
             return null;
-        });
+        },null);
     }
 
     private void setupControl() {

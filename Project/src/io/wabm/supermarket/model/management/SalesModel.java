@@ -65,7 +65,7 @@ public class SalesModel extends XYChartModel<String, Double> {
 
                        // Double[] moneyArray = new Double[31];
                         int number = getDaysByYearMonth(a,b);
-                        Double[] moneyArray =  new Double[number];
+                        double[] moneyArray =  new double[number];
 
                         try {
                             List<Double> templist;
@@ -85,7 +85,7 @@ public class SalesModel extends XYChartModel<String, Double> {
                                 double all =0.0;
                                 for (int i = 0; i < moneyArray.length; i++) {
                                     all+=moneyArray[i];
-                                    list.add(new XYChart.Data<>((i+1)+"", (moneyArray[i] != null) ? moneyArray[i] : new Double(0.0)));
+                                    list.add(new XYChart.Data<>((i+1)+"", moneyArray[i]));
                                     ConsoleLog.print("array[" + i + "] = "+ moneyArray[i]);
                                 }
                                 allLabel.setText(String.format("%.2f",all));

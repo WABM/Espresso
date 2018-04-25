@@ -13,6 +13,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.control.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * Created by Administrator on 2016/12/11 0011.
@@ -114,11 +115,18 @@ public class SalesReportController extends SceneController {
     }
 
     private void setupControl() {
-        barChart.setAnimated(true);
         //使柱体居中
         barChart.setBarGap(0);
+        barChart.setAnimated(false);
+        barChart1.setAnimated(false);
         barChart1.setBarGap(0);
 
+        yearBox.setValue(LocalDate.now().getYear());
+        yearBox1.setValue(LocalDate.now().getYear());
+        yearBoxC.setValue(LocalDate.now().getYear());
+
+        monthBox.setValue(LocalDate.now().getMonthValue());
+        monthBoxC.setValue(LocalDate.now().getMonthValue());
         for (int i = 1990; i <= 2030; i++) {
             yearBox.getItems().addAll(String.valueOf(i));
             yearBoxC.getItems().addAll(String.valueOf(i));
